@@ -136,11 +136,15 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
     case 1: // たたかう
       cursor.play();
-      document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に 3 のダメージ！</span>';
       attack.play();
       var enemy_div = document.getElementById("enemy_div");
+      var damage = 3;
+      var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
+      damage += rand_value;
+      enemyHP = enemyHP - damage;
+      document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
+
       var timer = setTimeout( function () {
-        enemyHP = enemyHP - 3;
         update();
         enemy_div.classList.add("enemy_receive_damage");
       } , 900 );
