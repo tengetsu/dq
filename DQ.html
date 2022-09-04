@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/DQ.css">
+    <script src="./js/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>DQ_battle</title>
+  </head>
+
+  <body>
+
+    <header>
+    </header>
+
+    <main>
+      <!--ドラクエ風-->
+      <div class="container">
+        <div id="friend-div" class="battle_window"> <!-- 戦闘画面 -->
+
+            <div class="character_status"> <!-- 味方キャラクター -->
+
+              <div class="character1">
+                <div id="p1" >キャラＡ</div>
+                <div id="p1level">レベル:5</div>
+                <div id="p1hp">HP:100</div>
+                <div id="p1mp">MP:20</div>
+              </div>
+
+              <div class="character2">
+                <div id="p2" >キャラＢ</div>
+                <div id="p2level">レベル:20</div>
+                <div id="p2hp">HP:240</div>
+                <div id="p2mp">MP:76</div>
+              </div>
+
+            </div>
+
+          <div class="battle_field"> <!-- 戦闘フィールド関連 -->
+            <div class="field_container">
+              <div class="enemy_status"> <!-- 戦闘フィールド上に表示する敵ステータス -->
+                <div id="enemyLevel">レベル:3</div>
+                <div id="enemyHP">HP:12</div>
+                <div id="enemyMP">MP:20</div>
+              </div>
+              <div id="enemy_div" class="enemy-image"> <!-- 敵キャラクター画像 -->
+                <img src="./img/monster/slime.png" alt="">
+              </div>
+              <span class="shadow"></span> <!-- 影 -->
+            </div>
+          </div>
+
+          <div class="battle_menu"> <!-- 戦闘コマンド -->
+            <div id="menu1" onclick="activemenu(1);" class="menu">たたかう</div>
+            <div id="menu2" onclick="activemenu(2);" class="menu">ぼうぎょ</div>
+            <div id="menu3" onclick="activemenu(3);" class="menu">どうぐ</div>
+            <div id="menu4" onclick="activemenu(4);" class="menu">にげる</div>
+          </div>
+
+          <div id="message">
+            <span class="message">スライム が あらわれた！</span>
+          </div>
+
+        </div>
+      </div>
+      <input type="text" id="game_control">
+
+    </main>
+
+    <footer>
+    </footer>
+
+  </body>
+
+</html>

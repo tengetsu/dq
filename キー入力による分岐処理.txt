@@ -1,0 +1,45 @@
+//キー入力による分岐処理
+function game_keydown() {
+  // switch文 = 複数の値の中のいずれかと一致するかを調べ、一致する場合は処理を分岐させて異なる処理を実行する構文
+  switch (event.keyCode) {
+
+    case 37: // カーソルキーの左　変数の値がＡの時に実行される。
+      document.getElementById("game_control").value = "←";
+        console.log("←が入力されました。")
+        break; // 処理Ａが終わったらswitch文から抜ける。
+
+    case 38: // カーソルキーの上　変数の値がＢの時に実行される。
+      document.getElementById("game_control").value = "↑";
+      if (menu_id <= 1) { // menu_id が 1 以下になったら、activemenu(4)「にげる」へ
+          activemenu(4);
+        } else {
+          activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
+        }
+        console.log("↑が入力されました。")
+        break; // 処理Ｂが終わったらswitch文から抜ける。
+
+    case 39: // カーソルキーの右　変数の値がＣの時に実行される。
+      document.getElementById("game_control").value = "→";
+        console.log("→が入力されました。")
+        break; // 処理Ｃが終わったらswitch文から抜ける。
+
+    case 40: // カーソルキーの下　変数の値がＤの時に実行される。
+      document.getElementById("game_control").value = "↓";
+      if (menu_id >= 4) { //menu_id が 4以上になったら、activemenu(1)「たたかう」へ
+          activemenu(1);
+        } else {
+          activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
+        }
+        console.log("↓が入力されました。")
+        break; // 処理Ｄが終わったらswitch文から抜ける。
+
+    case 13: // Enter
+        doCommand(menu_id)
+      break;
+
+    default: // その他の場合はキーコードを表示
+      document.getElementById("game_control").value = "キーコード:" + event.keyCode;
+        console.log("キーコード:" + event.keyCode + "が入力されましたが該当するものがありませんでした。")
+        break; // 処理Ｅが終わったらswitch文から抜ける。
+  }
+}
