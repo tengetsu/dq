@@ -130,7 +130,7 @@ document.onkeydown = function(keyEvent) {
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isEnemyTurn ) return; //敵ターンだったらなにもせずdoCommand関数から抜ける（つまりプレイヤーのコマンド無効）
-  dq4_btl_fc.play();
+  // dq4_btl_fc.play();
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
