@@ -186,11 +186,9 @@ function enemyAttack(){
   p1hp -= damage;
   document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
-  var color = "rgb(255,255,255)";
-  if (plhp == 0) {
-    color = "rgb(255,32,32)";
-  } else if (p1hp / 2) {
-    color = "rgb(255,180,32)";
+  var hp_yellow = document.getElementById("hp_yellow");
+  if (plhp >= 100 / 2) {
+    hp_yellow.classList.add("hp_yellow");
   }
 
   var timer = setTimeout( function () {
