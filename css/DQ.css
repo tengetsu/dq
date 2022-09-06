@@ -245,4 +245,10 @@ span.message {
 	100% {opacity: 1;}
 }
 
-.battle_window
+.battle_window_yellow {
+  color:yellow;
+}
+
+.character1_yellow, .character2_yellow, .battle_menu_yellow, #message_yelllow {
+  border: 2px solid yellow;
+}
