@@ -187,9 +187,9 @@ function enemyAttack(){
   document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
   var hp_yellow = document.getElementById("hp_yellow");
-  if (plhp >= 100 / 2) {
-    hp_yellow.classList.add("hp_yellow");
-  }
+  // if (plhp >= 100 / 2) {
+//    hp_yellow.classList.add("hp_yellow");
+  // }
 
   var timer = setTimeout( function () {
     being_attacked.play();
@@ -206,6 +206,16 @@ function enemyAttack(){
 function update() {
   document.getElementById("p1hp").innerHTML = 'HP:' + p1hp;
   document.getElementById("enemyHP").innerHTML = 'HP:' + enemyHP;
+
+
+  if( p1hp < 99 ){
+    //ピンチ時
+     document.getElementById("friend-div").className = "battle_window_yellow";
+  }else{
+    //通常時
+    document.getElementById("friend-div").className = "battle_window";
+  }
+
 }
 
 // HP表示
