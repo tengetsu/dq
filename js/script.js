@@ -40,7 +40,10 @@ class Battle {
 }
 */
 var p1hp = 100;
-
+var p1maxhp = 100;
+var p1atc = 5;
+var p1def = 3;
+var p1spd = 4;
 
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
@@ -65,6 +68,7 @@ being_attacked.volume = 0.3;
 // 敵のステータス定義
 var enemyHP = 12;
 var enemyMP = 20;
+var enemyATC = 6;
 
 
 // キーカーソルの表示/非表示
@@ -138,7 +142,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       cursor.play();
       attack.play();
       var enemy_div = document.getElementById("enemy_div");
-      var damage = 3;
+      var damage = p1atc;
       var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
       damage += rand_value;
       enemyHP = enemyHP - damage;
@@ -173,13 +177,25 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 }
 
 function enemyAttack(){
-  document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に 7 のダメージ！</span>';
   enemy_attack.play();
   var friend_div = document.getElementById("friend-div");
+  var damage = enemyATC;
+  var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
+  damage += rand_value;
+  damage -= p1def
+  p1hp -= damage;
+  document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
+
+  var color = "rgb(255,255,255)";
+  if (plhp == 0) {
+    color = "rgb(255,32,32)";
+  } else if (p1hp / 2) {
+    color = "rgb(255,180,32)";
+  }
+
   var timer = setTimeout( function () {
     being_attacked.play();
-    p1hp = p1hp - 7;
-    update();
+     update();
     friend_div.classList.add("shake");
   } , 700 );
   var timer = setTimeout( function () {
@@ -188,7 +204,8 @@ function enemyAttack(){
   isEnemyTurn = false; //敵ターン終了
 }
 
-function update(){
+// 戦闘画面の見た目担当
+function update() {
   document.getElementById("p1hp").innerHTML = 'HP:' + p1hp;
   document.getElementById("enemyHP").innerHTML = 'HP:' + enemyHP;
 }
