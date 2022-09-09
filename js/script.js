@@ -183,9 +183,13 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       break;
     case 3: // どうぐ
       cursor.play();
-      heal.play();
-      p1hp += 10;
-      update();
+
+      var timer = setTimeout( function () {
+        heal.play();
+        p1hp += 10;
+        update();
+      } , 700 );
+
       document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
       isEnemyTurn = true;
       break;
