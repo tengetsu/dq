@@ -65,8 +65,14 @@ enemy_attack.volume = 0.2;
 var being_attacked = new Audio('sound/being_attacked.wav');
 being_attacked.volume = 0.3;
 
+var win = new Audio('sound/win.wav');
+win.volume = 0.3;
+
+var heal = new Audio('sound/heal.wav');
+heal.volume = 1;
+
 // 敵のステータス定義
-var enemyHP = 12;
+var enemyHP = 100;
 var enemyMP = 20;
 var enemyATC = 6;
 
@@ -134,7 +140,7 @@ document.onkeydown = function(keyEvent) {
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isEnemyTurn ) return; //敵ターンだったらなにもせずdoCommand関数から抜ける（つまりプレイヤーのコマンド無効）
-  // dq4_btl_fc.play();
+  dq4_btl_fc.play();
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
@@ -151,7 +157,19 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       var timer = setTimeout( function () {
         update();
         enemy_div.classList.add("enemy_receive_damage");
+        // 死亡チェック
+        if (enemyHP <= 0) {
+          dq4_btl_fc.pause();
+          win.play();
+          var enemy_death = document.getElementById('enemy_div');
+          enemy_death.style.display = 'none';
+          var shadow = document.getElementById('shadow');
+          shadow.classList.remove("shadow");
+          document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
+          return;
+        }
       } , 900 );
+
       var timer = setTimeout( function () {
         enemy_div.classList.remove("enemy_receive_damage");
       } , 1300 );
@@ -161,10 +179,15 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     case 2: // ぼうぎょ
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
+      isEnemyTurn = true;
       break;
     case 3: // どうぐ
       cursor.play();
-      document.getElementById("message").innerHTML = '<span class="message">キャラA は なにもアイテムをもっていなかった。</span>';
+      heal.play();
+      p1hp += 10;
+      update();
+      document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
+      isEnemyTurn = true;
       break;
     case 4: // にげる
       cursor.play();
@@ -186,11 +209,6 @@ function enemyAttack(){
   p1hp -= damage;
   document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
-  var hp_yellow = document.getElementById("hp_yellow");
-  // if (plhp >= 100 / 2) {
-//    hp_yellow.classList.add("hp_yellow");
-  // }
-
   var timer = setTimeout( function () {
     being_attacked.play();
      update();
@@ -207,52 +225,16 @@ function update() {
   document.getElementById("p1hp").innerHTML = 'HP:' + p1hp;
   document.getElementById("enemyHP").innerHTML = 'HP:' + enemyHP;
 
-
-  if( p1hp < 99 ){
-    //ピンチ時
-     document.getElementById("friend-div").className = "battle_window_yellow";
-  }else{
-    //通常時
+  // HP減少時の画面の色替え
+  if( p1hp <= 0 ) {
+    // 死亡時
+    document.getElementById("friend-div").className = "battle_window_red";
+  } else if ( p1hp <= p1maxhp / 2 ) {
+    // ピンチ時
+    document.getElementById("friend-div").className = "battle_window_yellow";
+  } else {
+    // 通常時
     document.getElementById("friend-div").className = "battle_window";
-  }
+  } 
 
-}
-
-// HP表示
-function drawStatus(x = 0) {
-  // 残HPで色を変える
-  var color = "rgb(255,255,255)";
-  if (player.hp == 0) {
-    color = "rgb(255,32,32)";
-  } else if (player.hp < player.maxhp / 2) {
-    color = "rgb(255,180,32)";
-  }
-  drawWindow(10 + x, 10, 128, 64, 10, color);
-  drawString("HP: " + player.hp, 30 + x, 50, color);
-}
-
-// イベントメッセージ描画
-function drawMessage(message) {
-  var WindowMargin = 10;
-  var WindowWidth = canvas.width - WindowMargin * 2;
-  var WindowHeight = canvas.height / 4;
-  drawWindow(WindowMargin, canvas.height - WindowHeight - WindowMargin, WindowWidth, WindowHeight, WindowMargin);
-  for (var i = 0; i < message.length; i++) {
-    drawString(message[i], WindowMargin * 3, canvas.height - WindowHeight + WindowMargin + 24 * (i + 1));
-  }
-}
-
-// メッセージウィンドウ描画
-function drawWindow(x, y, WindowWidth, WindowHeight, WindowMargin = 10, frameColor = "rgb(255,255,255)") {
-  g.fillStyle = frameColor;
-  g.fillRect(x, y, WindowWidth, WindowHeight);
-  g.fillStyle = "rgb(0,0,0)";
-  g.fillRect(x + WindowMargin, y + WindowMargin, WindowWidth - WindowMargin * 2, WindowHeight - WindowMargin * 2);
-}
-
-// 文字列描画
-function drawString(string, x, y, color = "rgb(255,255,255)") {
-  g.font = "bold 16pt Arial";
-  g.fillStyle = color;
-  g.fillText(string, x, y);
 }
