@@ -166,15 +166,18 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
           return;
         }
+
+        //ダメージアニメ終了までのタイマーセット
+        var timer = setTimeout( function () {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
+          enemy_div.classList.remove("enemy_receive_damage");
+          enemyAttack();
+        } , 400 );
+  
       } , 900 );
 
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
-      var timer = setTimeout( function () {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
-        enemy_div.classList.remove("enemy_receive_damage");
-        enemyAttack();
-      } , 1300 );
 
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
       break;
@@ -197,7 +200,6 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       } , 700 );
 
       document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
-      // isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
       var timer = setTimeout( function () {
         enemyAttack();
       } , 1300 );
@@ -215,6 +217,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       break;
   }
 }
+
 
 function enemyAttack(){
   enemy_attack.play();
