@@ -197,7 +197,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
       var timer = setTimeout( function () {
-        enemyAttack();
+        playerAttack(p2name);
       } , 1300 );
       break;
     case 3: // どうぐ
