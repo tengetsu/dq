@@ -2,6 +2,7 @@
 var menu_id = 0;  // 定義
 var damageElement = document.getElementById("damage");
 var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
+
 /*
 // 戦闘用キャラクターデータ
 class BattleCharacter {
@@ -38,11 +39,17 @@ class Battle {
   }
 }
 */
+
+// 主人公
 var p1hp = 100;
 var p1maxhp = 100;
 var p1atc = 5;
 var p1def = 3;
 var p1spd = 4;
+var once_guard = 3;
+
+// プレイヤー２
+
 
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
@@ -138,49 +145,52 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
+
     case 1: // たたかう
-      isKeyBlock=true;
-      cursor.play();
-      attack.play();
-      var enemy_div = document.getElementById("enemy_div");
-      var damage = p1atc;
-      var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
-      damage += rand_value;
-      enemyHP = enemyHP - damage;
-      document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
+    //   isKeyBlock=true;
+    //   cursor.play();
+    //   attack.play();
+    //   var enemy_div = document.getElementById("enemy_div");
+    //   var damage = p1atc;
+    //   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
+    //   damage += rand_value;
+    //   enemyHP = enemyHP - damage;
+    //   document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
 
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
-      var timer = setTimeout( function () {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
-        update();
-        enemy_div.classList.add("enemy_receive_damage");
-        // 死亡チェック
-        if (enemyHP <= 0) {
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
-          dq4_btl_fc.pause();
-          win.play();
-          var enemy_death = document.getElementById('enemy_div');
-          enemy_death.style.display = 'none';
-          var shadow = document.getElementById('shadow');
-          shadow.classList.remove("shadow");
-          document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
-          return;
-        }
+    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
+    //   var timer = setTimeout( function () {
+    //     console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
+    //     update();
+    //     enemy_div.classList.add("enemy_receive_damage");
+    //     // 死亡チェック
+    //     if (enemyHP <= 0) {
+    //       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
+    //       dq4_btl_fc.pause();
+    //       win.play();
+    //       var enemy_death = document.getElementById('enemy_div');
+    //       enemy_death.style.display = 'none';
+    //       var shadow = document.getElementById('shadow');
+    //       shadow.classList.remove("shadow");
+    //       document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
+    //       return;
+    //     }
 
-        //ダメージアニメ終了までのタイマーセット
-        var timer = setTimeout( function () {
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
-          enemy_div.classList.remove("enemy_receive_damage");
-          enemyAttack();
-        } , 400 );
+    //     //ダメージアニメ終了までのタイマーセット
+    //     var timer = setTimeout( function () {
+    //       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
+    //       enemy_div.classList.remove("enemy_receive_damage");
+    //       enemyAttack();
+    //     } , 400 );
   
-      } , 900 );
+    //   } , 900 );
 
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
+    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
+    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
+    
+    playerAttack();
+    break;
 
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-      break;
     case 2: // ぼうぎょ
       isKeyBlock=true;
       cursor.play();
@@ -218,6 +228,48 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   }
 }
 
+function playerAttack(playerName) {
+  isKeyBlock=true;
+  cursor.play();
+  attack.play();
+  var enemy_div = document.getElementById("enemy_div");
+  var damage = p1atc;
+  var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
+  damage += rand_value;
+  enemyHP = enemyHP - damage;
+  document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
+
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
+  var timer = setTimeout( function () {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
+    update();
+    enemy_div.classList.add("enemy_receive_damage");
+    // 死亡チェック
+    if (enemyHP <= 0) {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
+      dq4_btl_fc.pause();
+      win.play();
+      var enemy_death = document.getElementById('enemy_div');
+      enemy_death.style.display = 'none';
+      var shadow = document.getElementById('shadow');
+      shadow.classList.remove("shadow");
+      document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
+      return;
+    }
+
+    //ダメージアニメ終了までのタイマーセット
+    var timer = setTimeout( function () {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
+      enemy_div.classList.remove("enemy_receive_damage");
+      enemyAttack();
+    } , 400 );
+
+  } , 900 );
+
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
+
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
+}
 
 function enemyAttack(){
   enemy_attack.play();
