@@ -182,7 +182,9 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       isKeyBlock=true;
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
-      isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
+      var timer = setTimeout( function () {
+        enemyAttack();
+      } , 1300 );
       break;
     case 3: // どうぐ
       isKeyBlock=true;
@@ -195,14 +197,19 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       } , 700 );
 
       document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
-      isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
+      // isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
+      var timer = setTimeout( function () {
+        enemyAttack();
+      } , 1300 );
       break;
     case 4: // にげる
       isKeyBlock=true;
       cursor.play();
       flee.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は まわりこまれてしまった！</span>';
-      isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
+      var timer = setTimeout( function () {
+        enemyAttack();
+      } , 1300 );
       break;
     default:
       break;
