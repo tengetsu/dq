@@ -1,8 +1,7 @@
 // ゲーム全体の定義
 var menu_id = 0;  // 定義
 var damageElement = document.getElementById("damage");
-var isEnemyTurn = false; //敵のターンフラグ
-
+var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
 /*
 // 戦闘用キャラクターデータ
 class BattleCharacter {
@@ -128,23 +127,19 @@ document.onkeydown = function(keyEvent) {
 
   if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
 
-    if( isEnemyTurn ){
-      //敵ターン時は敵の攻撃処理をスタート
-      enemyAttack();
-    }else{
       doCommand(menu_id);
-    }
   }
 };
 
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
-  if( isEnemyTurn ) return; //敵ターンだったらなにもせずdoCommand関数から抜ける（つまりプレイヤーのコマンド無効）
+  if( isKeyBlock ) return; //自動進行中などでキー入力無効
   dq4_btl_fc.play();
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
     case 1: // たたかう
+      isKeyBlock=true;
       cursor.play();
       attack.play();
       var enemy_div = document.getElementById("enemy_div");
@@ -182,14 +177,15 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       } , 1300 );
 
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-      isEnemyTurn = true;
       break;
     case 2: // ぼうぎょ
+      isKeyBlock=true;
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
-      isEnemyTurn = true;
+      isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
       break;
     case 3: // どうぐ
+      isKeyBlock=true;
       cursor.play();
 
       var timer = setTimeout( function () {
@@ -199,12 +195,14 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       } , 700 );
 
       document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
-      isEnemyTurn = true;
+      isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
       break;
     case 4: // にげる
+      isKeyBlock=true;
       cursor.play();
       flee.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は まわりこまれてしまった！</span>';
+      isKeyBlock=false; //ここでfalseだと一瞬でブロック解除されちゃうが、現状しゃーない（メッセージ送りの終わりに解除するのが適切？）
       break;
     default:
       break;
@@ -228,8 +226,8 @@ function enemyAttack(){
   } , 700 );
   var timer = setTimeout( function () {
     friend_div.classList.remove("shake");
+    isKeyBlock = false;
   } , 1300 );
-  isEnemyTurn = false; //敵ターン終了
 }
 
 // 戦闘画面の見た目担当
