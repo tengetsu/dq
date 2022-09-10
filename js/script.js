@@ -41,7 +41,7 @@ class Battle {
 */
 
 // 主人公ステータス
-var p1name = "キャラA";
+var p1name = "キャラAaaa";
 var p1hp = 100;
 var p1maxhp = 100;
 var p1atc = 5;
@@ -188,7 +188,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-      playerAttack();
+      playerAttack(p1name);
     break;
 
     case 2: // ぼうぎょ
