@@ -40,7 +40,8 @@ class Battle {
 }
 */
 
-// 主人公
+// 主人公ステータス
+var p1name = "キャラA";
 var p1hp = 100;
 var p1maxhp = 100;
 var p1atc = 5;
@@ -48,7 +49,8 @@ var p1def = 3;
 var p1spd = 4;
 var once_guard = 3;
 
-// プレイヤー２
+// 魔法使いステータス
+var p2name = "キャラB";
 
 
 // 戦闘BGM
@@ -81,7 +83,6 @@ heal.volume = 1;
 var enemyHP = 100;
 var enemyMP = 20;
 var enemyATC = 6;
-
 
 // キーカーソルの表示/非表示
 function activemenu(id) { // activemenu=関数名 id＝第一引数
@@ -187,8 +188,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-    
-    playerAttack();
+      playerAttack();
     break;
 
     case 2: // ぼうぎょ
@@ -237,7 +237,7 @@ function playerAttack(playerName) {
   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
   damage += rand_value;
   enemyHP = enemyHP - damage;
-  document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
+  document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
   var timer = setTimeout( function () {
@@ -271,7 +271,7 @@ function playerAttack(playerName) {
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
 }
 
-function enemyAttack(){
+function enemyAttack() {
   enemy_attack.play();
   var friend_div = document.getElementById("friend-div");
   var damage = enemyATC;
