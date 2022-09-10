@@ -41,7 +41,7 @@ class Battle {
 */
 
 // 主人公ステータス
-var p1name = "キャラAaaa";
+var p1name = "キャラA";
 var p1hp = 100;
 var p1maxhp = 100;
 var p1atc = 5;
@@ -51,6 +51,7 @@ var once_guard = 3;
 
 // 魔法使いステータス
 var p2name = "キャラB";
+var p2atc = 1;
 
 
 // 戦闘BGM
@@ -188,7 +189,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-      playerAttack(p1name);
+      playerAttack(p2name);
     break;
 
     case 2: // ぼうぎょ
@@ -198,6 +199,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       var timer = setTimeout( function () {
         enemyAttack();
       } , 1300 );
+      console.log("playerNameの攻撃ターン");
       break;
     case 3: // どうぐ
       isKeyBlock=true;
@@ -228,12 +230,22 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   }
 }
 
+
+
+
 function playerAttack(playerName) {
   isKeyBlock=true;
   cursor.play();
   attack.play();
   var enemy_div = document.getElementById("enemy_div");
   var damage = p1atc;
+
+  if (playerName == p1name) {
+    console.log("playerNameの攻撃ターン");
+  } else {
+    console.log("playerNameの攻撃ターン");
+  }
+
   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
   damage += rand_value;
   enemyHP = enemyHP - damage;
