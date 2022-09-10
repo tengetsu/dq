@@ -242,8 +242,6 @@ function playerAttack(playerName) {
   if (playerName == p1name) {
     var damage = p1atc;
     console.log("キャラAの攻撃ターン");
-    playerAttack(p2name);
-    console.log("キャラBの攻撃ターン");
   } else {
     var damage = p2atc;
     console.log("キャラBの攻撃ターン");
@@ -277,10 +275,9 @@ function playerAttack(playerName) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
       enemy_div.classList.remove("enemy_receive_damage");
 
-      if (playerName == p2name) {
-        damage = p2atc;
-        console.log("キャラBの攻撃ターン");
-      } else {
+      if (playerName == p1name) {
+        playerAttack(p2name);
+      }else if (playerName == p2name) {
         enemyAttack();
       }
 
