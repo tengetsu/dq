@@ -154,11 +154,14 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       enemyHP = enemyHP - damage;
       document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
 
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
       var timer = setTimeout( function () {
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
         update();
         enemy_div.classList.add("enemy_receive_damage");
         // 死亡チェック
         if (enemyHP <= 0) {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
           dq4_btl_fc.pause();
           win.play();
           var enemy_death = document.getElementById('enemy_div');
@@ -170,10 +173,15 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         }
       } , 900 );
 
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
+
       var timer = setTimeout( function () {
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
         enemy_div.classList.remove("enemy_receive_damage");
+        enemyAttack();
       } , 1300 );
 
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
       isEnemyTurn = true;
       break;
     case 2: // ぼうぎょ
