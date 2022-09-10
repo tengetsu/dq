@@ -189,7 +189,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-      playerAttack(p2name);
+      playerAttack(p1name);
     break;
 
     case 2: // ぼうぎょ
@@ -199,7 +199,6 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       var timer = setTimeout( function () {
         enemyAttack();
       } , 1300 );
-      console.log("playerNameの攻撃ターン");
       break;
     case 3: // どうぐ
       isKeyBlock=true;
@@ -238,12 +237,16 @@ function playerAttack(playerName) {
   cursor.play();
   attack.play();
   var enemy_div = document.getElementById("enemy_div");
-  var damage = p1atc;
+
 
   if (playerName == p1name) {
-    console.log("playerNameの攻撃ターン");
+    var damage = p1atc;
+    console.log("キャラAの攻撃ターン");
+    playerAttack(p2name);
+    console.log("キャラBの攻撃ターン");
   } else {
-    console.log("playerNameの攻撃ターン");
+    var damage = p2atc;
+    console.log("キャラBの攻撃ターン");
   }
 
   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
@@ -273,7 +276,14 @@ function playerAttack(playerName) {
     var timer = setTimeout( function () {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
       enemy_div.classList.remove("enemy_receive_damage");
-      enemyAttack();
+
+      if (playerName == p2name) {
+        damage = p2atc;
+        console.log("キャラBの攻撃ターン");
+      } else {
+        enemyAttack();
+      }
+
     } , 400 );
 
   } , 900 );
