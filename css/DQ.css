@@ -27,6 +27,7 @@ body {
 .shake {
   animation: shake 0.01s infinite;
 }
+
 @keyframes shake {
   0% {transform: translate(0px, 0px) rotateZ(0deg)}
   25% {transform: translate(2px, 2px) rotateZ(1deg)}
@@ -64,17 +65,30 @@ body {
 
 /* 戦闘フィールド情報 */
 .battle_field {
-  /* border: 1px solid white; */
+  border: 1px solid white;
   background: url(../img/background/forest.png);
   /* background: url(../城跡.jpg) no-repeat; */
   /* background-size: cover; */
   width: 100%;
-  height: auto;
+  height: 35%;
   margin: 0 auto;
   display: table; /* 各要素を横並びにして展開 */
   text-align: center; /* テキストを中央揃え */
-
+  position: relative;
 }
+
+/* .effect_field {
+  background: url(../img/effect/freezing_waves.gif);
+  width: 100%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  
+  object-fit: none;
+  object-position: 50% 70%;
+  opacity: 0.5;
+  position: absolute;
+} */
+
 
 /* 戦闘フィールドに表示する敵の配置範囲 */
 .field_container {
@@ -186,7 +200,6 @@ body {
 100% {opacity: 1;}
 }
 
-
 /* メニュー */
 .battle_menu {
   width: 100px;
@@ -269,7 +282,6 @@ span.message {
   float: left;
 }
 
-
 .battle_window_red {
   border: 1px solid red;
   margin: 0 auto;
@@ -279,7 +291,6 @@ span.message {
   background-color: #000;
   color:red;
 }
-
 
 .character1_yellow, .character2_yellow, .battle_menu_yellow, #message_yelllow {
   border: 2px solid yellow;

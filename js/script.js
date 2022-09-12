@@ -44,7 +44,7 @@ class Battle {
 var p1name = "キャラA";
 var p1hp = 100;
 var p1maxhp = 100;
-var p1atc = 5;
+var p1atc = 25;
 var p1def = 3;
 var p1spd = 4;
 var once_guard = 3;
@@ -52,7 +52,6 @@ var once_guard = 3;
 // 魔法使いステータス
 var p2name = "キャラB";
 var p2atc = 1;
-
 
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
@@ -83,7 +82,11 @@ heal.volume = 1;
 // 敵のステータス定義
 var enemyHP = 100;
 var enemyMP = 20;
-var enemyATC = 6;
+var enemyATC = 12;
+
+var freezing_waves = document.createElement("img");
+freezing_waves.src = "img/effect/freezing_waves.gif";
+
 
 // キーカーソルの表示/非表示
 function activemenu(id) { // activemenu=関数名 id＝第一引数
@@ -135,10 +138,12 @@ document.onkeydown = function(keyEvent) {
   }
 
   if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-
       doCommand(menu_id);
+    } else if (enemyHP <= 0) {
+      Experience_point();
+    };
   }
-};
+}
 
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
@@ -189,7 +194,8 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
 
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
-      playerAttack(p1name);
+    cursor.play();
+    playerAttack(p1name);
     break;
 
     case 2: // ぼうぎょ
@@ -198,23 +204,33 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
       var timer = setTimeout( function () {
         playerAttack(p2name);
-      } , 1300 );
+      } , 900 );
       break;
+
     case 3: // どうぐ
       isKeyBlock=true;
       cursor.play();
-
+      document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
       var timer = setTimeout( function () {
+
         heal.play();
         p1hp += 10;
         update();
-      } , 700 );
 
-      document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
-      var timer = setTimeout( function () {
-        enemyAttack();
-      } , 1300 );
+        var timer = setTimeout( function () {
+          playerAttack(p2name);
+
+          /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
+          var timer = setTimeout( function () {
+            enemyAttack();
+          } , 1300 );
+          */
+
+        } , 500 );
+
+      } , 500 );
       break;
+
     case 4: // にげる
       isKeyBlock=true;
       cursor.play();
@@ -224,17 +240,14 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         enemyAttack();
       } , 1300 );
       break;
+
     default:
       break;
   }
 }
 
-
-
-
 function playerAttack(playerName) {
   isKeyBlock=true;
-  cursor.play();
   attack.play();
   var enemy_div = document.getElementById("enemy_div");
 
@@ -253,10 +266,12 @@ function playerAttack(playerName) {
   document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
+
   var timer = setTimeout( function () {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
     update();
     enemy_div.classList.add("enemy_receive_damage");
+
     // 死亡チェック
     if (enemyHP <= 0) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
@@ -266,7 +281,7 @@ function playerAttack(playerName) {
       enemy_death.style.display = 'none';
       var shadow = document.getElementById('shadow');
       shadow.classList.remove("shadow");
-      document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
+      document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';
       return;
     }
 
@@ -291,6 +306,7 @@ function playerAttack(playerName) {
 }
 
 function enemyAttack() {
+
   enemy_attack.play();
   var friend_div = document.getElementById("friend-div");
   var damage = enemyATC;
@@ -304,11 +320,23 @@ function enemyAttack() {
     being_attacked.play();
      update();
     friend_div.classList.add("shake");
+
+    var timer = setTimeout( function () {
+      friend_div.classList.remove("shake");
+      isKeyBlock = false;
+
+      // var timer = setTimeout( function () {
+      //   document.getElementById("message").innerHTML = '<span class="message">スライム は いてつくはどう を はなった！<br>しかし なにも おこらなかった！</span>';  
+      // } , 1000 );
+
+    } , 600 );
+
   } , 700 );
-  var timer = setTimeout( function () {
-    friend_div.classList.remove("shake");
-    isKeyBlock = false;
-  } , 1300 );
+
+}
+
+function Experience_point() {
+  document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
 }
 
 // 戦闘画面の見た目担当
