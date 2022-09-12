@@ -47,7 +47,7 @@ var p1maxhp = 100;
 var p1atc = 25;
 var p1def = 3;
 var p1spd = 4;
-var once_guard = 3;
+var once_guard = 0;
 
 // 魔法使いステータス
 var p2name = "キャラB";
@@ -142,8 +142,8 @@ document.onkeydown = function(keyEvent) {
     } else if (enemyHP <= 0) {
       Experience_point();
     };
-  }
 }
+
 
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
@@ -200,6 +200,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     case 2: // ぼうぎょ
       isKeyBlock=true;
+      once_guard=100;
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
       var timer = setTimeout( function () {
@@ -247,13 +248,20 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 }
 
 function playerAttack(playerName) {
+
   isKeyBlock=true;
+  //以下のように、同SEを再生中にさらに再生しようとして失敗するのを防ぐには、pause+再生時間リセット > play()とする必要がある。
+  // attack.pause();
+  // attack.currentTime = 0;
+  
   attack.play();
+  console.log("se attack再生");
   var enemy_div = document.getElementById("enemy_div");
 
 
   if (playerName == p1name) {
     var damage = p1atc;
+    once_guard = 0; //once_guardはターン開始時（現状は攻撃時で処理）に解除
     console.log("キャラAの攻撃ターン");
   } else {
     var damage = p2atc;
@@ -296,7 +304,7 @@ function playerAttack(playerName) {
         enemyAttack();
       }
 
-    } , 400 );
+    } , 2000 ); //再生中にさらに再生しようとしたら失敗するのではないか？と考えここの時間を長くしてみると、attack.play()が２回目も正常に再生された。wavファイルの再生中にさらに同ファイルを再生しようとすると失敗するようだ。
 
   } , 900 );
 
@@ -312,7 +320,10 @@ function enemyAttack() {
   var damage = enemyATC;
   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
   damage += rand_value;
-  damage -= p1def
+  damage -= p1def;
+  damage -= once_guard;
+  if( damage < 0 )
+    damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
   p1hp -= damage;
   document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
