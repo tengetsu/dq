@@ -42,9 +42,10 @@ class Battle {
 
 // 主人公ステータス
 var p1name = "キャラA";
+var p1level = 5;
 var p1hp = 100;
 var p1maxhp = 100;
-var p1atc = 25;
+var p1atc = 100;
 var p1def = 3;
 var p1spd = 4;
 var once_guard = 0;
@@ -79,10 +80,13 @@ win.volume = 0.3;
 var heal = new Audio('sound/heal.wav');
 heal.volume = 1;
 
+var levelup = new Audio('sound/levelup.wav');
+levelup.volume = 1;
+
 // 敵のステータス定義
 var enemyHP = 100;
 var enemyMP = 20;
-var enemyATC = 12;
+var enemyATC = 6;
 
 var freezing_waves = document.createElement("img");
 freezing_waves.src = "img/effect/freezing_waves.gif";
@@ -138,12 +142,22 @@ document.onkeydown = function(keyEvent) {
   }
 
   if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-      doCommand(menu_id);
-    } else if (enemyHP <= 0) {
-      Experience_point();
-    };
-}
+    if(enemyHP <= 0) {
+      cursor.play();
+      document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
 
+      var timer = setTimeout( function () {
+        p1level += 1;
+        update();
+        levelup.play();
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は レベル'+p1level+'に あがった！</span>';
+      } , 1000 );
+
+    } else {
+    doCommand(menu_id);
+    }
+  }
+}
 
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
@@ -200,7 +214,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     case 2: // ぼうぎょ
       isKeyBlock=true;
-      once_guard=100;
+      once_guard=8;
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
       var timer = setTimeout( function () {
@@ -251,9 +265,8 @@ function playerAttack(playerName) {
 
   isKeyBlock=true;
   //以下のように、同SEを再生中にさらに再生しようとして失敗するのを防ぐには、pause+再生時間リセット > play()とする必要がある。
-  // attack.pause();
-  // attack.currentTime = 0;
-  
+  attack.pause();
+  attack.currentTime = 0;
   attack.play();
   console.log("se attack再生");
   var enemy_div = document.getElementById("enemy_div");
@@ -304,7 +317,7 @@ function playerAttack(playerName) {
         enemyAttack();
       }
 
-    } , 2000 ); //再生中にさらに再生しようとしたら失敗するのではないか？と考えここの時間を長くしてみると、attack.play()が２回目も正常に再生された。wavファイルの再生中にさらに同ファイルを再生しようとすると失敗するようだ。
+    } , 400 ); //再生中にさらに再生しようとしたら失敗するのではないか？と考えここの時間を長くしてみると、attack.play()が２回目も正常に再生された。wavファイルの再生中にさらに同ファイルを再生しようとすると失敗するようだ。
 
   } , 900 );
 
@@ -347,11 +360,12 @@ function enemyAttack() {
 }
 
 function Experience_point() {
-  document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
+
 }
 
 // 戦闘画面の見た目担当
 function update() {
+  document.getElementById("p1level").innerHTML = 'レベル:' + p1level;
   document.getElementById("p1hp").innerHTML = 'HP:' + p1hp;
   document.getElementById("enemyHP").innerHTML = 'HP:' + enemyHP;
 
