@@ -156,7 +156,8 @@ document.onkeydown = function(keyEvent) {
         levelupMessageCount += 1;
       }else if( levelupMessageCount==4 ){
         document.getElementById("message").innerHTML = '<span class="message">メッセージ５</span>';
-        levelupMessageCount=0;
+        // levelupMessageCount=0;
+        levelupMessageCount += 1;
       }
 
     }else if(enemyHP <= 0) {
