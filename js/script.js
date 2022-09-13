@@ -46,7 +46,7 @@ var p1name = "キャラA";
 var p1level = 5;
 var p1hp = 100;
 var p1maxhp = 100;
-var p1atc = 100;
+var p1atc = 7;
 var p1def = 3;
 var p1spd = 4;
 var once_guard = 0;
@@ -80,6 +80,9 @@ win.volume = 0.3;
 
 var heal = new Audio('sound/heal.wav');
 heal.volume = 1;
+
+var freezing_waves_m = new Audio('sound/freezing_waves.wav');
+freezing_waves_m.volume = 0.6;
 
 var levelup = new Audio('sound/levelup.wav');
 levelup.volume = 1;
@@ -143,7 +146,6 @@ document.onkeydown = function(keyEvent) {
   }
 
   if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-
     if( levelupMessageCount>=1 ){
       if( levelupMessageCount==1 ){
         document.getElementById("message").innerHTML = '<span class="message">メッセージ２</span>';
@@ -289,7 +291,8 @@ function playerAttack(playerName) {
   attack.play();
   console.log("se attack再生");
   var enemy_div = document.getElementById("enemy_div");
-
+  var shadow = document.getElementById('shadow');
+  var enemy_death = document.getElementById('enemy_div');
 
   if (playerName == p1name) {
     var damage = p1atc;
@@ -311,15 +314,14 @@ function playerAttack(playerName) {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
     update();
     enemy_div.classList.add("enemy_receive_damage");
+    shadow.classList.add("enemy_receive_damage");
 
     // 死亡チェック
     if (enemyHP <= 0) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
       dq4_btl_fc.pause();
       win.play();
-      var enemy_death = document.getElementById('enemy_div');
       enemy_death.style.display = 'none';
-      var shadow = document.getElementById('shadow');
       shadow.classList.remove("shadow");
       document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';
       return;
@@ -329,7 +331,7 @@ function playerAttack(playerName) {
     var timer = setTimeout( function () {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
       enemy_div.classList.remove("enemy_receive_damage");
-
+      shadow.classList.remove("enemy_receive_damage");
       if (playerName == p1name) {
         playerAttack(p2name);
       }else if (playerName == p2name) {
@@ -349,6 +351,7 @@ function enemyAttack() {
 
   enemy_attack.play();
   var friend_div = document.getElementById("friend-div");
+  var freezing_waves = document.getElementById('effect');
   var damage = enemyATC;
   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
   damage += rand_value;
@@ -366,20 +369,26 @@ function enemyAttack() {
 
     var timer = setTimeout( function () {
       friend_div.classList.remove("shake");
-      isKeyBlock = false;
 
-      // var timer = setTimeout( function () {
-      //   document.getElementById("message").innerHTML = '<span class="message">スライム は いてつくはどう を はなった！<br>しかし なにも おこらなかった！</span>';  
-      // } , 1000 );
+      var timer = setTimeout( function () {
+        freezing_waves_m.play();
+        freezing_waves.classList.add("effect_freezing_waves");
+        document.getElementById("message").innerHTML = '<span class="message">スライム は いてつくはどう を はなった！<br>しかし なにも おこらなかった！</span>';  
 
-    } , 600 );
+        var timer = setTimeout( function () {
+          freezing_waves.classList.remove("effect_freezing_waves");
+          isKeyBlock = false;
+        } , 5000 );
 
-  } , 700 );
+      } , 400 );
+
+    } , 400 );
+
+  } , 500 );
 
 }
 
 function Experience_point() {
-
 }
 
 // 戦闘画面の見た目担当
