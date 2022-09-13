@@ -2,6 +2,7 @@
 var menu_id = 0;  // 定義
 var damageElement = document.getElementById("damage");
 var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
+var levelupMessageCount = 0;
 
 /*
 // 戦闘用キャラクターデータ
@@ -142,9 +143,26 @@ document.onkeydown = function(keyEvent) {
   }
 
   if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-    if(enemyHP <= 0) {
+
+    if( levelupMessageCount>=1 ){
+      if( levelupMessageCount==1 ){
+        document.getElementById("message").innerHTML = '<span class="message">メッセージ２</span>';
+        levelupMessageCount += 1;
+      }else if( levelupMessageCount==2 ){
+        document.getElementById("message").innerHTML = '<span class="message">メッセージ３</span>';
+        levelupMessageCount += 1;
+      }else if( levelupMessageCount==3 ){
+        document.getElementById("message").innerHTML = '<span class="message">メッセージ４</span>';
+        levelupMessageCount += 1;
+      }else if( levelupMessageCount==4 ){
+        document.getElementById("message").innerHTML = '<span class="message">メッセージ５</span>';
+        levelupMessageCount=0;
+      }
+
+    }else if(enemyHP <= 0) {
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
+      levelupMessageCount = 1;
 
       var timer = setTimeout( function () {
         p1level += 1;
@@ -154,7 +172,7 @@ document.onkeydown = function(keyEvent) {
       } , 1000 );
 
     } else {
-    doCommand(menu_id);
+      doCommand(menu_id);
     }
   }
 }
