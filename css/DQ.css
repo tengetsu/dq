@@ -134,13 +134,13 @@ body {
 
 @keyframes bound { /* スライムを跳ねさせる */
   0%,100% { /* 開始と終わり */
-    top: 0;
-    transform: scale(1); /* 開始と終わりの標準値 */
+    /* top: 0; */
+    transform: translate(0%, 0%) scale(1); /* 開始と終わりの標準値 */
   }
 
   30% {
-    top: -60%;
-    transform: scale(0.7,1.2); /* X軸(0.7)縮める Y軸(1.2)伸びる */
+    /* top: -60%; */
+    transform: translate(0%,-60%) scale(0.7,1.2); /* X軸(0.7)縮める Y軸(1.2)伸びる */
   }
 
   60% {
@@ -148,8 +148,8 @@ body {
   }
 
   90% {
-    top: 0;
-    transform: scale(1.3,0.8);
+    /* top: 0; */
+    transform: translate(0%,0%) scale(1.3,0.8);
   }
 }
 
