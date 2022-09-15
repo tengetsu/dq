@@ -51,6 +51,9 @@ var p1def = 3;
 var p1spd = 4;
 var once_guard = 0;
 
+var A = 0;
+var heal_hp = 10;
+
 // 魔法使いステータス
 var p2name = "キャラB";
 var p2atc = 1;
@@ -246,25 +249,68 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     case 3: // どうぐ
       isKeyBlock=true;
       cursor.play();
-      document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 10 かいふくした</span>';
-      var timer = setTimeout( function () {
 
-        heal.play();
-        p1hp += 10;
-        update();
+      // once_guard=8;
+      // damage -= once_guard;
+      // if( damage < 0 ) {
+      //   damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
+      // }
+      // p1hp -= damage;
+
+      p1hp += heal_hp;
+
+      // if( p1hp === p1maxhp ) {
+      //   p1hp += 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
+      //   document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 0 かいふくした</span>';
+
+      if( p1hp > p1maxhp ) {
+        p1maxhp += heal_hp;
+        A = p1maxhp - p1hp
+        p1maxhp -= heal_hp;
+        p1hp -= heal_hp;
+        p1hp += A
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が '+A+' かいふくした</span>';
 
         var timer = setTimeout( function () {
-          playerAttack(p2name);
+          heal.play();
+          update();
 
-          /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
           var timer = setTimeout( function () {
-            enemyAttack();
-          } , 1300 );
-          */
-
+            playerAttack(p2name);
+  
+            /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
+            var timer = setTimeout( function () {
+              enemyAttack();
+            } , 1300 );
+            */
+  
+          } , 500 );
+  
         } , 500 );
 
-      } , 500 );
+      } else if(p1hp < p1maxhp ) {
+
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
+
+        var timer = setTimeout( function () {
+          heal.play();
+          update();
+
+          var timer = setTimeout( function () {
+            playerAttack(p2name);
+  
+            /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
+            var timer = setTimeout( function () {
+              enemyAttack();
+            } , 1300 );
+            */
+  
+          } , 500 );
+  
+        } , 500 );
+
+      }
+
       break;
 
     case 4: // にげる
@@ -357,8 +403,9 @@ function enemyAttack() {
   damage += rand_value;
   damage -= p1def;
   damage -= once_guard;
-  if( damage < 0 )
+  if( damage < 0 ) {
     damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
+  }
   p1hp -= damage;
   document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
@@ -378,7 +425,7 @@ function enemyAttack() {
         var timer = setTimeout( function () {
           freezing_waves.classList.remove("effect_freezing_waves");
           isKeyBlock = false;
-        } , 5000 );
+        } , 4000 );
 
       } , 400 );
 

@@ -171,12 +171,12 @@ body {
 
 .shadow {
   position: absolute;
-  top: 45%;
+  top: 48%;
   bottom: 0;
-  left: 0;
+  left: 5px;
   right: 0;
   margin: auto;
-  width: 35px;
+  width: 41px;
   height: 3px;
   background: #000;
   border-radius: 50%;
