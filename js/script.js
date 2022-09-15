@@ -257,6 +257,8 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       // }
       // p1hp -= damage;
 
+      var display_heal_value = heal_hp; //表示用回復値（最大超えたぶんを回復量に含めない）
+
       p1hp += heal_hp;
 
       // if( p1hp === p1maxhp ) {
@@ -264,12 +266,21 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       //   document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 0 かいふくした</span>';
 
       if( p1hp > p1maxhp ) {
-        p1maxhp += heal_hp;
-        A = p1maxhp - p1hp
-        p1maxhp -= heal_hp;
-        p1hp -= heal_hp;
-        p1hp += A
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が '+A+' かいふくした</span>';
+
+        //なかなかすごいコードだが、こんなに複雑にしないでもできそう
+        //というか、なぜこれでなぜ正常に動いているのだ・・・？ 魔術的だ
+        // p1maxhp += heal_hp;
+        // A = p1maxhp - p1hp
+        // p1maxhp -= heal_hp;
+        // p1hp -= heal_hp;
+        // p1hp += A
+
+
+        //こっちのほうがいいのではないか
+        display_heal_value = heal_hp - (p1hp - p1maxhp); //表示用回復値から、最大値はみ出た分をひく
+        p1hp = p1maxhp;
+
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
