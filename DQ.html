@@ -19,15 +19,16 @@
     <main>
       <!--ドラクエ風-->
       <div class="container">
+
         <div id="friend-div" class="battle_window"> <!-- 戦闘画面 -->
 
           <div id="character" class="character_status"> <!-- 味方キャラクター -->
 
             <div id="character1" class="character1">
               <div id="p1" >キャラＡ</div>
-              <div id="p1level">レベル:5</div>
-              <div id="p1hp">HP:50</div>
-              <div id="p1mp">MP:20</div>
+              <div id="p1level">レベル:99</div>
+              <div id="p1hp">HP:999</div>
+              <div id="p1mp">MP:999</div>
             </div>
 
             <div id="character2" class="character2">
@@ -40,28 +41,31 @@
           </div>
 
           <div class="field_container">
-            <div class="battle_field"> <!-- 戦闘フィールド関連 -->
-              <div id="effect" class="effect_field"></div>
 
-            <!-- </div> -->
-              <div class="enemy_field">
+            <div id="effect" class="effect_field"></div>
 
-                <div class="enemy_status"> <!-- 戦闘フィールド上に表示する敵ステータス -->
-                  <div id="enemyLevel">レベル:3</div>
-                  <div id="enemyHP">HP:50</div>
-                  <div id="enemyMP">MP:20</div>
-                </div>
-                
-                <div id="enemy_div" class="enemy-image"> <!-- 敵キャラクター画像 -->
-                  <img src="./img/monster/slime.png" alt="">
-                  <!-- <img src="./img/monster/meruzena.png" alt=""> -->
-                </div>
+            <div class="enemy_field">
 
-                <span id="shadow" class="shadow"></span>
-
+              <div class="enemy_status"> <!-- 戦闘フィールド上に表示する敵ステータス -->
+                <div id="enemyLevel">レベル:100</div>
+                <div id="enemyHP">HP:28500</div>
+                <div id="enemyMP">MP:20</div>
               </div>
 
-            </div><!-- 削除予定 -->
+              <!-- <div id="enemy_div" class="enemy-image"> 敵キャラクター画像
+                <img src="./img/monster/slime.png" alt="">
+              </div> -->
+
+              <div id="enemy_div" class="enemy-image2">
+                <img src="./img/monster/Malzeno.png" alt="">
+              </div>
+
+              <span id="shadow" class="shadow"></span>
+
+            </div>
+
+            <div class="battle_field"></div>
+
           </div>
 
           <div id="battle_menu" class="battle_menu"> <!-- 戦闘コマンド -->
@@ -72,7 +76,7 @@
           </div>
 
           <div id="message" class="message_window"> <!--HPフラグ用に黄色と赤を足す -->
-            <span class="message">スライム が あらわれた！</span>
+            <span class="message">爵銀龍メルゼナ が あらわれた！</span>
           </div>
           
         </div>

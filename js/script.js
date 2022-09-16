@@ -43,16 +43,16 @@ class Battle {
 
 // 主人公ステータス
 var p1name = "キャラA";
-var p1level = 5;
-var p1hp = 50;
-var p1maxhp = 50;
-var p1atc = 5;
-var p1def = 3;
-var p1spd = 4;
+var p1level = 99;
+var p1hp = 999;
+var p1maxhp = 999;
+var p1atc = 255;
+var p1def = 255;
+var p1spd = 255;
 var once_guard = 0;
 
 var A = 0;
-var heal_hp = 10;
+var heal_hp = 500;
 
 // 魔法使いステータス
 var p2name = "キャラB";
@@ -61,6 +61,9 @@ var p2atc = 1;
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
 dq4_btl_fc.volume = 0.5;
+
+var Malzeno_Battle_Theme = new Audio('sound/Malzeno_Battle_Theme.mp3');
+Malzeno_Battle_Theme.volume = 0.5;
 
 // 効果音
 var attack = new Audio('sound/attack.mp3');
@@ -93,10 +96,14 @@ levelup.volume = 1;
 var gameover = new Audio('sound/gameover.wav');
 levelup.volume = 1;
 
+var Melzeno_roar = new Audio('sound/Melzeno_roar.mp3');
+Melzeno_roar.volume = 1;
+
+
 // 敵のステータス定義
-var enemyHP = 50;
+var enemyHP = 28500;
 var enemyMP = 20;
-var enemyATC = 15;
+var enemyATC = 500;
 
 var freezing_waves = document.createElement("img");
 freezing_waves.src = "img/effect/freezing_waves.gif";
@@ -196,7 +203,8 @@ document.onkeydown = function(keyEvent) {
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
-  dq4_btl_fc.play();
+  // dq4_btl_fc.play();
+  Malzeno_Battle_Theme.play();
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
@@ -289,7 +297,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         display_heal_value = heal_hp - (p1hp - p1maxhp); //表示用回復値から、最大値はみ出た分をひく
         p1hp = p1maxhp;
 
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた 回復薬グレート をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
@@ -310,7 +318,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
       } else if(p1hp < p1maxhp ) {
 
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた 回復薬グレート をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
@@ -369,10 +377,10 @@ function playerAttack(playerName) {
     console.log("キャラBの攻撃ターン");
   }
 
-  var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
+  var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   damage += rand_value;
   enemyHP = enemyHP - damage;
-  document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
+  document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
 
@@ -391,7 +399,7 @@ function playerAttack(playerName) {
       win.play();
       enemy_death.style.display = 'none';
       shadow.classList.remove("shadow");
-      document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';
+      document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ を たおした！</span>';
       return;
     }
 
@@ -421,7 +429,7 @@ function enemyAttack() {
   var friend_div = document.getElementById("friend-div");
   var freezing_waves = document.getElementById('effect');
   var damage = enemyATC;
-  var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
+  var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   damage += rand_value;
   damage -= p1def;
   damage -= once_guard;
@@ -430,7 +438,7 @@ function enemyAttack() {
   }
   p1hp -= damage;
     
-  document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
+  document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
   var timer = setTimeout( function () {
     being_attacked.play();
@@ -448,14 +456,15 @@ function enemyAttack() {
       if (p1hp <= 0) {
         dq4_btl_fc.pause();
         gameover.play();
-        document.getElementById("message").innerHTML = '<span class="message">スライム に キャラA は たおされてしまった！</span>';
+        document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ に キャラA は たおされてしまった！</span>';
         return;
       }
 
       var timer = setTimeout( function () {
-        freezing_waves_m.play();
+        Melzeno_roar.play();
+        // freezing_waves_m.play();
         freezing_waves.classList.add("effect_freezing_waves");
-        document.getElementById("message").innerHTML = '<span class="message">スライム は いてつくはどう を はなった！<br>しかし なにも おこらなかった！</span>';  
+        document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ は 咆哮 を はなった！<br>しかし なにも おこらなかった！</span>';  
 
         var timer = setTimeout( function () {
           freezing_waves.classList.remove("effect_freezing_waves");
