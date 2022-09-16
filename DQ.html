@@ -23,17 +23,17 @@
 
           <div id="character" class="character_status"> <!-- 味方キャラクター -->
 
-            <div class="character1">
+            <div id="character1" class="character1">
               <div id="p1" >キャラＡ</div>
               <div id="p1level">レベル:5</div>
-              <div id="p1hp">HP:100</div>
+              <div id="p1hp">HP:50</div>
               <div id="p1mp">MP:20</div>
             </div>
 
-            <div class="character2">
+            <div id="character2" class="character2">
               <div id="p2" >キャラＢ</div>
               <div id="p2level">レベル:3</div>
-              <div id="p2hp">HP:40</div>
+              <div id="p2hp">HP:30</div>
               <div id="p2mp">MP:76</div>
             </div>
 
@@ -43,29 +43,35 @@
             <div class="battle_field"> <!-- 戦闘フィールド関連 -->
               <div id="effect" class="effect_field"></div>
 
-              <div class="enemy_status"> <!-- 戦闘フィールド上に表示する敵ステータス -->
-                <div id="enemyLevel">レベル:3</div>
-                <div id="enemyHP">HP:100</div>
-                <div id="enemyMP">MP:20</div>
-              </div>
-              
-              <div id="enemy_div" class="enemy-image"> <!-- 敵キャラクター画像 -->
-                <img src="./img/monster/slime.png" alt="">
+            <!-- </div> -->
+              <div class="enemy_field">
+
+                <div class="enemy_status"> <!-- 戦闘フィールド上に表示する敵ステータス -->
+                  <div id="enemyLevel">レベル:3</div>
+                  <div id="enemyHP">HP:50</div>
+                  <div id="enemyMP">MP:20</div>
+                </div>
+                
+                <div id="enemy_div" class="enemy-image"> <!-- 敵キャラクター画像 -->
+                  <img src="./img/monster/slime.png" alt="">
+                  <!-- <img src="./img/monster/meruzena.png" alt=""> -->
+                </div>
+
+                <span id="shadow" class="shadow"></span>
+
               </div>
 
-              <span id="shadow" class="shadow"></span>
-
-            </div>
+            </div><!-- 削除予定 -->
           </div>
 
-          <div class="battle_menu"> <!-- 戦闘コマンド -->
+          <div id="battle_menu" class="battle_menu"> <!-- 戦闘コマンド -->
             <div id="menu1" onclick="activemenu(1);" class="menu">たたかう</div>
             <div id="menu2" onclick="activemenu(2);" class="menu">ぼうぎょ</div>
             <div id="menu3" onclick="activemenu(3);" class="menu">どうぐ</div>
             <div id="menu4" onclick="activemenu(4);" class="menu">にげる</div>
           </div>
 
-          <div id="message" class=""> <!--HPフラグ用に黄色と赤を足す -->
+          <div id="message" class="message_window"> <!--HPフラグ用に黄色と赤を足す -->
             <span class="message">スライム が あらわれた！</span>
           </div>
           

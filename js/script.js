@@ -44,9 +44,9 @@ class Battle {
 // 主人公ステータス
 var p1name = "キャラA";
 var p1level = 5;
-var p1hp = 100;
-var p1maxhp = 100;
-var p1atc = 7;
+var p1hp = 50;
+var p1maxhp = 50;
+var p1atc = 5;
 var p1def = 3;
 var p1spd = 4;
 var once_guard = 0;
@@ -90,10 +90,13 @@ freezing_waves_m.volume = 0.6;
 var levelup = new Audio('sound/levelup.wav');
 levelup.volume = 1;
 
+var gameover = new Audio('sound/gameover.wav');
+levelup.volume = 1;
+
 // 敵のステータス定義
-var enemyHP = 100;
+var enemyHP = 50;
 var enemyMP = 20;
-var enemyATC = 6;
+var enemyATC = 15;
 
 var freezing_waves = document.createElement("img");
 freezing_waves.src = "img/effect/freezing_waves.gif";
@@ -151,17 +154,24 @@ document.onkeydown = function(keyEvent) {
   if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
     if( levelupMessageCount>=1 ){
       if( levelupMessageCount==1 ){
-        document.getElementById("message").innerHTML = '<span class="message">メッセージ２</span>';
+        cursor.play();
+        document.getElementById("message").innerHTML = '<span class="message">HPが 3 あがった！</span>';
         levelupMessageCount += 1;
       }else if( levelupMessageCount==2 ){
-        document.getElementById("message").innerHTML = '<span class="message">メッセージ３</span>';
+        cursor.play();
+        document.getElementById("message").innerHTML = '<span class="message">MPが 2 あがった！</span>';
         levelupMessageCount += 1;
       }else if( levelupMessageCount==3 ){
-        document.getElementById("message").innerHTML = '<span class="message">メッセージ４</span>';
+        cursor.play();
+        document.getElementById("message").innerHTML = '<span class="message">こうげきりょくが 5 あがった！</span>';
         levelupMessageCount += 1;
       }else if( levelupMessageCount==4 ){
-        document.getElementById("message").innerHTML = '<span class="message">メッセージ５</span>';
-        // levelupMessageCount=0;
+        cursor.play();
+        document.getElementById("message").innerHTML = '<span class="message">ぼうぎょりょくが 4 あがった！</span>';
+        levelupMessageCount += 1;
+      }else if( levelupMessageCount==5 ){
+        cursor.play();
+        document.getElementById("message").innerHTML = '<span class="message">すばやさが 2 あがった！</span>';
         levelupMessageCount += 1;
       }
 
@@ -257,7 +267,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       // }
       // p1hp -= damage;
 
-      var display_heal_value = heal_hp; //表示用回復値（最大超えたぶんを回復量に含めない）
+      var display_heal_value = heal_hp; //表示用回復値（最大値を超えた範囲の回復量は含めない）
 
       p1hp += heal_hp;
 
@@ -274,7 +284,6 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         // p1maxhp -= heal_hp;
         // p1hp -= heal_hp;
         // p1hp += A
-
 
         //こっちのほうがいいのではないか
         display_heal_value = heal_hp - (p1hp - p1maxhp); //表示用回復値から、最大値はみ出た分をひく
@@ -376,6 +385,8 @@ function playerAttack(playerName) {
     // 死亡チェック
     if (enemyHP <= 0) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
+      enemyHP = 0;
+      update();
       dq4_btl_fc.pause();
       win.play();
       enemy_death.style.display = 'none';
@@ -418,15 +429,28 @@ function enemyAttack() {
     damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
   }
   p1hp -= damage;
+    
   document.getElementById("message").innerHTML = '<span class="message">スライム の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
   var timer = setTimeout( function () {
     being_attacked.play();
-     update();
+    update();
+    if( p1hp <= 0) {
+      p1hp = 0;
+      update();
+    }
     friend_div.classList.add("shake");
 
     var timer = setTimeout( function () {
       friend_div.classList.remove("shake");
+
+      // 死亡チェック
+      if (p1hp <= 0) {
+        dq4_btl_fc.pause();
+        gameover.play();
+        document.getElementById("message").innerHTML = '<span class="message">スライム に キャラA は たおされてしまった！</span>';
+        return;
+      }
 
       var timer = setTimeout( function () {
         freezing_waves_m.play();
@@ -459,12 +483,24 @@ function update() {
   if( p1hp <= 0 ) {
     // 死亡時
     document.getElementById("friend-div").className = "battle_window_red";
+    document.getElementById("character1").className = "character1_red";
+    document.getElementById("character2").className = "character2_red";
+    document.getElementById("battle_menu").className = "battle_menu_red";
+    document.getElementById("message").className = "message_window_red";
   } else if ( p1hp <= p1maxhp / 2 ) {
     // ピンチ時
     document.getElementById("friend-div").className = "battle_window_yellow";
+    document.getElementById("character1").className = "character1_yellow";
+    document.getElementById("character2").className = "character2_yellow";
+    document.getElementById("battle_menu").className = "battle_menu_yellow";
+    document.getElementById("message").className = "message_window_yellow";
   } else {
     // 通常時
     document.getElementById("friend-div").className = "battle_window";
+    document.getElementById("character1").className = "character1";
+    document.getElementById("character2").className = "character2";
+    document.getElementById("battle_menu").className = "battle_menu";
+    document.getElementById("message").className = "message_window";
   } 
 
 }
