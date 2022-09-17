@@ -85,18 +85,20 @@ var enemy1 = {
   mp: 20,
   atc: 5,
   type: "nomal",
+  imagepass: "./img/monster/slime.png",
 }
 
 var enemy2 = {
   // メルゼナのステータス定義
-  name: "メルゼナ",
+  name: "爵銀龍メルゼナ",
   hp: 28500,
   mp: 20,
   atc: 500,
   type: "boss",
+  imagepass: "./img/monster/Malzeno.png",
 }
 
-var enemy = enemy1;
+var enemy = enemy2;
 
 var heal_hp = 500;
 
@@ -627,4 +629,9 @@ function battle_init() {
   // } else {
   //   Malzeno_Battle_Theme.play();
   // }
+  document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
+
+  var elem = document.getElementById("enemy_image");
+    elem.src = enemy.imagepass;
+    elem.classList.add("enemy-image");
 }
