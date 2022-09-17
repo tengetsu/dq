@@ -147,7 +147,8 @@ var freezing_waves = document.createElement("img");
 freezing_waves.src = "img/effect/freezing_waves.gif";
 
 // 戦闘初期化処理
-battle_init();
+menu_init();
+// battle_init();
 
 // キーカーソルの表示/非表示
 function activemenu(id) { // activemenu=関数名 id＝第一引数
@@ -624,6 +625,12 @@ function update() {
 }
 
 function battle_init() {
+
+    document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
+    // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を非表示
+    document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
+    // document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
+  
   // if (enemy.type == "nomal") {
   //   dq4_btl_fc.play();
   // } else {
@@ -634,4 +641,14 @@ function battle_init() {
   var elem = document.getElementById("enemy_image");
     elem.src = enemy.imagepass;
     elem.classList.add("enemy-image");
+
+  update();
+}
+
+function menu_init(){
+  // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
+  document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を非表示
+  // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
+  document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
+
 }
