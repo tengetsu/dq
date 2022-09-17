@@ -4,6 +4,9 @@ var damageElement = document.getElementById("damage");
 var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
 var levelupMessageCount = 0;
 
+var screenModeMenu = "menu";
+var screenModeBattle = "battle";
+var screenMode = screenModeMenu;
 /*
 // 戦闘用キャラクターデータ
 class BattleCharacter {
@@ -168,77 +171,94 @@ function activemenu(id) { // activemenu=関数名 id＝第一引数
 
 // キーボード操作
 document.onkeydown = function(keyEvent) {
-//「keyCode」は非推奨とVSコードに出るが今回は無視する
-  if (keyEvent.keyCode==37) { //37はキーボードの左キー
-    document.getElementById("game_control").value = "←";
-    console.log("←が入力されました。")
-  }
 
-  if (keyEvent.keyCode==38) { //38はキーボードの上キー
-    document.getElementById("game_control").value = "↑";
-    if (menu_id <= 1) { // menu_id が 1 以下になったら、activemenu(4)「にげる」へ
-      activemenu(4);
-    } else {
-      activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
+    //メニューとバトル共用キー処理
+    //「keyCode」は非推奨とVSコードに出るが今回は無視する
+    if (keyEvent.keyCode==37) { //37はキーボードの左キー
+      document.getElementById("game_control").value = "←";
+      console.log("←が入力されました。")
     }
-    console.log("↑が入力されました。")
-  }
 
-  if (keyEvent.keyCode==39) { //39はキーボードの右キー
-    document.getElementById("game_control").value = "→";
-    console.log("→が入力されました。")
-  }
-
-  if (keyEvent.keyCode==40) { //40はキーボードの下キー
-    document.getElementById("game_control").value = "↓";
-    if (menu_id >= 4) { //menu_id が 4以上になったら、activemenu(1)「たたかう」へ
-      activemenu(1);
-    } else {
-      activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
-    }
-    console.log("↓が入力されました。")
-  }
-
-  if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-    if( levelupMessageCount>=1 ){
-      if( levelupMessageCount==1 ){
-        cursor.play();
-        document.getElementById("message").innerHTML = '<span class="message">HPが 3 あがった！</span>';
-        levelupMessageCount += 1;
-      }else if( levelupMessageCount==2 ){
-        cursor.play();
-        document.getElementById("message").innerHTML = '<span class="message">MPが 2 あがった！</span>';
-        levelupMessageCount += 1;
-      }else if( levelupMessageCount==3 ){
-        cursor.play();
-        document.getElementById("message").innerHTML = '<span class="message">こうげきりょくが 5 あがった！</span>';
-        levelupMessageCount += 1;
-      }else if( levelupMessageCount==4 ){
-        cursor.play();
-        document.getElementById("message").innerHTML = '<span class="message">ぼうぎょりょくが 4 あがった！</span>';
-        levelupMessageCount += 1;
-      }else if( levelupMessageCount==5 ){
-        cursor.play();
-        document.getElementById("message").innerHTML = '<span class="message">すばやさが 2 あがった！</span>';
-        levelupMessageCount += 1;
+    if (keyEvent.keyCode==38) { //38はキーボードの上キー
+      document.getElementById("game_control").value = "↑";
+      if (menu_id <= 1) { // menu_id が 1 以下になったら、activemenu(4)「にげる」へ
+        activemenu(4);
+      } else {
+        activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
       }
-
-    }else if(enemy.hp <= 0) {
-      cursor.play();
-      document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
-      levelupMessageCount = 1;
-
-      var timer = setTimeout( function () {
-        player1.level += 1;
-        update();
-        levelup.play();
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は レベル'+player1.level+'に あがった！</span>';
-      } , 1000 );
-
-    } else {
-      doCommand(menu_id);
+      console.log("↑が入力されました。")
     }
+
+    if (keyEvent.keyCode==39) { //39はキーボードの右キー
+      document.getElementById("game_control").value = "→";
+      console.log("→が入力されました。")
+    }
+
+    if (keyEvent.keyCode==40) { //40はキーボードの下キー
+      document.getElementById("game_control").value = "↓";
+      if (menu_id >= 4) { //menu_id が 4以上になったら、activemenu(1)「たたかう」へ
+        activemenu(1);
+      } else {
+        activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
+      }
+      console.log("↓が入力されました。")
+    }
+
+
+
+    if( screenMode==screenModeBattle ){
+
+      //バトル画面用キー処理
+      if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
+        if( levelupMessageCount>=1 ){
+          if( levelupMessageCount==1 ){
+            cursor.play();
+            document.getElementById("message").innerHTML = '<span class="message">HPが 3 あがった！</span>';
+            levelupMessageCount += 1;
+          }else if( levelupMessageCount==2 ){
+            cursor.play();
+            document.getElementById("message").innerHTML = '<span class="message">MPが 2 あがった！</span>';
+            levelupMessageCount += 1;
+          }else if( levelupMessageCount==3 ){
+            cursor.play();
+            document.getElementById("message").innerHTML = '<span class="message">こうげきりょくが 5 あがった！</span>';
+            levelupMessageCount += 1;
+          }else if( levelupMessageCount==4 ){
+            cursor.play();
+            document.getElementById("message").innerHTML = '<span class="message">ぼうぎょりょくが 4 あがった！</span>';
+            levelupMessageCount += 1;
+          }else if( levelupMessageCount==5 ){
+            cursor.play();
+            document.getElementById("message").innerHTML = '<span class="message">すばやさが 2 あがった！</span>';
+            levelupMessageCount += 1;
+          }
+
+        }else if(enemy.hp <= 0) {
+          cursor.play();
+          document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
+          levelupMessageCount = 1;
+
+          var timer = setTimeout( function () {
+            player1.level += 1;
+            update();
+            levelup.play();
+            document.getElementById("message").innerHTML = '<span class="message">キャラA は レベル'+player1.level+'に あがった！</span>';
+          } , 1000 );
+
+        } else {
+          doCommand(menu_id);
+        }
+      }
+  }else{
+
+    //メニュー画面用キー処理
+    if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
+      doCommandMenu(menu_id);
+    }
+
   }
+
+
 }
 
 // コマンド実行
@@ -400,6 +420,25 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     default:
       break;
+  }
+}
+
+//メニュー画面用のdoCommand
+function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引数
+  if( isKeyBlock ) return; //自動進行中などでキー入力無効
+
+  switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
+
+    case 1: //メニューの１番めのコマンド
+    battle_init();
+    console.log("メニュー１番め押下");
+    break;
+    case 2: //メニューの2番めのコマンド
+    console.log("メニュー２番め押下");
+    break;
+    case 3: //メニューの3番めのコマンド
+    console.log("メニュー３番め押下");
+    break;
   }
 }
 
@@ -625,7 +664,7 @@ function update() {
 }
 
 function battle_init() {
-
+    screenMode = screenModeBattle;
     document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
     // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を非表示
     document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
@@ -646,6 +685,7 @@ function battle_init() {
 }
 
 function menu_init(){
+  screenMode = screenModeMenu;
   // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
   document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を非表示
   // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
