@@ -464,25 +464,23 @@ function playerAttack(player) {
 
 function enemyAttack() {
 
-  enemy_attack.play();
   var friend_div = document.getElementById("friend-div");
   var freezing_waves = document.getElementById('effect');
+  var enemyAttackNo = Math.floor(Math.random() * 2) //０か１のランダム
 
-  var damage = enemyATC;
-  var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
-  damage += rand_value;
-  damage -= player1.def;
-  damage -= player1.once_guard;
-  if( damage < 0 ) {
-    damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
-  }
-  player1.hp -= damage;
-    
-  document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
-
-
-  var enemyAttackNo = Math.floor(Math.random() * 1) //０か１のランダム
   if( enemyAttackNo==0 ){
+    enemy_attack.play();
+    var damage = enemyATC;
+    var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
+    damage += rand_value;
+    damage -= player1.def;
+    damage -= player1.once_guard;
+    if( damage < 0 ) {
+      damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
+    }
+    player1.hp -= damage;
+    
+    document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
     var timer = setTimeout( function () {
       being_attacked.play();
@@ -512,6 +510,7 @@ function enemyAttack() {
     } , 500 );
 
   }else{
+
     var timer = setTimeout( function () {
       Melzeno_roar.play();
       // freezing_waves_m.play();
