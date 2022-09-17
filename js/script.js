@@ -78,10 +78,27 @@ var player2 = {
   once_guard: 0,
 }
 
-var A = 0;
+var enemy1 = {
+  // スライムのステータス定義
+  name: "スライム",
+  hp: 50,
+  mp: 20,
+  atc: 5,
+  type: "nomal",
+}
+
+var enemy2 = {
+  // メルゼナのステータス定義
+  name: "メルゼナ",
+  hp: 28500,
+  mp: 20,
+  atc: 500,
+  type: "boss",
+}
+
+var enemy = enemy1;
+
 var heal_hp = 500;
-
-
 
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
@@ -124,15 +141,11 @@ levelup.volume = 1;
 var Melzeno_roar = new Audio('sound/Melzeno_roar.mp3');
 Melzeno_roar.volume = 1;
 
-
-// 敵のステータス定義
-var enemyHP = 28500;
-var enemyMP = 20;
-var enemyATC = 500;
-
 var freezing_waves = document.createElement("img");
 freezing_waves.src = "img/effect/freezing_waves.gif";
 
+// 戦闘初期化処理
+battle_init();
 
 // キーカーソルの表示/非表示
 function activemenu(id) { // activemenu=関数名 id＝第一引数
@@ -207,7 +220,7 @@ document.onkeydown = function(keyEvent) {
         levelupMessageCount += 1;
       }
 
-    }else if(enemyHP <= 0) {
+    }else if(enemy.hp <= 0) {
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
       levelupMessageCount = 1;
@@ -228,8 +241,13 @@ document.onkeydown = function(keyEvent) {
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
-  // dq4_btl_fc.play();
-  Malzeno_Battle_Theme.play();
+
+  if (enemy.type == "nomal") {
+    dq4_btl_fc.play();
+  } else {
+    Malzeno_Battle_Theme.play();
+  }
+
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
@@ -416,7 +434,7 @@ function playerAttack(player) {
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   var damage = player.atc;
   damage += rand_value;
-  enemyHP = enemyHP - damage;
+  enemy.hp = enemy.hp - damage;
   document.getElementById("message").innerHTML = '<span class="message">'+player.name+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
@@ -428,9 +446,9 @@ function playerAttack(player) {
     shadow.classList.add("enemy_receive_damage");
 
     // 死亡チェック
-    if (enemyHP <= 0) {
+    if (enemy.hp <= 0) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
-      enemyHP = 0;
+      enemy.hp = 0;
       update();
       dq4_btl_fc.pause();
       Malzeno_Battle_Theme.pause();
@@ -470,7 +488,7 @@ function enemyAttack() {
 
   if( nandNo <= 6 ){
     enemy_attack.play();
-    var damage = enemyATC;
+    var damage = enemy.atc;
     var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
     damage += rand_value;
     damage -= player1.def;
@@ -575,7 +593,7 @@ function Experience_point() {
 function update() {
   document.getElementById("p1level").innerHTML = 'レベル:' + player1.level;
   document.getElementById("p1hp").innerHTML = 'HP:' + player1.hp;
-  document.getElementById("enemyHP").innerHTML = 'HP:' + enemyHP;
+  document.getElementById("enemyHP").innerHTML = 'HP:' + enemy.hp;
 
   // HP減少時の画面の色替え
   if( player1.hp <= 0 ) {
@@ -601,4 +619,12 @@ function update() {
     document.getElementById("message").className = "message_window";
   } 
 
+}
+
+function battle_init() {
+  // if (enemy.type == "nomal") {
+  //   dq4_btl_fc.play();
+  // } else {
+  //   Malzeno_Battle_Theme.play();
+  // }
 }
