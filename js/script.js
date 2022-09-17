@@ -396,6 +396,7 @@ function playerAttack(playerName) {
       enemyHP = 0;
       update();
       dq4_btl_fc.pause();
+      Malzeno_Battle_Theme.pause();
       win.play();
       enemy_death.style.display = 'none';
       shadow.classList.remove("shadow");
@@ -455,6 +456,7 @@ function enemyAttack() {
       // 死亡チェック
       if (p1hp <= 0) {
         dq4_btl_fc.pause();
+        Malzeno_Battle_Theme.pause();
         gameover.play();
         document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ に キャラA は たおされてしまった！</span>';
         return;
