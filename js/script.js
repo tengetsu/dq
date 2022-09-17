@@ -468,14 +468,6 @@ function enemyAttack() {
   var friend_div = document.getElementById("friend-div");
   var freezing_waves = document.getElementById('effect');
 
-  var enemyAttackNo = Math.floor(Math.random() * 1) //０か１のランダム
-  if( enemyAttackNo==0 ){
-    //通常攻撃
-  }else{
-    //別の攻撃
-
-  }
-
   var damage = enemyATC;
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   damage += rand_value;
@@ -488,6 +480,55 @@ function enemyAttack() {
     
   document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
+
+  var enemyAttackNo = Math.floor(Math.random() * 1) //０か１のランダム
+  if( enemyAttackNo==0 ){
+
+    var timer = setTimeout( function () {
+      being_attacked.play();
+      update();
+      if( player1.hp <= 0) {
+        player1.hp = 0;
+        update();
+      }
+      friend_div.classList.add("shake");
+  
+      var timer = setTimeout( function () {
+        friend_div.classList.remove("shake");
+  
+        // 死亡チェック
+        if (player1.hp <= 0) {
+          dq4_btl_fc.pause();
+          Malzeno_Battle_Theme.pause();
+          gameover.play();
+          document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ に キャラA は たおされてしまった！</span>';
+          return;
+        }
+  
+        isKeyBlock = false;
+  
+      } , 400 );
+  
+    } , 500 );
+
+  }else{
+    var timer = setTimeout( function () {
+      Melzeno_roar.play();
+      // freezing_waves_m.play();
+      freezing_waves.classList.add("effect_freezing_waves");
+      document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ は 咆哮 を はなった！<br>しかし なにも おこらなかった！</span>';  
+
+      var timer = setTimeout( function () {
+        freezing_waves.classList.remove("effect_freezing_waves");
+        isKeyBlock = false;
+      } , 4000 );
+
+    } , 400 );
+  }
+
+
+
+  /*
   var timer = setTimeout( function () {
     being_attacked.play();
     update();
@@ -525,7 +566,7 @@ function enemyAttack() {
     } , 400 );
 
   } , 500 );
-
+  */
 }
 
 function Experience_point() {
