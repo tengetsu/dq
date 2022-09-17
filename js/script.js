@@ -42,34 +42,46 @@ class Battle {
 */
 
 // 主人公ステータス
-var p1name = "キャラA";
-var p1level = 99;
-var p1hp = 999;
-var p1maxhp = 999;
-var p1atc = 255;
-var p1def = 255;
-var p1spd = 255;
-var once_guard = 0;
+// var p1name = "キャラA";
+// var p1level = 99;
+// var p1hp = 999;
+// var p1maxhp = 999;
+// var p1atc = 255;
+// var p1def = 255;
+// var p1spd = 255;
+// var once_guard = 0;
+
+// 魔法使いステータス
+// var p2name = "キャラB";
+// var p2atc = 1;
 
 //構造体（オブジェクト）でプレイヤーステータスを管理
 var player1 = {
   name: "キャラA",
-  level: 5,
-  hp : 50,
-  maxhp: 50,
-  atc: 5,
-  def: 3,
-  spd: 4,
+  level: 99,
+  hp : 999,
+  maxhp: 999,
+  atc: 255,
+  def: 255,
+  spd: 255,
   once_guard: 0,
 }
 
+var player2 = {
+  name: "キャラB",
+  level: 99,
+  hp : 999,
+  maxhp: 50,
+  atc: 255,
+  def: 255,
+  spd: 255,
+  once_guard: 0,
+}
 
 var A = 0;
 var heal_hp = 500;
 
-// 魔法使いステータス
-var p2name = "キャラB";
-var p2atc = 1;
+
 
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
@@ -201,10 +213,10 @@ document.onkeydown = function(keyEvent) {
       levelupMessageCount = 1;
 
       var timer = setTimeout( function () {
-        p1level += 1;
+        player1.level += 1;
         update();
         levelup.play();
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は レベル'+p1level+'に あがった！</span>';
+        document.getElementById("message").innerHTML = '<span class="message">キャラA は レベル'+player1.level+'に あがった！</span>';
       } , 1000 );
 
     } else {
@@ -272,9 +284,9 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       isKeyBlock=true;
       once_guard=8;
       cursor.play();
-      document.getElementById("message").innerHTML = '<span class="message">キャラA は みをまもっている！</span>';
+      document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は みをまもっている！</span>';
       var timer = setTimeout( function () {
-        playerAttack(p2name);
+        playerAttack(player2);
       } , 900 );
       break;
 
@@ -291,13 +303,13 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
       var display_heal_value = heal_hp; //表示用回復値（最大値を超えた範囲の回復量は含めない）
 
-      p1hp += heal_hp;
+      player1.hp += heal_hp;
 
       // if( p1hp === p1maxhp ) {
       //   p1hp += 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
       //   document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 0 かいふくした</span>';
 
-      if( p1hp > p1maxhp ) {
+      if( player1.hp > player1.maxhp ) {
 
         //なかなかすごいコードだが、こんなに複雑にしないでもできそう
         //というか、なぜこれでなぜ正常に動いているのだ・・・？ 魔術的だ
@@ -308,8 +320,8 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         // p1hp += A
 
         //こっちのほうがいいのではないか
-        display_heal_value = heal_hp - (p1hp - p1maxhp); //表示用回復値から、最大値はみ出た分をひく
-        p1hp = p1maxhp;
+        display_heal_value = heal_hp - (player1.hp - player1.maxhp); //表示用回復値から、最大値はみ出た分をひく
+        player1.hp = player1.maxhp;
 
         document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた 回復薬グレート をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
 
@@ -318,7 +330,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           update();
 
           var timer = setTimeout( function () {
-            playerAttack(p2name);
+            playerAttack(player2);
   
             /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
             var timer = setTimeout( function () {
@@ -330,7 +342,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   
         } , 500 );
 
-      } else if(p1hp < p1maxhp ) {
+      } else if(player1.hp < player1.maxhp ) {
 
         document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた 回復薬グレート をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
 
@@ -339,7 +351,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           update();
 
           var timer = setTimeout( function () {
-            playerAttack(p2name);
+            playerAttack(player2);
   
             /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
             var timer = setTimeout( function () {
@@ -434,9 +446,10 @@ function playerAttack(player) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
       enemy_div.classList.remove("enemy_receive_damage");
       shadow.classList.remove("enemy_receive_damage");
-      if (player.name == p1name) {
+
+      if (player.name == player1.name) {
         playerAttack(player2);
-      }else if (player.name == p2name) {
+      }else if (player.name == player2.name) {
         enemyAttack();
       }
 
@@ -457,20 +470,20 @@ function enemyAttack() {
   var damage = enemyATC;
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   damage += rand_value;
-  damage -= p1def;
-  damage -= once_guard;
+  damage -= player1.def;
+  damage -= player1.once_guard;
   if( damage < 0 ) {
     damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
   }
-  p1hp -= damage;
+  player1.hp -= damage;
     
   document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
 
   var timer = setTimeout( function () {
     being_attacked.play();
     update();
-    if( p1hp <= 0) {
-      p1hp = 0;
+    if( player1.hp <= 0) {
+      player1.hp = 0;
       update();
     }
     friend_div.classList.add("shake");
@@ -479,7 +492,7 @@ function enemyAttack() {
       friend_div.classList.remove("shake");
 
       // 死亡チェック
-      if (p1hp <= 0) {
+      if (player1.hp <= 0) {
         dq4_btl_fc.pause();
         Malzeno_Battle_Theme.pause();
         gameover.play();
@@ -511,19 +524,19 @@ function Experience_point() {
 
 // 戦闘画面の見た目担当
 function update() {
-  document.getElementById("p1level").innerHTML = 'レベル:' + p1level;
-  document.getElementById("p1hp").innerHTML = 'HP:' + p1hp;
+  document.getElementById("p1level").innerHTML = 'レベル:' + player1.level;
+  document.getElementById("p1hp").innerHTML = 'HP:' + player1.hp;
   document.getElementById("enemyHP").innerHTML = 'HP:' + enemyHP;
 
   // HP減少時の画面の色替え
-  if( p1hp <= 0 ) {
+  if( player1.hp <= 0 ) {
     // 死亡時
     document.getElementById("friend-div").className = "battle_window_red";
     document.getElementById("character1").className = "character1_red";
     document.getElementById("character2").className = "character2_red";
     document.getElementById("battle_menu").className = "battle_menu_red";
     document.getElementById("message").className = "message_window_red";
-  } else if ( p1hp <= p1maxhp / 2 ) {
+  } else if ( player1.hp <= player1.maxhp / 2 ) {
     // ピンチ時
     document.getElementById("friend-div").className = "battle_window_yellow";
     document.getElementById("character1").className = "character1_yellow";
