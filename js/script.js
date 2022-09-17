@@ -51,6 +51,19 @@ var p1def = 255;
 var p1spd = 255;
 var once_guard = 0;
 
+//構造体（オブジェクト）でプレイヤーステータスを管理
+var player1 = {
+  name: "キャラA",
+  level: 5,
+  hp : 50,
+  maxhp: 50,
+  atc: 5,
+  def: 3,
+  spd: 4,
+  once_guard: 0,
+}
+
+
 var A = 0;
 var heal_hp = 500;
 
@@ -251,7 +264,8 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
     cursor.play();
-    playerAttack(p1name);
+    // playerAttack(p1name);
+    playerAttack(player1);
     break;
 
     case 2: // ぼうぎょ
@@ -356,7 +370,9 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   }
 }
 
-function playerAttack(playerName) {
+//攻撃するプレイヤーobjectを引数で受け取り、そのplayerの攻撃処理を行う
+// function playerAttack(playerName) {
+function playerAttack(player) {
 
   isKeyBlock=true;
   //以下のように、同SEを再生中にさらに再生しようとして失敗するのを防ぐには、pause+再生時間リセット > play()とする必要がある。
@@ -368,19 +384,28 @@ function playerAttack(playerName) {
   var shadow = document.getElementById('shadow');
   var enemy_death = document.getElementById('enemy_div');
 
-  if (playerName == p1name) {
-    var damage = p1atc;
-    once_guard = 0; //once_guardはターン開始時（現状は攻撃時で処理）に解除
-    console.log("キャラAの攻撃ターン");
-  } else {
-    var damage = p2atc;
-    console.log("キャラBの攻撃ターン");
-  }
+  // if (player == p1name) {
+  //   var damage = p1atc;
+  //   once_guard = 0; //once_guardはターン開始時（現状は攻撃時で処理）に解除
+  //   console.log("キャラAの攻撃ターン");
+  // } else {
+  //   var damage = p2atc;
+  //   console.log("キャラBの攻撃ターン");
+  // }
+
+  player.once_guard = 0; //once_guardはターン開始時（現状は攻撃時で処理）に解除
+  console.log("キャラ"+player.name+"の攻撃ターン");
+
+  // var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
+  // damage += rand_value;
+  // enemyHP = enemyHP - damage;
+  // document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
 
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
+  var damage = player.atc;
   damage += rand_value;
   enemyHP = enemyHP - damage;
-  document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
+  document.getElementById("message").innerHTML = '<span class="message">'+player.name+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
 
@@ -409,9 +434,9 @@ function playerAttack(playerName) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
       enemy_div.classList.remove("enemy_receive_damage");
       shadow.classList.remove("enemy_receive_damage");
-      if (playerName == p1name) {
-        playerAttack(p2name);
-      }else if (playerName == p2name) {
+      if (player.name == p1name) {
+        playerAttack(player2);
+      }else if (player.name == p2name) {
         enemyAttack();
       }
 
