@@ -467,6 +467,15 @@ function enemyAttack() {
   enemy_attack.play();
   var friend_div = document.getElementById("friend-div");
   var freezing_waves = document.getElementById('effect');
+
+  var enemyAttackNo = Math.floor(Math.random() * 1) //０か１のランダム
+  if( enemyAttackNo==0 ){
+    //通常攻撃
+  }else{
+    //別の攻撃
+
+  }
+
   var damage = enemyATC;
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   damage += rand_value;
