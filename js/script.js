@@ -89,7 +89,7 @@ var enemy1 = {
   mp: 20,
   atc: 5,
   type: "nomal",
-  imagepass: "./img/monster/slime.png",
+  imagepath: "./img/monster/slime.png",
 }
 
 var enemy2 = {
@@ -99,7 +99,7 @@ var enemy2 = {
   mp: 20,
   atc: 500,
   type: "boss",
-  imagepass: "./img/monster/Malzeno.png",
+  imagepath: "./img/monster/Malzeno.png",
 }
 
 var enemy = enemy2;
@@ -679,11 +679,23 @@ function battle_init() {
   // }
   document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
 
-  var elem = document.getElementById("enemy_image");
-    elem.src = enemy.imagepass;
-    elem.classList.add("enemy-image");
+  if (enemy == enemy1) {
 
-  update();
+    var elem = document.getElementById("enemy_image");
+      elem.src = enemy.imagepath;
+      elem.classList.add("enemy-image");
+      elem.classList.remove("enemy-image2");
+    update();
+
+  } else {
+
+    var elem = document.getElementById("enemy_image2");
+      elem.src = enemy.imagepath;
+      elem.classList.add("enemy-image2");
+      elem.classList.remove("enemy-image");
+    update();
+
+  }
 
 }
 
