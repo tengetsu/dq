@@ -232,10 +232,12 @@ span.message2 {
   animation: bound 1.0s infinite;
 }
 
+/*
 .enemy-image img {
   width: 100px;
   height: 100px;
 }
+*/
 
 @keyframes bound { /* スライムを跳ねさせる */
   0%,100% { /* 開始と終わり */
@@ -303,11 +305,12 @@ span.message2 {
   width: 100%;
   height: 30%;
   position: absolute;
-  top: 15%;
+  top: 10%;
   left: 0;
   right: 0;
   bottom: 0;
 }
+
 
 .enemy-image2 img {
   width: 400px;
@@ -315,6 +318,7 @@ span.message2 {
   opacity: 1;
   z-index: 2;
 }
+
 
 .battle_field2 {
   /* border: 1px solid red; */

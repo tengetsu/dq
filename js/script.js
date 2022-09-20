@@ -85,7 +85,7 @@ var player2 = {
 var enemy1 = {
   // スライムのステータス定義
   name: "スライム",
-  hp: 50,
+  hp: 5000,
   mp: 20,
   atc: 5,
   type: "nomal",
@@ -102,7 +102,7 @@ var enemy2 = {
   imagepath: "./img/monster/Malzeno.png",
 }
 
-var enemy = enemy2;
+var enemy = enemy1;
 
 var heal_hp = 500;
 
