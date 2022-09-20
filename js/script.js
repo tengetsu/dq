@@ -7,6 +7,7 @@ var levelupMessageCount = 0;
 var screenModeMenu = "menu";
 var screenModeBattle = "battle";
 var screenMode = screenModeMenu;
+
 /*
 // 戦闘用キャラクターデータ
 class BattleCharacter {
@@ -155,6 +156,7 @@ menu_init();
 
 // キーカーソルの表示/非表示
 function activemenu(id) { // activemenu=関数名 id＝第一引数
+
   if (menu_id == id) {    // menu_id を 引数idとする
     // 前回と同じメニューが選ばれた場合はコマンドを実行
     doCommand(id)
@@ -204,8 +206,6 @@ document.onkeydown = function(keyEvent) {
       console.log("↓が入力されました。")
     }
 
-
-
     if( screenMode==screenModeBattle ){
 
       //バトル画面用キー処理
@@ -249,7 +249,7 @@ document.onkeydown = function(keyEvent) {
           doCommand(menu_id);
         }
       }
-  }else{
+  } else {
 
     //メニュー画面用キー処理
     if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
@@ -416,6 +416,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       var timer = setTimeout( function () {
         enemyAttack();
       } , 1300 );
+      menu_init();
       break;
 
     default:
@@ -585,8 +586,6 @@ function enemyAttack() {
     } , 400 );
   }
 
-
-
   /*
   var timer = setTimeout( function () {
     being_attacked.play();
@@ -626,6 +625,7 @@ function enemyAttack() {
 
   } , 500 );
   */
+
 }
 
 function Experience_point() {
@@ -665,8 +665,10 @@ function update() {
 
 function battle_init() {
     screenMode = screenModeBattle;
+        // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
     document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
-    // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を非表示
+
+
     document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
     // document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
   
@@ -682,13 +684,14 @@ function battle_init() {
     elem.classList.add("enemy-image");
 
   update();
+
 }
 
 function menu_init(){
   screenMode = screenModeMenu;
+  document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
   // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
-  document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を非表示
+
   // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
   document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
-
 }
