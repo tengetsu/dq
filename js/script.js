@@ -431,10 +431,11 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 1: //メニューの１番めのコマンド
-    battle_init();
+    battle_init(enemy1);
     console.log("メニュー１番め押下");
     break;
     case 2: //メニューの2番めのコマンド
+    battle_init(enemy2);
     console.log("メニュー２番め押下");
     break;
     case 3: //メニューの3番めのコマンド
@@ -663,9 +664,13 @@ function update() {
 
 }
 
-function battle_init() {
+//バトル初期化関数。encountEnemyを受け取って、対戦中のenemyにセットしてからバトル開始する。
+function battle_init( encountEnemy ) {
     screenMode = screenModeBattle;
-        // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
+
+    enemy = encountEnemy;
+
+    // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
     document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
 
 
