@@ -83,6 +83,7 @@ span.message2 {
   -webkit-animation: typing2 1.5s;
 }
 
+
 .container2 {
   /* border: 2px solid red; */
   background: #000;
@@ -161,7 +162,7 @@ span.message2 {
 }
 
 .effect_freezing_waves {
-  /* border: 1px solid yellow; */
+  border: 1px solid yellow;
   background-image: url(../img/effect/freezing_waves.gif);
   margin: auto;
   background-size: cover;
@@ -225,36 +226,17 @@ span.message2 {
   height: 30%;
   position: absolute;
   top: 50%;
-  /* left: 0;
+  left: 0;
   right: 0;
-  bottom: 0; */
+  bottom: 0;
   animation: bound 1.0s infinite;
 }
 
-.enemy-image-size {
-  /* border: 1px solid yellow; */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+.enemy-image img {
   width: 100px;
   height: 100px;
-  position: absolute;
 }
-
-.enemy-image2-size {
-  /* border: 1px solid yellow; */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  height: 300px;
-  position: absolute;
-}
-
-/* .enemy-image img {
-  width: 100px;
-  height: 100px;
-} */
 
 
 @keyframes bound { /* スライムを跳ねさせる */
@@ -316,8 +298,8 @@ span.message2 {
   }
 }
 
-/* .enemy-image2 {
-  border: 1px solid yellow;
+.enemy-image2 {
+  /* border: 1px solid yellow; */
   margin: 0 auto;
   text-align: center;
   width: 100%;
@@ -327,19 +309,18 @@ span.message2 {
   left: 0;
   right: 0;
   bottom: 0;
-} */
+}
 
-/* .enemy-image2 img {
+
+.enemy-image2 img {
   width: 400px;
   height: 300px;
   opacity: 1;
   z-index: 2;
-} */
+}
 
 
-
-
-.battle_field {
+.battle_field2 {
   /* border: 1px solid red; */
   background: url(../img/background/forest.png);
   width: 100%;
@@ -347,7 +328,7 @@ span.message2 {
   overflow:hidden;
 }
 
-.battle_field2 {
+.battle_field {
   /* border: 1px solid red; */
   background: url(../img/background/castle_ruins.jpg);
   background-size: cover;
