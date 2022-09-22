@@ -712,23 +712,23 @@ function battle_init( encountEnemy ) {
 
   document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
 
-    // if (enemy == enemy1) {
+    if (enemy == enemy1) {
 
-    //   var elem = document.getElementById("enemy_image");
-    //     elem.src = enemy.imagepath;
+      var elem = document.getElementById("enemy_image");
+        elem.src = enemy.imagepath;
     //     elem.classList.add("enemy-image");
     //     elem.classList.remove("enemy-image2");
     //   update();
 
-    // } else {
+    } else {
 
-    //   var elem = document.getElementById("enemy_image2");
-    //     elem.src = enemy.imagepath;
+      var elem = document.getElementById("enemy_image");
+        elem.src = enemy.imagepath;
     //     elem.classList.add("enemy-image2");
     //     elem.classList.remove("enemy-image");
     //   update();
 
-    // }
+    }
 
 }
 
