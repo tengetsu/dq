@@ -88,7 +88,7 @@ var enemy1 = {
   hp: 5000,
   mp: 20,
   atc: 5,
-  type: "nomal",
+  type: "normal",
   imagepath: "./img/monster/slime.png",
 }
 
@@ -265,7 +265,7 @@ document.onkeydown = function(keyEvent) {
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
 
-  if (enemy.type == "nomal") {
+  if (enemy.type == "normal") {
     dq4_btl_fc.play();
   } else {
     Malzeno_Battle_Theme.play();
@@ -660,7 +660,7 @@ function update() {
     document.getElementById("character2").className = "character2";
     document.getElementById("battle_menu").className = "battle_menu";
     document.getElementById("message").className = "message_window";
-  } 
+  }
 
 }
 
@@ -673,34 +673,34 @@ function battle_init( encountEnemy ) {
     // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
     document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
 
-
     document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
     // document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
-  
+
   // if (enemy.type == "nomal") {
   //   dq4_btl_fc.play();
   // } else {
   //   Malzeno_Battle_Theme.play();
   // }
+
   document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
 
-  if (enemy == enemy1) {
+  // if (enemy == enemy1) {
 
-    var elem = document.getElementById("enemy_image");
-      elem.src = enemy.imagepath;
-      elem.classList.add("enemy-image");
-      elem.classList.remove("enemy-image2");
-    update();
+  //   var elem = document.getElementById("enemy_image");
+  //     elem.src = enemy.imagepath;
+  //     elem.classList.add("enemy-image");
+  //     elem.classList.remove("enemy-image2");
+  //   update();
 
-  } else {
+  // } else {
 
-    var elem = document.getElementById("enemy_image2");
-      elem.src = enemy.imagepath;
-      elem.classList.add("enemy-image2");
-      elem.classList.remove("enemy-image");
-    update();
+  //   var elem = document.getElementById("enemy_image2");
+  //     elem.src = enemy.imagepath;
+  //     elem.classList.add("enemy-image2");
+  //     elem.classList.remove("enemy-image");
+  //   update();
 
-  }
+  // }
 
 }
 

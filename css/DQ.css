@@ -232,12 +232,12 @@ span.message2 {
   animation: bound 1.0s infinite;
 }
 
-/*
+
 .enemy-image img {
   width: 100px;
   height: 100px;
 }
-*/
+
 
 @keyframes bound { /* スライムを跳ねさせる */
   0%,100% { /* 開始と終わり */
