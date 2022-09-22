@@ -63,7 +63,8 @@ class Battle {
 var player1 = {
   name: "キャラA",
   level: 99,
-  hp : 999,
+  hp: 999,
+  mp: 999,
   maxhp: 999,
   atc: 255,
   def: 255,
@@ -74,7 +75,8 @@ var player1 = {
 var player2 = {
   name: "キャラB",
   level: 99,
-  hp : 999,
+  hp: 999,
+  mp: 999,
   maxhp: 50,
   atc: 255,
   def: 255,
@@ -85,9 +87,11 @@ var player2 = {
 var enemy1 = {
   // スライムのステータス定義
   name: "スライム",
+  level: 99,
   hp: 5000,
   mp: 20,
-  atc: 5,
+  atc: 700,
+  skill: "いてつくはどう",
   type: "normal",
   imagepath: "./img/monster/slime.png",
 }
@@ -95,9 +99,11 @@ var enemy1 = {
 var enemy2 = {
   // メルゼナのステータス定義
   name: "爵銀龍メルゼナ",
+  level: 100,
   hp: 28500,
   mp: 20,
   atc: 500,
+  skill: "咆哮",
   type: "boss",
   imagepath: "./img/monster/Malzeno.png",
 }
@@ -242,7 +248,7 @@ document.onkeydown = function(keyEvent) {
             player1.level += 1;
             update();
             levelup.play();
-            document.getElementById("message").innerHTML = '<span class="message">キャラA は レベル'+player1.level+'に あがった！</span>';
+            document.getElementById("message").innerHTML = '<span class="message">'+player.name+' は レベル'+player.level+'に あがった！</span>';
           } , 1000 );
 
         } else {
@@ -364,7 +370,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         display_heal_value = heal_hp - (player1.hp - player1.maxhp); //表示用回復値から、最大値はみ出た分をひく
         player1.hp = player1.maxhp;
 
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた 回復薬グレート をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
+        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた 回復薬グレート をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
@@ -385,7 +391,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
       } else if(player1.hp < player1.maxhp ) {
 
-        document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた 回復薬グレート をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
+        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた 回復薬グレート をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
@@ -412,7 +418,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       isKeyBlock=true;
       cursor.play();
       flee.play();
-      document.getElementById("message").innerHTML = '<span class="message">キャラA は まわりこまれてしまった！</span>';
+      document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は まわりこまれてしまった！</span>';
       var timer = setTimeout( function () {
         enemyAttack();
       } , 1300 );
@@ -432,12 +438,16 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     case 1: //メニューの１番めのコマンド
     battle_init(enemy1);
+    update();
     console.log("メニュー１番め押下");
     break;
+
     case 2: //メニューの2番めのコマンド
     battle_init(enemy2);
+    update();
     console.log("メニュー２番め押下");
     break;
+
     case 3: //メニューの3番めのコマンド
     console.log("メニュー３番め押下");
     break;
@@ -479,7 +489,7 @@ function playerAttack(player) {
   var damage = player.atc;
   damage += rand_value;
   enemy.hp = enemy.hp - damage;
-  document.getElementById("message").innerHTML = '<span class="message">'+player.name+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
+  document.getElementById("message").innerHTML = '<span class="message">'+player.name+' の こうげき！<br>'+enemy.name+' に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
 
@@ -499,7 +509,7 @@ function playerAttack(player) {
       win.play();
       enemy_death.style.display = 'none';
       shadow.classList.remove("shadow");
-      document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ を たおした！</span>';
+      document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' を たおした！</span>';
       return;
     }
 
@@ -542,7 +552,7 @@ function enemyAttack() {
     }
     player1.hp -= damage;
     
-    document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ の こうげき<br>キャラA に '+damage+' のダメージ！</span>';
+    document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' の こうげき<br>'+player1.name+' に '+damage+' のダメージ！</span>';
 
     var timer = setTimeout( function () {
       being_attacked.play();
@@ -561,7 +571,7 @@ function enemyAttack() {
           dq4_btl_fc.pause();
           Malzeno_Battle_Theme.pause();
           gameover.play();
-          document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ に キャラA は たおされてしまった！</span>';
+          document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
           return;
         }
   
@@ -574,10 +584,15 @@ function enemyAttack() {
   }else{
 
     var timer = setTimeout( function () {
-      Melzeno_roar.play();
-      // freezing_waves_m.play();
+
+      if ( enemy == enemy1) {
+        freezing_waves_m.play();
+      } else {
+        Melzeno_roar.play();
+      }
+
       freezing_waves.classList.add("effect_freezing_waves");
-      document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ は 咆哮 を はなった！<br>しかし なにも おこらなかった！</span>';  
+      document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は '+enemy.skill+' を はなった！<br>しかし なにも おこらなかった！</span>';  
 
       var timer = setTimeout( function () {
         freezing_waves.classList.remove("effect_freezing_waves");
@@ -634,9 +649,22 @@ function Experience_point() {
 
 // 戦闘画面の見た目担当
 function update() {
+  //キャラＡ
+  document.getElementById("p1name").innerHTML = player1.name;
   document.getElementById("p1level").innerHTML = 'レベル:' + player1.level;
   document.getElementById("p1hp").innerHTML = 'HP:' + player1.hp;
+  document.getElementById("p1mp").innerHTML = 'MP:' + player1.mp;
+
+  //キャラＢ
+  document.getElementById("p2name").innerHTML = player2.name;
+  document.getElementById("p2level").innerHTML = 'レベル:' + player2.level;
+  document.getElementById("p2hp").innerHTML = 'HP:' + player2.hp;
+  document.getElementById("p2mp").innerHTML = 'MP:' + player2.mp;
+
+  //敵キャラ
+  document.getElementById("enemyLevel").innerHTML = 'レベル:' + enemy.level;
   document.getElementById("enemyHP").innerHTML = 'HP:' + enemy.hp;
+  document.getElementById("enemyMP").innerHTML = 'MP:' + enemy.mp;
 
   // HP減少時の画面の色替え
   if( player1.hp <= 0 ) {
@@ -666,15 +694,15 @@ function update() {
 
 //バトル初期化関数。encountEnemyを受け取って、対戦中のenemyにセットしてからバトル開始する。
 function battle_init( encountEnemy ) {
-    screenMode = screenModeBattle;
+  screenMode = screenModeBattle;
 
-    enemy = encountEnemy;
+  enemy = encountEnemy;
 
-    // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
-    document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
+  // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
+  document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
 
-    document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
-    // document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
+  document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
+  // document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
 
   // if (enemy.type == "nomal") {
   //   dq4_btl_fc.play();
@@ -684,23 +712,23 @@ function battle_init( encountEnemy ) {
 
   document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
 
-  // if (enemy == enemy1) {
+    // if (enemy == enemy1) {
 
-  //   var elem = document.getElementById("enemy_image");
-  //     elem.src = enemy.imagepath;
-  //     elem.classList.add("enemy-image");
-  //     elem.classList.remove("enemy-image2");
-  //   update();
+    //   var elem = document.getElementById("enemy_image");
+    //     elem.src = enemy.imagepath;
+    //     elem.classList.add("enemy-image");
+    //     elem.classList.remove("enemy-image2");
+    //   update();
 
-  // } else {
+    // } else {
 
-  //   var elem = document.getElementById("enemy_image2");
-  //     elem.src = enemy.imagepath;
-  //     elem.classList.add("enemy-image2");
-  //     elem.classList.remove("enemy-image");
-  //   update();
+    //   var elem = document.getElementById("enemy_image2");
+    //     elem.src = enemy.imagepath;
+    //     elem.classList.add("enemy-image2");
+    //     elem.classList.remove("enemy-image");
+    //   update();
 
-  // }
+    // }
 
 }
 
