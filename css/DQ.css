@@ -232,12 +232,25 @@ span.message2 {
   animation: bound 1.0s infinite;
 }
 
-
-.enemy-image img {
+.enemy-image-size {
+   /* border: 1px solid yellow; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
+  position: absolute;
 }
 
+.enemy-image2-size {
+  /* border: 1px solid yellow; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 300px;
+  position: absolute;
+}
 
 @keyframes bound { /* スライムを跳ねさせる */
   0%,100% { /* 開始と終わり */
@@ -298,8 +311,9 @@ span.message2 {
   }
 }
 
+/*
 .enemy-image2 {
-  /* border: 1px solid yellow; */
+  border: 1px solid yellow;
   margin: 0 auto;
   text-align: center;
   width: 100%;
@@ -310,17 +324,25 @@ span.message2 {
   right: 0;
   bottom: 0;
 }
+*/
 
+/*
+.enemy-image img {
+  width: 100px;
+  height: 100px;
+}
+*/
 
+/*
 .enemy-image2 img {
   width: 400px;
   height: 300px;
   opacity: 1;
   z-index: 2;
 }
+*/
 
-
-.battle_field2 {
+.battle_field {
   /* border: 1px solid red; */
   background: url(../img/background/forest.png);
   width: 100%;
@@ -328,7 +350,7 @@ span.message2 {
   overflow:hidden;
 }
 
-.battle_field {
+.battle_field2 {
   /* border: 1px solid red; */
   background: url(../img/background/castle_ruins.jpg);
   background-size: cover;

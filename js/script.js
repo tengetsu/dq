@@ -78,7 +78,7 @@ var player2 = {
   hp: 999,
   mp: 999,
   maxhp: 50,
-  atc: 255,
+  atc: 5,
   def: 255,
   spd: 255,
   once_guard: 0,
@@ -88,7 +88,7 @@ var enemy1 = {
   // スライムのステータス定義
   name: "スライム",
   level: 99,
-  hp: 5000,
+  hp: 500,
   mp: 20,
   atc: 700,
   skill: "いてつくはどう",
@@ -241,14 +241,14 @@ document.onkeydown = function(keyEvent) {
 
         }else if(enemy.hp <= 0) {
           cursor.play();
-          document.getElementById("message").innerHTML = '<span class="message">キャラA は けいけんち 10ポイント かくとくした！</span>';
+          document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は けいけんち 10ポイント かくとくした！</span>';
           levelupMessageCount = 1;
 
           var timer = setTimeout( function () {
             player1.level += 1;
             update();
             levelup.play();
-            document.getElementById("message").innerHTML = '<span class="message">'+player.name+' は レベル'+player.level+'に あがった！</span>';
+            document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は レベル'+player1.level+'に あがった！</span>';
           } , 1000 );
 
         } else {
@@ -714,25 +714,32 @@ function battle_init( encountEnemy ) {
 
     if (enemy == enemy1) {
 
-      var elem = document.getElementById("enemy_image");
-        elem.src = enemy.imagepath;
-    //     elem.classList.add("enemy-image");
-    //     elem.classList.remove("enemy-image2");
-    //   update();
+      var elem_div = document.getElementById("enemy_div");
+        elem_div.classList.add("enemy-image");
+
+      var elem_image = document.getElementById("elem_image");
+        elem_image.src = enemy.imagepath;
+        elem_image.classList.add("enemy-image-size");
+
+      var battle_field = document.getElementById("battle_field");
+        battle_field.classList.add("battle_field");
 
     } else {
 
-      var elem = document.getElementById("enemy_image");
-        elem.src = enemy.imagepath;
-    //     elem.classList.add("enemy-image2");
-    //     elem.classList.remove("enemy-image");
-    //   update();
+      var elem_div = document.getElementById("enemy_div");
+        elem_div.classList.remove("enemy-image");
 
+      var elem_image = document.getElementById("elem_image");
+        elem_image.src = enemy.imagepath;
+        elem_image.classList.add("enemy-image2-size");
+
+      var battle_field = document.getElementById("battle_field");
+        battle_field.classList.add("battle_field2");
     }
 
 }
 
-function menu_init(){
+function menu_init() {
   screenMode = screenModeMenu;
   document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
   // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
