@@ -202,7 +202,7 @@ document.onkeydown = function(keyEvent) {
       //   activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
       // }
       selectMenuId--;
-      if( selectMenuId<0 ) selectMenuId = 4;
+      if( selectMenuId < 0 ) selectMenuId = 4;
       update();
       console.log("↑が入力されました。")
     }
@@ -220,7 +220,7 @@ document.onkeydown = function(keyEvent) {
       //   activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
       // }
       selectMenuId++;
-      if( selectMenuId>=4 ) selectMenuId = 0;
+      if( selectMenuId >= 4 ) selectMenuId = 0;
       update();
       console.log("↓が入力されました。")
     }
@@ -273,7 +273,7 @@ document.onkeydown = function(keyEvent) {
 
     //メニュー画面用キー処理
     if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-      doCommandMenu(menu_id);
+      doCommandMenu(selectMenuId);
     }
 
   }
@@ -755,6 +755,7 @@ function update() {
 function battle_init( encountEnemy ) {
   screenMode = screenModeBattle;
 
+
   enemy = encountEnemy;
 
   // document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
@@ -805,4 +806,5 @@ function menu_init() {
 
   // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
   document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
+  update();
 }
