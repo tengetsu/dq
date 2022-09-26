@@ -3,6 +3,7 @@ var menu_id = 0;  // 定義
 var damageElement = document.getElementById("damage");
 var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
 var levelupMessageCount = 0;
+var selectMenuId = 0; //メニュー選択位置
 
 var screenModeMenu = "menu";
 var screenModeBattle = "battle";
@@ -195,11 +196,14 @@ document.onkeydown = function(keyEvent) {
 
     if (keyEvent.keyCode==38) { //38はキーボードの上キー
       document.getElementById("game_control").value = "↑";
-      if (menu_id <= 1) { // menu_id が 1 以下になったら、activemenu(4)「にげる」へ
-        activemenu(4);
-      } else {
-        activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
-      }
+      // if (menu_id <= 1) { // menu_id が 1 以下になったら、activemenu(4)「にげる」へ
+      //   activemenu(4);
+      // } else {
+      //   activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
+      // }
+      selectMenuId--;
+      if( selectMenuId<0 ) selectMenuId = 4;
+      update();
       console.log("↑が入力されました。")
     }
 
@@ -210,11 +214,14 @@ document.onkeydown = function(keyEvent) {
 
     if (keyEvent.keyCode==40) { //40はキーボードの下キー
       document.getElementById("game_control").value = "↓";
-      if (menu_id >= 4) { //menu_id が 4以上になったら、activemenu(1)「たたかう」へ
-        activemenu(1);
-      } else {
-        activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
-      }
+      // if (menu_id >= 4) { //menu_id が 4以上になったら、activemenu(1)「たたかう」へ
+      //   activemenu(1);
+      // } else {
+      //   activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
+      // }
+      selectMenuId++;
+      if( selectMenuId>=4 ) selectMenuId = 0;
+      update();
       console.log("↓が入力されました。")
     }
 
@@ -442,27 +449,27 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
-    case 1: //メニューの１番めのコマンド
+    case 0: //メニューの１番めのコマンド
     battle_init(enemy1);
     update();
     console.log("メニュー１番め押下");
     break;
 
-    case 2: //メニューの2番めのコマンド
+    case 1: //メニューの2番めのコマンド
     battle_init(enemy2);
     update();
     console.log("メニュー２番め押下");
     break;
 
-    case 3: //メニューの3番めのコマンド
+    case 2: //メニューの3番めのコマンド
     console.log("メニュー３番め押下");
     break;
 
-    case 4: //メニューの3番めのコマンド
+    case 3: //メニューの3番めのコマンド
     console.log("メニュー４番め押下");
     break;
 
-    case 5: //メニューの3番めのコマンド
+    case 4: //メニューの3番めのコマンド
     console.log("メニュー５番め押下");
     break;
 
@@ -704,6 +711,43 @@ function update() {
     document.getElementById("battle_menu").className = "battle_menu";
     document.getElementById("message").className = "message_window";
   }
+
+
+  //メニューカーソル表示
+  if(screenMode==screenModeBattle ){
+    var menu_element = document.getElementById('battle_menu' );
+  }else{
+    var menu_element = document.getElementById('reception' );
+  }
+  var menu_child_div_array = menu_element.children;
+
+  for( var i=0; i<menu_child_div_array.length; i++){
+    if( i == selectMenuId)
+      menu_child_div_array[i].className = 'menu menu-active';//カーソル表示
+    else
+      menu_child_div_array[i].className = 'menu'; //カーソル非表示
+  }
+
+
+  // if (menu_id == id) {    // menu_id を 引数idとする
+  //   // 前回と同じメニューが選ばれた場合はコマンドを実行
+  //   doCommand(id)
+  // } else {
+  //   if (menu_id != 0) { 
+  //     // 現在のメニューのカーソルを消す
+  //     document.getElementById('menu' + menu_id).className = 'menu'; // HTML側のclass=menuと連動
+  //   }
+  //   //今回選ばれたメニューにカーソルを表示
+  //   // document.getElementById('menu' + id).className = 'menu menu-active';
+  //   if(screenMode==screenModeBattle ){
+  //     var menu_element = document.getElementById('battle_menu' );
+  //     var menu_child_div_array = menu_element.children;
+      
+  //     menu_child_div_array[id].className = 'menu menu-active';
+  //   }
+  //   menu_id = id;
+  // }
+
 
 }
 
