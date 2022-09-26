@@ -1,6 +1,4 @@
 // ゲーム全体の定義
-var menu_id = 0;  // 定義
-var damageElement = document.getElementById("damage");
 var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
 var levelupMessageCount = 0;
 var selectMenuId = 0; //メニュー選択位置
@@ -161,29 +159,6 @@ freezing_waves.src = "img/effect/freezing_waves.gif";
 menu_init();
 // battle_init();
 
-// キーカーソルの表示/非表示
-function activemenu(id) { // activemenu=関数名 id＝第一引数
-
-  if (menu_id == id) {    // menu_id を 引数idとする
-    // 前回と同じメニューが選ばれた場合はコマンドを実行
-    doCommand(id)
-  } else {
-    if (menu_id != 0) { 
-      // 現在のメニューのカーソルを消す
-      document.getElementById('menu' + menu_id).className = 'menu'; // HTML側のclass=menuと連動
-    }
-    //今回選ばれたメニューにカーソルを表示
-    // document.getElementById('menu' + id).className = 'menu menu-active';
-    if(screenMode==screenModeBattle ){
-      var menu_element = document.getElementById('battle_menu' );
-      var menu_child_div_array = menu_element.children;
-      
-      menu_child_div_array[id].className = 'menu menu-active';
-    }
-    menu_id = id;
-  }
-}
-
 // キーボード操作
 document.onkeydown = function(keyEvent) {
 
@@ -196,11 +171,7 @@ document.onkeydown = function(keyEvent) {
 
     if (keyEvent.keyCode==38) { //38はキーボードの上キー
       document.getElementById("game_control").value = "↑";
-      // if (menu_id <= 1) { // menu_id が 1 以下になったら、activemenu(4)「にげる」へ
-      //   activemenu(4);
-      // } else {
-      //   activemenu(menu_id - 1); //menu_id が 4であれば「どうぐ」へ、3であれば「ぼうぎょ」へ、2であれば「たたかう」へ
-      // }
+
       selectMenuId--;
       if( selectMenuId < 0 ) selectMenuId = 4;
       update();
@@ -214,11 +185,7 @@ document.onkeydown = function(keyEvent) {
 
     if (keyEvent.keyCode==40) { //40はキーボードの下キー
       document.getElementById("game_control").value = "↓";
-      // if (menu_id >= 4) { //menu_id が 4以上になったら、activemenu(1)「たたかう」へ
-      //   activemenu(1);
-      // } else {
-      //   activemenu(menu_id + 1); //menu_id が 1であれば「ぼうぎょ」へ、2であれば「どうぐ」へ、3であれば「にげる」へ
-      // }
+
       selectMenuId++;
       if( selectMenuId >= 4 ) selectMenuId = 0;
       update();
@@ -265,7 +232,7 @@ document.onkeydown = function(keyEvent) {
           } , 1000 );
 
         } else {
-          doCommand(menu_id);
+          doCommand(selectMenuId);
         }
       }
 
@@ -294,53 +261,14 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
-    case 1: // たたかう
-    //   isKeyBlock=true;
-    //   cursor.play();
-    //   attack.play();
-    //   var enemy_div = document.getElementById("enemy_div");
-    //   var damage = p1atc;
-    //   var rand_value = Math.floor(Math.random() * 11); // ０〜１０のランダム
-    //   damage += rand_value;
-    //   enemyHP = enemyHP - damage;
-    //   document.getElementById("message").innerHTML = '<span class="message">キャラA の こうげき！<br>スライム に '+damage+' のダメージ！</span>';
+    case 0: // たたかう
 
-    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
-    //   var timer = setTimeout( function () {
-    //     console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 2");
-    //     update();
-    //     enemy_div.classList.add("enemy_receive_damage");
-    //     // 死亡チェック
-    //     if (enemyHP <= 0) {
-    //       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
-    //       dq4_btl_fc.pause();
-    //       win.play();
-    //       var enemy_death = document.getElementById('enemy_div');
-    //       enemy_death.style.display = 'none';
-    //       var shadow = document.getElementById('shadow');
-    //       shadow.classList.remove("shadow");
-    //       document.getElementById("message").innerHTML = '<span class="message">スライム を たおした！</span>';          
-    //       return;
-    //     }
-
-    //     //ダメージアニメ終了までのタイマーセット
-    //     var timer = setTimeout( function () {
-    //       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 5");
-    //       enemy_div.classList.remove("enemy_receive_damage");
-    //       enemyAttack();
-    //     } , 400 );
-  
-    //   } , 900 );
-
-    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 4");
-
-    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
     cursor.play();
-    // playerAttack(p1name);
+
     playerAttack(player1);
     break;
 
-    case 2: // ぼうぎょ
+    case 1: // ぼうぎょ
       isKeyBlock=true;
       once_guard=8;
       cursor.play();
@@ -350,36 +278,16 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       } , 900 );
       break;
 
-    case 3: // どうぐ
+    case 2: // どうぐ
       isKeyBlock=true;
       cursor.play();
-
-      // once_guard=8;
-      // damage -= once_guard;
-      // if( damage < 0 ) {
-      //   damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
-      // }
-      // p1hp -= damage;
 
       var display_heal_value = heal_hp; //表示用回復値（最大値を超えた範囲の回復量は含めない）
 
       player1.hp += heal_hp;
 
-      // if( p1hp === p1maxhp ) {
-      //   p1hp += 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
-      //   document.getElementById("message").innerHTML = '<span class="message">キャラA は もっていた やくそう をつかった！<br>HP が 0 かいふくした</span>';
-
       if( player1.hp > player1.maxhp ) {
 
-        //なかなかすごいコードだが、こんなに複雑にしないでもできそう
-        //というか、なぜこれでなぜ正常に動いているのだ・・・？ 魔術的だ
-        // p1maxhp += heal_hp;
-        // A = p1maxhp - p1hp
-        // p1maxhp -= heal_hp;
-        // p1hp -= heal_hp;
-        // p1hp += A
-
-        //こっちのほうがいいのではないか
         display_heal_value = heal_hp - (player1.hp - player1.maxhp); //表示用回復値から、最大値はみ出た分をひく
         player1.hp = player1.maxhp;
 
@@ -390,14 +298,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           update();
 
           var timer = setTimeout( function () {
-            playerAttack(player2);
-  
-            /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
-            var timer = setTimeout( function () {
-              enemyAttack();
-            } , 1300 );
-            */
-  
+            playerAttack(player2);  
           } , 500 );
   
         } , 500 );
@@ -412,13 +313,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
           var timer = setTimeout( function () {
             playerAttack(player2);
-  
-            /* playerAttack関数内で条件分岐してenemyAttackへの移行フラグを立てているため、削除
-            var timer = setTimeout( function () {
-              enemyAttack();
-            } , 1300 );
-            */
-  
+    
           } , 500 );
   
         } , 500 );
@@ -427,7 +322,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
       break;
 
-    case 4: // にげる
+    case 3: // にげる
       isKeyBlock=true;
       cursor.play();
       flee.play();
@@ -490,22 +385,8 @@ function playerAttack(player) {
   var shadow = document.getElementById('shadow');
   var enemy_death = document.getElementById('enemy_div');
 
-  // if (player == p1name) {
-  //   var damage = p1atc;
-  //   once_guard = 0; //once_guardはターン開始時（現状は攻撃時で処理）に解除
-  //   console.log("キャラAの攻撃ターン");
-  // } else {
-  //   var damage = p2atc;
-  //   console.log("キャラBの攻撃ターン");
-  // }
-
   player.once_guard = 0; //once_guardはターン開始時（現状は攻撃時で処理）に解除
   console.log("キャラ"+player.name+"の攻撃ターン");
-
-  // var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
-  // damage += rand_value;
-  // enemyHP = enemyHP - damage;
-  // document.getElementById("message").innerHTML = '<span class="message">'+playerName+' の こうげき！<br>爵銀龍メルゼナ に '+damage+' のダメージ！</span>';
 
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   var damage = player.atc;
@@ -623,47 +504,6 @@ function enemyAttack() {
 
     } , 400 );
   }
-
-  /*
-  var timer = setTimeout( function () {
-    being_attacked.play();
-    update();
-    if( player1.hp <= 0) {
-      player1.hp = 0;
-      update();
-    }
-    friend_div.classList.add("shake");
-
-    var timer = setTimeout( function () {
-      friend_div.classList.remove("shake");
-
-      // 死亡チェック
-      if (player1.hp <= 0) {
-        dq4_btl_fc.pause();
-        Malzeno_Battle_Theme.pause();
-        gameover.play();
-        document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ に キャラA は たおされてしまった！</span>';
-        return;
-      }
-
-      var timer = setTimeout( function () {
-        Melzeno_roar.play();
-        // freezing_waves_m.play();
-        freezing_waves.classList.add("effect_freezing_waves");
-        document.getElementById("message").innerHTML = '<span class="message">爵銀龍メルゼナ は 咆哮 を はなった！<br>しかし なにも おこらなかった！</span>';  
-
-        var timer = setTimeout( function () {
-          freezing_waves.classList.remove("effect_freezing_waves");
-          isKeyBlock = false;
-        } , 4000 );
-
-      } , 400 );
-
-    } , 400 );
-
-  } , 500 );
-  */
-
 }
 
 function Experience_point() {
@@ -727,34 +567,13 @@ function update() {
     else
       menu_child_div_array[i].className = 'menu'; //カーソル非表示
   }
-
-
-  // if (menu_id == id) {    // menu_id を 引数idとする
-  //   // 前回と同じメニューが選ばれた場合はコマンドを実行
-  //   doCommand(id)
-  // } else {
-  //   if (menu_id != 0) { 
-  //     // 現在のメニューのカーソルを消す
-  //     document.getElementById('menu' + menu_id).className = 'menu'; // HTML側のclass=menuと連動
-  //   }
-  //   //今回選ばれたメニューにカーソルを表示
-  //   // document.getElementById('menu' + id).className = 'menu menu-active';
-  //   if(screenMode==screenModeBattle ){
-  //     var menu_element = document.getElementById('battle_menu' );
-  //     var menu_child_div_array = menu_element.children;
-      
-  //     menu_child_div_array[id].className = 'menu menu-active';
-  //   }
-  //   menu_id = id;
-  // }
-
-
 }
 
 //バトル初期化関数。encountEnemyを受け取って、対戦中のenemyにセットしてからバトル開始する。
 function battle_init( encountEnemy ) {
   screenMode = screenModeBattle;
 
+  selectMenuId = 0;
 
   enemy = encountEnemy;
 
@@ -763,12 +582,6 @@ function battle_init( encountEnemy ) {
 
   document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
   // document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
-
-  // if (enemy.type == "nomal") {
-  //   dq4_btl_fc.play();
-  // } else {
-  //   Malzeno_Battle_Theme.play();
-  // }
 
   document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
 
