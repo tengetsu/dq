@@ -172,7 +172,13 @@ function activemenu(id) { // activemenu=関数名 id＝第一引数
       document.getElementById('menu' + menu_id).className = 'menu'; // HTML側のclass=menuと連動
     }
     //今回選ばれたメニューにカーソルを表示
-    document.getElementById('menu' + id).className = 'menu menu-active';
+    // document.getElementById('menu' + id).className = 'menu menu-active';
+    if(screenMode==screenModeBattle ){
+      var menu_element = document.getElementById('battle_menu' );
+      var menu_child_div_array = menu_element.children;
+      
+      menu_child_div_array[id].className = 'menu menu-active';
+    }
     menu_id = id;
   }
 }
