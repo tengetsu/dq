@@ -255,7 +255,8 @@ document.onkeydown = function(keyEvent) {
           doCommand(menu_id);
         }
       }
-  } else {
+
+    } else {
 
     //メニュー画面用キー処理
     if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
@@ -263,7 +264,6 @@ document.onkeydown = function(keyEvent) {
     }
 
   }
-
 
 }
 
@@ -451,6 +451,15 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     case 3: //メニューの3番めのコマンド
     console.log("メニュー３番め押下");
     break;
+
+    case 4: //メニューの3番めのコマンド
+    console.log("メニュー４番め押下");
+    break;
+
+    case 5: //メニューの3番めのコマンド
+    console.log("メニュー５番め押下");
+    break;
+
   }
 }
 

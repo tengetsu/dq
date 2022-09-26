@@ -16,14 +16,18 @@
     </header>
 
     <main>
+      <!--ドラクエ風OP画面-->
+      <div id="op_container" class="container">
+      </div>
       <!--ドラクエ風メニュー画面-->
       <div id="menu_container" class="container1">
 
         <div id="reception" class="reception">
-          <div>せんとう</div>
-          <div>どうぐや</div>
-          <div>やどや</div>
-          <div>ぼうけんをやめる</div>
+          <div id="menu1" onclick="activemenu(1);" class="menu">スライム と たたかう（初級者向け）</div>
+          <div id="menu2" onclick="activemenu(2);" class="menu">爵銀龍メルゼナ と たたかう（上級者向け）</div>
+          <div id="menu3" onclick="activemenu(3);" class="menu">どうぐや</div>
+          <div id="menu4" onclick="activemenu(4);" class="menu">やどや</div>
+          <div id="menu5" onclick="activemenu(5);" class="menu">ぼうけんをやめる</div>
         </div>
 
         <div id="message2" class="message_window2"> <!--HPフラグ用に黄色と赤を足す -->
@@ -35,7 +39,7 @@
         </div>
 
       </div>
-        <!--ドラクエ風バトル画面-->
+      <!--ドラクエ風バトル画面-->
       <div id="battle_container" class="container2">
 
         <div id="friend-div" class="battle_window"> <!-- 戦闘画面 -->
