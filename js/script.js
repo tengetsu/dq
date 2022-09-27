@@ -101,7 +101,7 @@ var enemy2 = {
   // メルゼナのステータス定義
   name: "爵銀龍メルゼナ",
   level: 100,
-  hp: 500,
+  hp: 28500,
   mp: 20,
   maxhp: 28500,
   atc: 500,
@@ -207,6 +207,7 @@ document.onkeydown = function(keyEvent) {
 
       //バトル画面用キー処理
       if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
+
         if( levelupMessageCount>=1 ){
           if( levelupMessageCount==1 ){
             cursor.play();
@@ -246,19 +247,14 @@ document.onkeydown = function(keyEvent) {
 
         }else if(enemy.hp <= 0) {
           cursor.play();
-          isKeyBlock=true;
           document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は けいけんち 10ポイント かくとくした！</span>';
-
-
           var timer = setTimeout( function () {
-            isKeyBlock=true;
             player1.level += 1;
             update();
             levelup.play();
             document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は レベル'+player1.level+'に あがった！</span>';
             levelupMessageCount = 1;
           } , 1000 );
-
         } else {
           doCommand(selectMenuId);
         }
@@ -357,7 +353,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
       nandNo = Math.floor(Math.random() * 10) //０か１のランダム
 
-      if( nandNo <= 7 ){
+      if( nandNo <= 3 ){
         document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は にげだした！</span>';
         var timer = setTimeout( function () {
 
@@ -369,6 +365,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           enemy.hp = enemy.maxhp;
           isKeyBlock=false;
           menu_init();
+          torneko_intro.currentTime = 0
           torneko_intro.play();
         } , 1300 );
 
@@ -395,7 +392,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     case 0: //メニューの１番めのコマンド
     cursor.play();
     torneko_intro.pause();
-    attack.currentTime = 0;
+    torneko_intro.currentTime = 0;
     battle_init(enemy1);
     update();
     console.log("メニュー１番め押下");
@@ -404,7 +401,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     case 1: //メニューの2番めのコマンド
     cursor.play();
     torneko_intro.pause();
-    attack.currentTime = 0;
+    torneko_intro.currentTime = 0;
     battle_init(enemy2);
     update();
     console.log("メニュー２番め押下");
@@ -418,9 +415,10 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     case 3: //メニューの3番めのコマンド
     cursor.play();
     torneko_intro.pause();
-    attack.currentTime = 0;
+    torneko_intro.currentTime = 0;
     inn.play();
     player1.hp = player1.maxhp;
+    document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
     console.log("メニュー４番め押下");
     break;
 
@@ -468,6 +466,7 @@ function playerAttack(player) {
 
     // 死亡チェック
     if (enemy.hp <= 0) {
+      isKeyBlock=true;
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
       enemy.hp = 0;
       update();
@@ -481,7 +480,6 @@ function playerAttack(player) {
       shadow.classList.remove("enemy_receive_damage");
       shadow.classList.remove("shadow");
       document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' を たおした！</span>';
-      isKeyBlock=false;
       return;
     }
 
