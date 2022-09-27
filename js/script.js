@@ -234,6 +234,7 @@ document.onkeydown = function(keyEvent) {
             levelupMessageCount += 1;
           }else if( levelupMessageCount==7 ){
             cursor.play();
+            levelupMessageCount = 0;
             enemy.hp = enemy.maxhp;
             var enemy_death = document.getElementById('enemy_div');
             enemy_death.style.display = "block";
@@ -245,15 +246,17 @@ document.onkeydown = function(keyEvent) {
 
         }else if(enemy.hp <= 0) {
           cursor.play();
+          isKeyBlock=true;
           document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は けいけんち 10ポイント かくとくした！</span>';
-          levelupMessageCount = 1;
+
 
           var timer = setTimeout( function () {
+            isKeyBlock=true;
             player1.level += 1;
             update();
             levelup.play();
             document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は レベル'+player1.level+'に あがった！</span>';
-
+            levelupMessageCount = 1;
           } , 1000 );
 
         } else {
@@ -391,6 +394,8 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     case 0: //メニューの１番めのコマンド
     cursor.play();
+    torneko_intro.pause();
+    attack.currentTime = 0;
     battle_init(enemy1);
     update();
     console.log("メニュー１番め押下");
@@ -398,6 +403,8 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     case 1: //メニューの2番めのコマンド
     cursor.play();
+    torneko_intro.pause();
+    attack.currentTime = 0;
     battle_init(enemy2);
     update();
     console.log("メニュー２番め押下");
@@ -410,6 +417,8 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     case 3: //メニューの3番めのコマンド
     cursor.play();
+    torneko_intro.pause();
+    attack.currentTime = 0;
     inn.play();
     player1.hp = player1.maxhp;
     console.log("メニュー４番め押下");
@@ -528,16 +537,24 @@ function enemyAttack() {
   
       var timer = setTimeout( function () {
         friend_div.classList.remove("shake");
-  
-        // 死亡チェック
-        if (player1.hp <= 0) {
+
+          // 死亡チェック
+          if (player1.hp <= 0) {
           dq4_btl_fc.pause();
+          dq4_btl_fc.currentTime = 0;
           Malzeno_Battle_Theme.pause();
+          Malzeno_Battle_Theme.currentTime = 0;
           gameover.play();
           document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
+
+            var timer = setTimeout( function () {
+              menu_init();
+              isKeyBlock = false;
+            } , 7000 );
+
           return;
-        }
-  
+          }
+
         isKeyBlock = false;
   
       } , 400 );
