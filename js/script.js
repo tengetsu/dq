@@ -79,7 +79,7 @@ var player2 = {
   hp: "???",
   mp: "???",
   maxhp: 50,
-  atc: 5,
+  atc: 255,
   def: 255,
   spd: 255,
   once_guard: 0,
@@ -89,13 +89,14 @@ var enemy1 = {
   // スライムのステータス定義
   name: "スライム",
   level: 99,
-  hp: 500,
+  hp: 5000,
   mp: 20,
-  maxhp: 500,
-  atc: 700,
+  maxhp: 5000,
+  atc: 600,
   skill: "いてつくはどう",
   type: "normal",
   imagepath: "./img/monster/slime.png",
+  item: "やくそう",
 }
 
 var enemy2 = {
@@ -109,6 +110,7 @@ var enemy2 = {
   skill: "咆哮",
   type: "boss",
   imagepath: "./img/monster/Malzeno.png",
+  item: "回復薬グレート"
 }
 
 var enemy = enemy1;
@@ -316,7 +318,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         display_heal_value = heal_hp - (player1.hp - player1.maxhp); //表示用回復値から、最大値はみ出た分をひく
         player1.hp = player1.maxhp;
 
-        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた 回復薬グレート をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
+        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた '+enemy.item+' をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
@@ -330,7 +332,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
       } else if(player1.hp < player1.maxhp ) {
 
-        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた 回復薬グレート をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
+        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた '+enemy.item+' をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
 
         var timer = setTimeout( function () {
           heal.play();
@@ -516,7 +518,7 @@ function enemyAttack() {
   var freezing_waves = document.getElementById('effect');
   var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
 
-  if( nandNo <= 10 ){
+  if( nandNo <= 7 ){
     enemy_attack.play();
     var damage = enemy.atc;
     var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
