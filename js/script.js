@@ -3,6 +3,7 @@ var isKeyBlock = false; //自動進行中などのためのキー入力のブロ
 var levelupMessageCount = 0;
 var selectMenuId = 0; //メニュー選択位置
 var maxMenuNum = 4;
+var DEFAULT_GUARD_POINT = 500; //防御で付加されるダメージ現象数
 
 var screenModeMenu = "menu";
 var screenModeBattle = "battle";
@@ -69,7 +70,7 @@ var player1 = {
   atc: 255,
   def: 255,
   spd: 255,
-  once_guard: 200,
+  once_guard: 0,
 }
 
 var player2 = {
@@ -294,7 +295,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     case 1: // ぼうぎょ
       isKeyBlock=true;
-      once_guard = player1.once_guard;
+      player1.once_guard = DEFAULT_GUARD_POINT;
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は みをまもっている！</span>';
       var timer = setTimeout( function () {
@@ -521,7 +522,7 @@ function enemyAttack() {
     var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
     damage += rand_value;
     damage -= player1.def;
-    damage -= once_guard;
+    damage -= player1.once_guard;
     if( damage < 0 ) {
       damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
     }
