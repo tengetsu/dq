@@ -55,6 +55,8 @@ body {
   position: absolute;
   z-index: 1;
   background-color: rgba(0,0,255,0.5);
+  color: #FFF;
+  font-size: 18px;
 }
 
 .torneko {

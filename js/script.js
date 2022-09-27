@@ -2,6 +2,7 @@
 var isKeyBlock = false; //自動進行中などのためのキー入力のブロックフラグ
 var levelupMessageCount = 0;
 var selectMenuId = 0; //メニュー選択位置
+var maxMenuNum = 4;
 
 var screenModeMenu = "menu";
 var screenModeBattle = "battle";
@@ -68,14 +69,14 @@ var player1 = {
   atc: 255,
   def: 255,
   spd: 255,
-  once_guard: 0,
+  once_guard: 255,
 }
 
 var player2 = {
-  name: "キャラB",
-  level: 99,
-  hp: 999,
-  mp: 999,
+  name: "ゲスト",
+  level: "??",
+  hp: "???",
+  mp: "???",
   maxhp: 50,
   atc: 5,
   def: 255,
@@ -89,6 +90,7 @@ var enemy1 = {
   level: 99,
   hp: 500,
   mp: 20,
+  maxhp: 500,
   atc: 700,
   skill: "いてつくはどう",
   type: "normal",
@@ -99,8 +101,9 @@ var enemy2 = {
   // メルゼナのステータス定義
   name: "爵銀龍メルゼナ",
   level: 100,
-  hp: 28500,
+  hp: 500,
   mp: 20,
+  maxhp: 28500,
   atc: 500,
   skill: "咆哮",
   type: "boss",
@@ -110,6 +113,14 @@ var enemy2 = {
 var enemy = enemy1;
 
 var heal_hp = 500;
+
+// 受付
+var torneko_intro = new Audio('sound/torneko_intro.mp3');
+torneko_intro.volume = 0.5;
+
+// 宿屋
+var inn = new Audio('sound/inn.wav');
+inn.volume = 0.5;
 
 // 戦闘BGM
 var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
@@ -173,7 +184,7 @@ document.onkeydown = function(keyEvent) {
       document.getElementById("game_control").value = "↑";
 
       selectMenuId--;
-      if( selectMenuId < 0 ) selectMenuId = 4;
+      if( selectMenuId < 0 ) selectMenuId = (maxMenuNum - 1);
       update();
       console.log("↑が入力されました。")
     }
@@ -187,7 +198,7 @@ document.onkeydown = function(keyEvent) {
       document.getElementById("game_control").value = "↓";
 
       selectMenuId++;
-      if( selectMenuId >= 4 ) selectMenuId = 0;
+      if( selectMenuId >= maxMenuNum ) selectMenuId = 0;
       update();
       console.log("↓が入力されました。")
     }
@@ -217,6 +228,19 @@ document.onkeydown = function(keyEvent) {
             cursor.play();
             document.getElementById("message").innerHTML = '<span class="message">すばやさが 2 あがった！</span>';
             levelupMessageCount += 1;
+          }else if( levelupMessageCount==6 ){
+            cursor.play();
+            document.getElementById("message").innerHTML = '<span class="message">戦闘を終了します Enterキーを 押してください</span>';
+            levelupMessageCount += 1;
+          }else if( levelupMessageCount==7 ){
+            cursor.play();
+            enemy.hp = enemy.maxhp;
+            var enemy_death = document.getElementById('enemy_div');
+            enemy_death.style.display = "block";
+            shadow.classList.add("shadow");
+            isKeyBlock=false;
+            menu_init();
+            torneko_intro.play();
           }
 
         }else if(enemy.hp <= 0) {
@@ -229,6 +253,7 @@ document.onkeydown = function(keyEvent) {
             update();
             levelup.play();
             document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は レベル'+player1.level+'に あがった！</span>';
+
           } , 1000 );
 
         } else {
@@ -326,11 +351,31 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       isKeyBlock=true;
       cursor.play();
       flee.play();
-      document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は まわりこまれてしまった！</span>';
-      var timer = setTimeout( function () {
-        enemyAttack();
-      } , 1300 );
-      menu_init();
+
+      nandNo = Math.floor(Math.random() * 10) //０か１のランダム
+
+      if( nandNo <= 7 ){
+        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は にげだした！</span>';
+        var timer = setTimeout( function () {
+
+          dq4_btl_fc.pause();
+          dq4_btl_fc.currentTime = 0
+          Malzeno_Battle_Theme.pause();
+          Malzeno_Battle_Theme.currentTime = 0
+
+          enemy.hp = enemy.maxhp;
+          isKeyBlock=false;
+          menu_init();
+          torneko_intro.play();
+        } , 1300 );
+
+      } else {
+        document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は まわりこまれてしまった！</span>';
+        var timer = setTimeout( function () {
+          enemyAttack();
+        } , 1300 );
+      }
+
       break;
 
     default:
@@ -345,27 +390,37 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 0: //メニューの１番めのコマンド
+    cursor.play();
     battle_init(enemy1);
     update();
     console.log("メニュー１番め押下");
     break;
 
     case 1: //メニューの2番めのコマンド
+    cursor.play();
     battle_init(enemy2);
     update();
     console.log("メニュー２番め押下");
     break;
 
     case 2: //メニューの3番めのコマンド
+    cursor.play();
     console.log("メニュー３番め押下");
     break;
 
     case 3: //メニューの3番めのコマンド
+    cursor.play();
+    inn.play();
+    player1.hp = player1.maxhp;
     console.log("メニュー４番め押下");
     break;
 
     case 4: //メニューの3番めのコマンド
+    cursor.play();
     console.log("メニュー５番め押下");
+    break;
+
+    default:
     break;
 
   }
@@ -408,11 +463,16 @@ function playerAttack(player) {
       enemy.hp = 0;
       update();
       dq4_btl_fc.pause();
+      dq4_btl_fc.currentTime = 0;
       Malzeno_Battle_Theme.pause();
+      Malzeno_Battle_Theme.currentTime = 0;
       win.play();
-      enemy_death.style.display = 'none';
+      enemy_death.style.display = "none";
+      enemy_div.classList.remove("enemy_receive_damage");
+      shadow.classList.remove("enemy_receive_damage");
       shadow.classList.remove("shadow");
       document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' を たおした！</span>';
+      isKeyBlock=false;
       return;
     }
 
@@ -559,9 +619,10 @@ function update() {
   }else{
     var menu_element = document.getElementById('reception' );
   }
-  var menu_child_div_array = menu_element.children;
+    var menu_child_div_array = menu_element.children;
 
-  for( var i=0; i<menu_child_div_array.length; i++){
+  for( var i=0; i<menu_child_div_array.length; i++) {
+
     if( i == selectMenuId)
       menu_child_div_array[i].className = 'menu menu-active';//カーソル表示
     else
@@ -572,7 +633,7 @@ function update() {
 //バトル初期化関数。encountEnemyを受け取って、対戦中のenemyにセットしてからバトル開始する。
 function battle_init( encountEnemy ) {
   screenMode = screenModeBattle;
-
+  maxMenuNum = 4;
   selectMenuId = 0;
 
   enemy = encountEnemy;
@@ -585,39 +646,44 @@ function battle_init( encountEnemy ) {
 
   document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' が あらわれた！</span>';
 
-    if (enemy == enemy1) {
+  if (enemy == enemy1) {
 
-      var elem_div = document.getElementById("enemy_div");
-        elem_div.classList.add("enemy-image");
+    var elem_div = document.getElementById("enemy_div");
+      elem_div.classList.add("enemy-image");
 
-      var elem_image = document.getElementById("elem_image");
-        elem_image.src = enemy.imagepath;
-        elem_image.classList.add("enemy-image-size");
+    var elem_image = document.getElementById("elem_image");
+      elem_image.src = enemy.imagepath;
+      elem_image.classList.add("enemy-image-size");
 
-      var battle_field = document.getElementById("battle_field");
-        battle_field.classList.add("battle_field");
+    var battle_field = document.getElementById("battle_field");
+      battle_field.classList.add("battle_field");
 
-    } else {
+  } else {
 
-      var elem_div = document.getElementById("enemy_div");
-        elem_div.classList.remove("enemy-image");
+    var elem_div = document.getElementById("enemy_div");
+      elem_div.classList.remove("enemy-image");
 
-      var elem_image = document.getElementById("elem_image");
-        elem_image.src = enemy.imagepath;
-        elem_image.classList.add("enemy-image2-size");
+    var elem_image = document.getElementById("elem_image");
+      elem_image.src = enemy.imagepath;
+      elem_image.classList.add("enemy-image2-size");
 
-      var battle_field = document.getElementById("battle_field");
-        battle_field.classList.add("battle_field2");
-    }
+    var battle_field = document.getElementById("battle_field");
+      battle_field.classList.add("battle_field2");
+  }
 
 }
 
 function menu_init() {
   screenMode = screenModeMenu;
+  maxMenuNum = 5;
+  selectMenuId = 0;
+
+  document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 いらっしゃいませ！<br>本日は どのような ご用件ですか？</span>';
   document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
   // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
 
   // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
   document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
   update();
+
 }
