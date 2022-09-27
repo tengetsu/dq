@@ -69,7 +69,7 @@ var player1 = {
   atc: 255,
   def: 255,
   spd: 255,
-  once_guard: 255,
+  once_guard: 200,
 }
 
 var player2 = {
@@ -294,7 +294,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     case 1: // ぼうぎょ
       isKeyBlock=true;
-      once_guard=8;
+      once_guard = player1.once_guard;
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は みをまもっている！</span>';
       var timer = setTimeout( function () {
@@ -419,6 +419,11 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     inn.play();
     player1.hp = player1.maxhp;
     document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
+
+    var timer = setTimeout( function () {
+      torneko_intro.play();     
+    } , 3000 );
+
     console.log("メニュー４番め押下");
     break;
 
@@ -510,13 +515,13 @@ function enemyAttack() {
   var freezing_waves = document.getElementById('effect');
   var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
 
-  if( nandNo <= 6 ){
+  if( nandNo <= 10 ){
     enemy_attack.play();
     var damage = enemy.atc;
     var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
     damage += rand_value;
     damage -= player1.def;
-    damage -= player1.once_guard;
+    damage -= once_guard;
     if( damage < 0 ) {
       damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
     }
@@ -547,6 +552,9 @@ function enemyAttack() {
 
             var timer = setTimeout( function () {
               menu_init();
+              enemy.hp = enemy.maxhp;
+              player1.hp = player1.maxhp;
+              torneko_intro.play(); 
               isKeyBlock = false;
             } , 7000 );
 
