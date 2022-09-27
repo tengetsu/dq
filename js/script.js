@@ -527,7 +527,7 @@ function enemyAttack() {
       damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
     }
     player1.hp -= damage;
-    
+    player1.once_guard = 0;
     document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' の こうげき<br>'+player1.name+' に '+damage+' のダメージ！</span>';
 
     var timer = setTimeout( function () {
