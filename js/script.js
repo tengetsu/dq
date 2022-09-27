@@ -3,7 +3,7 @@ var isKeyBlock = false; //自動進行中などのためのキー入力のブロ
 var levelupMessageCount = 0;
 var selectMenuId = 0; //メニュー選択位置
 var maxMenuNum = 4;
-var DEFAULT_GUARD_POINT = 500; //防御で付加されるダメージ現象数
+var DEFAULT_GUARD_POINT = 200; //防御で付加されるダメージ現象数
 
 var screenModeMenu = "menu";
 var screenModeBattle = "battle";
