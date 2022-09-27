@@ -521,7 +521,7 @@ function enemyAttack() {
     var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
     damage += rand_value;
     damage -= player1.def;
-    damage -= once_guard;
+    damage -= player1.once_guard;
     if( damage < 0 ) {
       damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
     }
