@@ -420,11 +420,13 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     torneko_intro.pause();
     torneko_intro.currentTime = 0;
     inn.play();
+    document.getElementById("fade").className = "fade-out";
     player1.hp = player1.maxhp;
-    document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
 
     var timer = setTimeout( function () {
-      torneko_intro.play();     
+      document.getElementById("fade").className = "fade-in";
+      torneko_intro.play();
+      document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
     } , 3000 );
 
     console.log("メニュー４番め押下");
@@ -677,17 +679,25 @@ function battle_init( encountEnemy ) {
     var elem_div = document.getElementById("enemy_div");
       elem_div.classList.add("enemy-image");
 
+    var elem_div = document.getElementById("shadow");
+      elem_div.classList.add("shadow");
+
     var elem_image = document.getElementById("elem_image");
+      elem_image.classList.remove("enemy-image2-size");
       elem_image.src = enemy.imagepath;
       elem_image.classList.add("enemy-image-size");
 
     var battle_field = document.getElementById("battle_field");
+      battle_field.classList.remove("battle_field2");
       battle_field.classList.add("battle_field");
 
   } else {
 
     var elem_div = document.getElementById("enemy_div");
       elem_div.classList.remove("enemy-image");
+
+    var elem_div = document.getElementById("shadow");
+      elem_div.classList.remove("shadow");
 
     var elem_image = document.getElementById("elem_image");
       elem_image.src = enemy.imagepath;

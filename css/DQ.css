@@ -579,3 +579,47 @@ span.message {
   padding: 1em;
   float: left;
 }
+
+.fade-out {
+  z-index: 2;
+  width: 90vw;
+  height: 90vh;
+  margin: auto;
+  margin-left: 87px;
+  position: absolute;
+  animation: fadeOut 1s linear forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+    background:#000; 
+  }
+  
+  100% {
+    opacity: 1;
+    background:#000; 
+  }
+}
+
+.fade-in {
+  z-index: 2;
+  width: 90vw;
+  height: 90vh;
+  margin: auto;
+  margin-left: 87px;
+  position: absolute;
+  animation: fadein 0.5s linear forwards;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 1;
+    background:#000; 
+  }
+  
+  100% {
+    opacity: 0;
+    background:#000; 
+  }
+}
