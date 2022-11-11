@@ -56,7 +56,7 @@ var slime2 = new Slime("スラぼう", 50, 2000, 10, 300, 10, 10);
 var malzeno = new Malzeno("爵銀龍メルゼナ", 100, 28500, 20, 500, 10, 10); 
 
 //5.enemy配列を作る
-// var enemyArray = [ slime1, slime2, malzeno ]; //モンスターが全部はいった配列を作っておく
+var enemyArray = [ slime1, slime2, malzeno ]; //モンスターが全部はいった配列を作っておく
 
 /*
 // 戦闘用キャラクターデータ
@@ -340,8 +340,9 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     case 0: // たたかう
 
     cursor.play();
-
-    playerAttack(player1);
+    var enemy_index = Math.floor(Math.random() * enemyArray.length); //ランダムで敵の番号決める
+    var random_enemy = enemyArray[ enemy_index ]; 
+    playerAttack(player1, random_enemy);
     break;
 
     case 1: // ぼうぎょ
@@ -350,7 +351,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       cursor.play();
       document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は みをまもっている！</span>';
       var timer = setTimeout( function () {
-        playerAttack(player2);
+        playerAttack(player2, enemy);
       } , 900 );
       break;
 
@@ -374,7 +375,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           update();
 
           var timer = setTimeout( function () {
-            playerAttack(player2);  
+            playerAttack(player2, enemy);  
           } , 500 );
   
         } , 500 );
@@ -388,7 +389,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
           update();
 
           var timer = setTimeout( function () {
-            playerAttack(player2);
+            playerAttack(player2,enemy);
     
           } , 500 );
   
@@ -495,7 +496,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
 //攻撃するプレイヤーobjectを引数で受け取り、そのplayerの攻撃処理を行う
 // function playerAttack(playerName) {
-function playerAttack(player) {
+function playerAttack(player, targetEnemy) {
 
   isKeyBlock=true;
   //以下のように、同SEを再生中にさらに再生しようとして失敗するのを防ぐには、pause+再生時間リセット > play()とする必要がある。
@@ -513,8 +514,8 @@ function playerAttack(player) {
   var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
   var damage = player.atc;
   damage += rand_value;
-  enemy.hp = enemy.hp - damage;
-  document.getElementById("message").innerHTML = '<span class="message">'+player.name+' の こうげき！<br>'+enemy.name+' に '+damage+' のダメージ！</span>';
+  targetEnemy.hp = targetEnemy.hp - damage;
+  document.getElementById("message").innerHTML = '<span class="message">'+player.name+' の こうげき！<br>'+targetEnemy.name+' に '+damage+' のダメージ！</span>';
 
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 1");
 
@@ -525,10 +526,10 @@ function playerAttack(player) {
     shadow.classList.add("enemy_receive_damage");
 
     // 死亡チェック
-    if (enemy.hp <= 0) {
+    if (targetEnemy.hp <= 0) {
       isKeyBlock=true;
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 3");
-      enemy.hp = 0;
+      targetEnemy.hp = 0;
       update();
       dq4_btl_fc.pause();
       dq4_btl_fc.currentTime = 0;
@@ -550,7 +551,7 @@ function playerAttack(player) {
       shadow.classList.remove("enemy_receive_damage");
 
       if (player.name == player1.name) {
-        playerAttack(player2);
+        playerAttack(player2,enemy);
       }else if (player.name == player2.name) {
         enemyAttack();
       }
@@ -769,10 +770,10 @@ function battle_init( encountEnemy ) {
 
 
   //6.enemy配列を絵に当てて出してみる
-  // for( var i=0; i<enemyArray.length; i++ ){
-  //   var e = enemyArray[i];
-  //   $("#test_enemy_field").append( "<img id='enemy_image' class='' src='"+e.imagepath+"' style='width:100px;height:100px;' onclick='showMonsterInfo2("+i+")'>" );
-  // }
+  for( var i=0; i<enemyArray.length; i++ ){
+    var e = enemyArray[i];
+    $("#test_enemy_field").append( "<img id='enemy_image' class='' src='"+e.imagepath+"' style='width:100px;height:100px;' onclick='showMonsterInfo2("+i+")'>" );
+  }
 
 }
 
