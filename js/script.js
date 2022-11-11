@@ -11,7 +11,8 @@ var screenMode = screenModeMenu;
 
 
 //クラス定義
-class Monster{
+
+class Unit{
   constructor(name, level, hp, mp, atc, def, spd ) {
 
     this.name = name;
@@ -22,8 +23,21 @@ class Monster{
   	this.atc = atc;
     this.def = def;
     this.spd = spd;
+    this.once_guard =  0;
   }
   
+}
+
+class Character extends Unit{
+  constructor(name, level, hp, mp, atc, def, spd ) {
+    super(name,level,hp,mp,atc,def,spd);
+  }
+}
+
+class Monster extends Unit{
+  constructor(name, level, hp, mp, atc, def, spd ) {
+    super(name,level,hp,mp,atc,def,spd);
+  }
 }
 
 class Slime extends Monster {
@@ -57,6 +71,11 @@ var malzeno = new Malzeno("爵銀龍メルゼナ", 100, 28500, 20, 500, 10, 10);
 
 //5.enemy配列を作る
 var enemyArray = [ slime1, slime2, malzeno ]; //モンスターが全部はいった配列を作っておく
+
+//6.プレイヤーもクラスで作る
+//player1,player2に代入でも良かったかもだが、教材としての区別のためにcharacter1,2とした
+var character1 = new Character("キャラA", 99, 999, 999, 255, 255, 255);
+var character2 = new Character("ゲスト", 99, 9999, 9999, 255, 255, 255);  //level,hp,mpは???だったが、他のCharacterと共通処理できるように数値にしておいた
 
 /*
 // 戦闘用キャラクターデータ
@@ -342,7 +361,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     cursor.play();
     var enemy_index = Math.floor(Math.random() * enemyArray.length); //ランダムで敵の番号決める
     var random_enemy = enemyArray[ enemy_index ]; 
-    playerAttack(player1, random_enemy);
+    playerAttack(character1, random_enemy);
     break;
 
     case 1: // ぼうぎょ
@@ -553,7 +572,10 @@ function playerAttack(player, targetEnemy) {
       if (player.name == player1.name) {
         playerAttack(player2,enemy);
       }else if (player.name == player2.name) {
-        enemyAttack();
+        // enemyAttack();
+        var enemy_index = Math.floor(Math.random() * enemyArray.length); //ランダムで敵の番号決める
+        var random_enemy = enemyArray[ enemy_index ]; 
+        enemyAttack(random_enemy, character1);
       }
 
     } , 400 ); //再生中にさらに再生しようとしたら失敗するのではないか？と考えここの時間を長くしてみると、attack.play()が２回目も正常に再生された。wavファイルの再生中にさらに同ファイルを再生しようとすると失敗するようだ。
@@ -565,7 +587,7 @@ function playerAttack(player, targetEnemy) {
   console.log(">>>>>>>>>>>>>>>>>>>>>>>>> 6");
 }
 
-function enemyAttack() {
+function enemyAttack(attackEnemy, targetPlayer) {
 
   var friend_div = document.getElementById("friend-div");
   var freezing_waves = document.getElementById('effect');
@@ -581,15 +603,15 @@ function enemyAttack() {
     if( damage < 0 ) {
       damage = 0; //防御強すぎてダメージがマイナスにならないよう０でリミットつける
     }
-    player1.hp -= damage;
-    player1.once_guard = 0;
-    document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' の こうげき<br>'+player1.name+' に '+damage+' のダメージ！</span>';
+    targetPlayer.hp -= damage;
+    targetPlayer.once_guard = 0;
+    document.getElementById("message").innerHTML = '<span class="message">'+attackEnemy.name+' の こうげき<br>'+targetPlayer.name+' に '+damage+' のダメージ！</span>';
 
     var timer = setTimeout( function () {
       being_attacked.play();
       update();
-      if( player1.hp <= 0) {
-        player1.hp = 0;
+      if( targetPlayer.hp <= 0) {
+        targetPlayer.hp = 0;
         update();
       }
       friend_div.classList.add("shake");
@@ -598,18 +620,18 @@ function enemyAttack() {
         friend_div.classList.remove("shake");
 
           // 死亡チェック
-          if (player1.hp <= 0) {
+          if (targetPlayer.hp <= 0) {
           dq4_btl_fc.pause();
           dq4_btl_fc.currentTime = 0;
           Malzeno_Battle_Theme.pause();
           Malzeno_Battle_Theme.currentTime = 0;
           gameover.play();
-          document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
+          document.getElementById("message").innerHTML = '<span class="message">'+attackEnemy.name+' に '+targetPlayer.name+' は たおされてしまった！</span>';
 
             var timer = setTimeout( function () {
               menu_init();
-              enemy.hp = enemy.maxhp;
-              player1.hp = player1.maxhp;
+              attackEnemy.hp = attackEnemy.maxhp;
+              targetPlayer.hp = targetPlayer.maxhp;
               torneko_intro.play(); 
               isKeyBlock = false;
             } , 7000 );
@@ -627,14 +649,14 @@ function enemyAttack() {
 
     var timer = setTimeout( function () {
 
-      if ( enemy == enemy1) {
+      if ( attackEnemy == enemy1) {
         freezing_waves_m.play();
       } else {
         Melzeno_roar.play();
       }
 
       freezing_waves.classList.add("effect_freezing_waves");
-      document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は '+enemy.skill+' を はなった！<br>しかし なにも おこらなかった！</span>';  
+      document.getElementById("message").innerHTML = '<span class="message">'+attackEnemy.name+' は '+attackEnemy.skill+' を はなった！<br>しかし なにも おこらなかった！</span>';  
 
       var timer = setTimeout( function () {
         freezing_waves.classList.remove("effect_freezing_waves");
