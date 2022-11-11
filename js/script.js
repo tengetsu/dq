@@ -9,6 +9,55 @@ var screenModeMenu = "menu";
 var screenModeBattle = "battle";
 var screenMode = screenModeMenu;
 
+
+//クラス定義
+class Monster{
+  constructor(name, level, hp, mp, atc, def, spd ) {
+
+    this.name = name;
+    this.level = level;
+  	this.maxhp = hp;
+  	this.hp = hp;
+    this.mp = mp;
+  	this.atc = atc;
+    this.def = def;
+    this.spd = spd;
+  }
+  
+}
+
+class Slime extends Monster {
+
+  constructor(name, level, hp, mp, atc, def, spd ) {
+    super(name, level, hp, mp, atc, def, spd); 
+    this.skill =  "いてつくはどう";
+    this.type =  "normal";
+    this.imagepath =  "./img/monster/slime.png";
+    this.item = "やくそう";
+  }
+}
+
+class Malzeno extends Monster {
+  constructor(name, level, hp, mp, atc, def, spd ) {
+    super(name, level, hp, mp, atc, def, spd); 
+    this.skill =  "咆哮";
+    this.type =  "boss";
+    this.imagepath =  "./img/monster/Malzeno.png";
+    this.item = "回復薬グレート";
+  }
+
+}
+
+
+//4.モンスターを生成する
+//name, level, hp, mp , atc, def, spd
+var slime1 = new Slime("スラりん", 99, 4999, 20, 600, 10, 10); 
+var slime2 = new Slime("スラぼう", 50, 2000, 10, 300, 10, 10); 
+var malzeno = new Malzeno("爵銀龍メルゼナ", 100, 28500, 20, 500, 10, 10); 
+
+//5.enemy配列を作る
+// var enemyArray = [ slime1, slime2, malzeno ]; //モンスターが全部はいった配列を作っておく
+
 /*
 // 戦闘用キャラクターデータ
 class BattleCharacter {
@@ -396,7 +445,8 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     cursor.play();
     torneko_intro.pause();
     torneko_intro.currentTime = 0;
-    battle_init(enemy1);
+    // battle_init(enemy1);
+    battle_init(slime1); //slime1を直接バトルに投入
     update();
     console.log("メニュー１番め押下");
     break;
@@ -687,7 +737,7 @@ function battle_init( encountEnemy ) {
       elem_image.src = enemy.imagepath;
       elem_image.classList.add("enemy-image-size");
 
-    var battle_field = document.getElementById("battle_field");
+      var battle_field = document.getElementById("battle_field");
       battle_field.classList.remove("battle_field2");
       battle_field.classList.add("battle_field");
 
@@ -703,10 +753,36 @@ function battle_init( encountEnemy ) {
       elem_image.src = enemy.imagepath;
       elem_image.classList.add("enemy-image2-size");
 
-    var battle_field = document.getElementById("battle_field");
+      var battle_field = document.getElementById("battle_field");
       battle_field.classList.add("battle_field2");
   }
 
+  //２．次にコードでも敵を配置できることを確認（appendでelementを追加できる）
+  // $("#test_enemy_field").append( "<img id='enemy_image' class='' src='./img/monster/Slime.png' style='width:100px;height:100px;'>" );
+  // $("#test_enemy_field").append( "<img id='enemy_image' class='' src='./img/monster/Slime.png' style='width:100px;height:100px;'>" );
+  // $("#test_enemy_field").append( "<img id='enemy_image' class='' src='./img/monster/Slime.png' style='width:100px;height:100px;'>" );
+
+  //３．次にそれぞれクリックできるようにする（ただしどの絵も中身は同じenemy）
+  // $("#test_enemy_field").append( "<img id='enemy_image' class='' src='./img/monster/Slime.png' style='width:100px;height:100px;' onclick='showMonsterInfo()'>" );
+  // $("#test_enemy_field").append( "<img id='enemy_image' class='' src='./img/monster/Slime.png' style='width:100px;height:100px;' onclick='showMonsterInfo()'>" );
+  // $("#test_enemy_field").append( "<img id='enemy_image' class='' src='./img/monster/Slime.png' style='width:100px;height:100px;' onclick='showMonsterInfo()'>" );
+
+
+  //6.enemy配列を絵に当てて出してみる
+  // for( var i=0; i<enemyArray.length; i++ ){
+  //   var e = enemyArray[i];
+  //   $("#test_enemy_field").append( "<img id='enemy_image' class='' src='"+e.imagepath+"' style='width:100px;height:100px;' onclick='showMonsterInfo2("+i+")'>" );
+  // }
+
+}
+
+//3.オブジェクトあて
+function showMonsterInfo(){
+  alert(""+enemy.name+" hp "+enemy.hp);
+}
+function showMonsterInfo2(enemy_index){
+  var select_enemy = enemyArray[enemy_index];
+  alert(""+select_enemy.name+" hp "+select_enemy.hp);
 }
 
 function menu_init() {
