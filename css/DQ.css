@@ -210,6 +210,53 @@ span.message2 {
   }
 }
 
+.effect_field {
+  background-color: rgba(181, 61, 61, 0.9);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: ;
+}
+
+.effect_panta_rhei_cutin {
+  /* border: 5px solid yellow; */
+  background-image: url(../img/effect/panta_rhei_cutin.gif);
+  box-shadow:
+    0px 10px 10px rgb(255, 255, 180) inset,
+    0px -10px 10px rgb(255, 255, 180) inset;
+  background-position: center;
+  margin: auto;
+  /* background-size: cover; */
+  text-align: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 60%;
+  opacity: 1;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  animation: cutin 2s infinite;
+  z-index: 1;
+}
+
+@keyframes cutin {
+  0% {
+    opacity: 0;
+    transform: translate(-150%,-50%)
+  }
+
+  10% {
+    opacity: 1;
+    transform: translate(-50%,-50%)
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%,-50%)
+  }
+}
+
 .enemy_field {
   /* border: 1px solid red; */
   position: absolute;
@@ -267,6 +314,26 @@ span.message2 {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
+  height: 300px;
+  position: absolute;
+}
+
+.enemy-image3-size {
+  /* border: 1px solid yellow; */
+  top: 61%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 300px;
+  position: absolute;
+}
+
+.enemy-image4-size {
+  /* border: 1px solid yellow; */
+  top: 59%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
   height: 300px;
   position: absolute;
 }
@@ -372,6 +439,24 @@ span.message2 {
 .battle_field2 {
   /* border: 1px solid red; */
   background: url(../img/background/castle_ruins.jpg);
+  background-size: cover;
+  width: 100%;
+  height: 150%;
+  bottom: -150px;
+}
+
+.battle_field3 {
+  /* border: 1px solid red; */
+  background: url(../img/background/crystar.png);
+  background-size: cover;
+  width: 100%;
+  height: 150%;
+  bottom: -150px;
+}
+
+.battle_field4 {
+  /* border: 1px solid red; */
+  background:#FFF;
   background-size: cover;
   width: 100%;
   height: 150%;

@@ -30,19 +30,20 @@
         <div id="reception" class="reception">
           <div id="menu1" onclick="activemenu(1);" class="menu">スライム と たたかう</div>
           <div id="menu2" onclick="activemenu(2);" class="menu">爵銀龍メルゼナ と たたかう</div>
-          <div id="menu3" onclick="activemenu(3);" class="menu">どうぐや（準備中）</div>
-          <div id="menu4" onclick="activemenu(4);" class="menu">やどや</div>
-          <div id="menu5" onclick="activemenu(5);" class="menu">ぼうけんをやめる（準備中）</div>
+          <div id="menu3" onclick="activemenu(3);" class="menu">幡田零 と たたかう（準備中）</div>
+          <div id="menu4" onclick="activemenu(4);" class="menu">どうぐや（準備中）</div>
+          <div id="menu5" onclick="activemenu(5);" class="menu">やどや</div>
+          <div id="menu6" onclick="activemenu(6);" class="menu">ぼうけんをやめる（準備中）</div>
+        </div>
+
+        <div id="select" class="select_window">たたかいますか？
+          <div id="menu1" onclick="activemenu(1);" class="menu">はい</div>
+          <div id="menu2" onclick="activemenu(2);" class="menu">いいえ</div>
         </div>
 
         <div id="message2" class="message_window2"> <!--HPフラグ用に黄色と赤を足す -->
           <span class="message2"></span>
         </div>
-
-        <!-- <div id="select" class="select_window">たたかいますか？
-          <div id="menu1" onclick="activemenu(1);" class="menu">はい</div>
-          <div id="menu2" onclick="activemenu(2);" class="menu">いいえ</div>
-        </div> -->
 
         <div class="torneko">
           <img src="./img/character/Torneko.png" width="500px" height="700px">
@@ -75,8 +76,10 @@
 
           <div class="field_container">
 
-            <div id="effect" class="effect_field"></div>
+            <div id="effect" class="effect_fields"></div>
 
+            <!-- <div class="effect_panta_rhei_cutin"></div> -->
+            
             <div class="enemy_field">
 
               <div class="enemy_status"> <!-- 戦闘フィールド上に表示する敵ステータス -->
