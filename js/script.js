@@ -8,6 +8,9 @@ var DEFAULT_GUARD_POINT = 200; //防御で付加されるダメージ現象数
 var screenModeMenu = "menu";
 var screenModeBattle = "battle";
 var screenMode = screenModeMenu;
+var MenuModeNormal=0;
+var MenuModeBattleSelect=1;
+var menuMode = MenuModeNormal;
 
 /*
 // 戦闘用キャラクターデータ
@@ -513,10 +516,14 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 }
 
 function showLogin(){
-  const loginForm = document.getElementById("select");
-  // blockで表示
-  loginForm.style.display ="block";
-    $("body").css("overflow-y", "hidden");     
+
+  menuMode = MenuModeBattleSelect;
+  update();
+
+  // const loginForm = document.getElementById("select");
+  // // blockで表示
+  // loginForm.style.display ="block";
+  //   $("body").css("overflow-y", "hidden");     
 
     // battle_init(enemy1);
     // update();
@@ -875,8 +882,14 @@ function update() {
   if(screenMode==screenModeBattle ){
     var menu_element = document.getElementById('battle_menu' );
   }else if (screenMode==screenModeMenu ){
-    var menu_element = document.getElementById('reception' );
+    if( menuMode==MenuModeNormal ){
+      var menu_element = document.getElementById('reception' );
+    }else if( menuMode==MenuModeBattleSelect ){
+      var menu_element = document.getElementById('select' );
+
+    }
   }
+
 
   var menu_child_div_array = menu_element.children;
 
@@ -887,6 +900,20 @@ function update() {
     else
       menu_child_div_array[i].className = 'menu'; //カーソル非表示
   }
+
+  //選択肢メニューの表示非表示
+  const loginForm = document.getElementById("select");
+  if( menuMode==MenuModeBattleSelect ){
+    //メニュー中の戦闘しますか選択肢
+    // blockで表示
+    loginForm.style.display ="block";
+    $("body").css("overflow-y", "hidden");
+  }else{
+    loginForm.style.display ="none";
+  }
+
+  
+
 }
 
 //バトル初期化関数。encountEnemyを受け取って、対戦中のenemyにセットしてからバトル開始する。
