@@ -311,11 +311,11 @@ document.onkeydown = function(keyEvent) {
       doCommandMenu(selectMenuId);
     }
 
-  } else if ( screenMode==screenModeSelect ) {
+  } else if ( menuMode==MenuModeBattleSelect ) {
 
     //メニュー画面用キー処理
     if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-      doCommandMenu(selectMenuId);
+      doCommandSelect(selectMenuId);
     }
 
   }
@@ -515,6 +515,27 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
   }
 }
 
+function doCommandSelect(command_id) { // doComand=関数名 command_id=第一引数
+  if( isKeyBlock ) return; //自動進行中などでキー入力無効
+
+  switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
+
+    case 0: //メニューの１番めのコマンド
+    cursor.play();
+    torneko_intro.pause();
+    torneko_intro.currentTime = 0;
+
+    battle_init(enemy1);
+    update();
+    console.log("メニュー１番め押下");
+    break;
+
+    default:
+    break;
+
+  }
+}
+
 function showLogin(){
 
   menuMode = MenuModeBattleSelect;
@@ -537,7 +558,6 @@ function hideLogin(){
   loginForm.style.display ="none";
   $("body").css("overflow-y", "visible");
 }
-
 
 
 //攻撃するプレイヤーobjectを引数で受け取り、そのplayerの攻撃処理を行う
@@ -886,7 +906,6 @@ function update() {
       var menu_element = document.getElementById('reception' );
     }else if( menuMode==MenuModeBattleSelect ){
       var menu_element = document.getElementById('select' );
-
     }
   }
 
@@ -1024,6 +1043,21 @@ function menu_init() {
   selectMenuId = 0;
 
   document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 いらっしゃいませ！<br>本日は どのような ご用件ですか？</span>';
+  document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
+  // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
+
+  // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
+  document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
+  update();
+
+}
+
+function select_init() {
+  menuMode = MenuModeBattleSelect;
+  maxMenuNum = 2;
+  selectMenuId = 0;
+
+  // document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 いらっしゃいませ！<br>本日は どのような ご用件ですか？</span>';
   document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
   // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
 
