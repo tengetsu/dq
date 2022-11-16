@@ -138,7 +138,7 @@ var enemy4 = {
   hp: 99999,
   mp: 999,
   maxhp: 99999,
-  atc: 700,
+  atc: 600,
   skill: "万物流転 -パンタ・レイ-",
   skill_atc: 999,
   type: "woman2",
@@ -146,7 +146,7 @@ var enemy4 = {
   item: "スイートチョコ"
 }
 
-var enemy = enemy1;
+var enemy = enemy1, enemy2, enemy3, enemy4;
 
 var heal_hp = 500;
 
@@ -177,6 +177,9 @@ attack.volume = 0.5;
 
 var cursor = new Audio('sound/cursor.wav');
 cursor.volume = 1;
+
+var select = new Audio('sound/select.wav');
+select.volume = 1;
 
 var flee = new Audio('sound/flee.mp3');
 flee.volume = 1;
@@ -212,7 +215,6 @@ Melzeno_roar.volume = 1;
 menu_init();
 hideLogin();
 // battle_init();
-
 
 // キーボード操作
 document.onkeydown = function(keyEvent) {
@@ -304,18 +306,18 @@ document.onkeydown = function(keyEvent) {
       }
     }
 
-  } else if ( screenMode==screenModeMenu ) {
-
-    //メニュー画面用キー処理
-    if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-      doCommandMenu(selectMenuId);
-    }
-
   } else if ( menuMode==MenuModeBattleSelect ) {
 
     //メニュー画面用キー処理
     if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
       doCommandSelect(selectMenuId);
+    }
+
+  } else if ( screenMode==screenModeMenu ) {
+
+    //メニュー画面用キー処理
+    if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
+      doCommandMenu(selectMenuId);
     }
 
   }
@@ -448,21 +450,17 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 0: //メニューの１番めのコマンド
-    cursor.play();
-    torneko_intro.pause();
-    torneko_intro.currentTime = 0;
-
-    showLogin();
-
-    // battle_init(enemy1);
-    // update();
-    // console.log("メニュー１番め押下");
+      select.play();
+      showSelect();
     break;
 
     case 1: //メニューの2番めのコマンド
     cursor.play();
     torneko_intro.pause();
     torneko_intro.currentTime = 0;
+
+    // showSelect();
+
     battle_init(enemy2);
     update();
     console.log("メニュー２番め押下");
@@ -521,14 +519,18 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 0: //メニューの１番めのコマンド
-    cursor.play();
-    torneko_intro.pause();
-    torneko_intro.currentTime = 0;
-
-    battle_init(enemy1);
-    update();
-    console.log("メニュー１番め押下");
+      cursor.play();
+      torneko_intro.pause();
+      torneko_intro.currentTime = 0;
+      closeSelect();
+      battle_init(enemy);
+      update();
+      console.log("メニュー１番め押下");
     break;
+
+    case 1:
+      cursor.play();
+      closeSelect();
 
     default:
     break;
@@ -536,9 +538,12 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
   }
 }
 
-function showLogin(){
-
+function showSelect(){
+  hideCursorMenu();
+  // document.getElementById("select").innerHTML = '<span class="message">'+enemy.name+'と たたかいますか？</span>';
   menuMode = MenuModeBattleSelect;
+  maxMenuNum = 2;
+  selectMenuId = 0;
   update();
 
   // const loginForm = document.getElementById("select");
@@ -549,6 +554,14 @@ function showLogin(){
     // battle_init(enemy1);
     // update();
     // console.log("メニュー１番め押下");
+}
+
+function closeSelect(){
+
+  menuMode = MenuModeNormal;
+  maxMenuNum = 6;
+  selectMenuId = 0;
+  update();
 
 }
 
@@ -558,7 +571,6 @@ function hideLogin(){
   loginForm.style.display ="none";
   $("body").css("overflow-y", "visible");
 }
-
 
 //攻撃するプレイヤーobjectを引数で受け取り、そのplayerの攻撃処理を行う
 // function playerAttack(playerName) {
@@ -909,7 +921,6 @@ function update() {
     }
   }
 
-
   var menu_child_div_array = menu_element.children;
 
   for( var i=0; i<menu_child_div_array.length; i++) {
@@ -931,8 +942,15 @@ function update() {
     loginForm.style.display ="none";
   }
 
-  
+}
 
+function hideCursorMenu() {
+  var menu_element = document.getElementById('reception' );
+  var menu_child_div_array = menu_element.children;
+  for( var i=0; i<menu_child_div_array.length; i++) {
+    i == selectMenuId
+    menu_child_div_array[i].className = 'menu';
+  }
 }
 
 //バトル初期化関数。encountEnemyを受け取って、対戦中のenemyにセットしてからバトル開始する。
@@ -1043,21 +1061,6 @@ function menu_init() {
   selectMenuId = 0;
 
   document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 いらっしゃいませ！<br>本日は どのような ご用件ですか？</span>';
-  document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
-  // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
-
-  // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
-  document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
-  update();
-
-}
-
-function select_init() {
-  menuMode = MenuModeBattleSelect;
-  maxMenuNum = 2;
-  selectMenuId = 0;
-
-  // document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 いらっしゃいませ！<br>本日は どのような ご用件ですか？</span>';
   document.getElementById("menu_container").setAttribute('style', 'display:block;'); //メニュー画面を表示
   // document.getElementById("menu_container").setAttribute('style', 'display:none;'); //メニュー画面を非表示
 

@@ -60,13 +60,13 @@ body {
 }
 
 .select_window {
+  border: 5px solid white;
   color: #FFF;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 20%;
   height: 30%;
-  border: 5px solid white;
   border-radius: 10px;
   margin: 0 auto;
   padding: 1em;
