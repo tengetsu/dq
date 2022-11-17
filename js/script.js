@@ -211,6 +211,52 @@ Melzeno_roar.volume = 1;
 // var freezing_waves = document.createElement("img");
 // freezing_waves.src = "img/effect/freezing_waves.gif";
 
+//音声再生をすべて受け持つクラス
+class AudioPlayer {
+
+  constructor(){
+    this.se=null;
+    this.bgm=null;
+  }
+
+
+  //BGM再生用関数
+  //ボリュームは指定がなければデフォルト1.0としておく
+  playBGM(filename, volume=1.0){
+    if( this.bgm!=null ){
+      //再生中のものリセット
+      this.bgm.pause();
+      this.bgm.currentTime = 0;
+    }
+    //新規再生
+    this.bgm = new Audio(filename);
+    this.bgm.volume = volume;
+    this.bgm.play();
+  }
+
+
+  //SE用の再生。BGM再生と現状ほぼ変わらないが、今後の複数同時再生を考慮して分けた
+  playSE( filename ){
+    if( this.se!=null ){
+      //再生中のものリセット
+      this.se.pause();
+      this.se.currentTime = 0;
+    }
+    //新規再生
+    this.se = new Audio(filename);
+    this.se.play();
+  }
+  
+  // 再生中のBGMをストップ
+  stopBGM(){
+    this.bgm.pause();
+  }
+
+}
+
+var audioPlayer = new AudioPlayer();
+
+
 // 戦闘初期化処理
 menu_init();
 hideLogin();
@@ -329,9 +375,11 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
 
   if (enemy.type == "normal") {
-    dq4_btl_fc.play();
+    // dq4_btl_fc.play();
+    audioPlayer.playBGM("sound/dq4_btl_fc.mp3",0.5); //コマンド押すごとに生成してるので場所を変える必要はある・・・（これまでは再生中のものをもう一度再生は無効だったので問題なかった）
   } else if (enemy.type == "boss") {
-    Malzeno_Battle_Theme.play();
+    // Malzeno_Battle_Theme.play();
+    audioPlayer.playBGM("sound/Malzeno_Battle_Theme.mp3"); //volumeの引数を渡してないので、この場合はデフォルトのvolumeが使用される
   } else if (enemy.type == "woman") {
     can_cry_Instrumental.play();
   } else if (enemy.type == "woman2") {
@@ -450,7 +498,8 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 0: //メニューの１番めのコマンド
-      select.play();
+      // select.play();
+      audioPlayer.playSE("sound/select.wav");
       showSelect();
     break;
 
