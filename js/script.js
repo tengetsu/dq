@@ -43,12 +43,12 @@ class Slime extends Unit {
     super(name, level, hp, mp, atc, def, spd); 
     this.skill =  "いてつくはどう";
     this.type =  "normal";
-    this.imagepath =  "./img/monster/slime.png";
+    this.imagepath =  './img/monster/slime.png';
     this.item = "やくそう";
   }
 }
 
-var slime1 = new Slime("スライム", 99, 4999, 20, 600, 10, 10); 
+var slime1 = new Slime("スラぞう", 99, 4999, 20, 600, 10, 10);
 var slime2 = new Slime("スラりん", 50, 2000, 10, 300, 10, 10);
 var slime3 = new Slime("スラぼう", 50, 2000, 10, 300, 10, 10);
 
@@ -60,9 +60,10 @@ class Malzeno extends Unit {
     this.imagepath =  "./img/monster/Malzeno.png";
     this.item = "回復薬グレート";
   }
+
 }
 
-var malzeno = new Malzeno("爵銀龍メルゼナ", 100, 28500, 20, 500, 10, 10); 
+var malzeno = new Malzeno("爵銀龍メルゼナ", 100, 28500, 20, 500, 10, 10);
 
 class woman extends Unit {
   constructor(name, level, hp, mp, atc, def, skill_atc, spd) {
@@ -74,15 +75,32 @@ class woman extends Unit {
   }
 }
 
-var woman1 = new woman("幡田 零", 99, 9999, 999, 400, 10, 600, 10); 
+var woman1 = new woman("幡田 零", 99, 9999, 999, 400, 10, 600, 10);
 var woman2 = new woman("幡田 久遠", 999, 99999, 9999, 500, 10, 999, 10);
-
 
 //5.enemy配列を作る
 var enemyArray = [slime1, slime2, slime3, malzeno, woman1, woman2]; //モンスターが全部はいった配列を作っておく
 
 //音声再生をすべて受け持つクラス
 class AudioPlayer {
+
+  soundParamList = {
+    "normal": {
+      "filename": "sound/dq4_btl_fc.mp3",
+      "volume": 0.5,
+      "loop" : false,
+    },
+    "normal2": {
+      "filename": "sound/dq4_btl_fc.mp3",
+      "volume": 0.3,
+      "loop" : true,
+    },
+    "boss": {
+      "filename": "sound/Malzeno_Battle_Theme.mp3",
+      "volume": 0.5,
+      "loop" : true,
+    }
+  }
 
   constructor() {
     this.se=null;
@@ -102,6 +120,15 @@ class AudioPlayer {
     this.bgm.play();
     this.bgm.loop = loop;
   }
+
+  playBGM2( soundParamName ) {
+  var soundParam = this.soundParamList["soundParamName"];
+  this.bgm = new Audio(soundParam.filename);
+  this.bgm.volume = soundParam.volume;
+  this.bgm.play();
+  this.bgm.loop = soundParam.loop;
+  }
+
 
   //再生中のBGMをストップ
   stopBGM() {
@@ -159,10 +186,10 @@ var enemy1 = {
   // スライムのステータス定義
   name: "スライム",
   level: 99,
-  hp: 1000,
+  hp: 9999,
   mp: 20,
   maxhp: 5000,
-  atc: 300,
+  atc: 10000,
   skill: "いてつくはどう",
   type: "normal",
   imagepath: "./img/monster/slime.png",
@@ -213,10 +240,9 @@ var enemy4 = {
   item: "スイートチョコ"
 }
 
-var enemy = enemy1, enemy2, enemy3, enemy4;
+var enemy = enemy2;
 
 var heal_hp = 500;
-
 
 // 受付
 var torneko_intro = new Audio('sound/torneko_intro.mp3');
@@ -279,11 +305,13 @@ Melzeno_roar.volume = 1;
 // var freezing_waves = document.createElement("img");
 // freezing_waves.src = "img/effect/freezing_waves.gif";
 
-
 // 戦闘初期化処理
 menu_init();
 hideLogin();
 // battle_init();
+
+
+
 
 // キーボード操作
 document.onkeydown = function(keyEvent) {
@@ -396,7 +424,8 @@ document.onkeydown = function(keyEvent) {
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
-
+  
+  /*
   if (enemy.type == "normal") {
     // dq4_btl_fc.play();
   } else if (enemy.type == "boss") {
@@ -409,6 +438,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
     can_cry.play();
     // audioPlayer.playBGM("sound/can_cry.mp3", 0.5, true);
   }
+  */
 
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
@@ -517,13 +547,16 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     case 0: //メニューの１番めのコマンド
       audioPlayer.playSE("sound/select.wav", 1);
+      enemy = enemy1;
       showSelect();
     break;
 
     case 1: //メニューの2番めのコマンド
       audioPlayer.playSE("sound/cursor.wav", 1);
+      // enemy = enemy2;
       // showSelect();
 
+      
       if(audioPlayer.playBGM()) {
         audioPlayer.stopBGM();
         battle_init(enemy2);
@@ -532,7 +565,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
       }
       // torneko_intro.pause();
       // torneko_intro.currentTime = 0;
-
+      
       // showSelect();
       update();
       console.log("メニュー２番め押下");
@@ -601,9 +634,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
 function doCommandSelect(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
-
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
-
     case 0: //メニューの１番めのコマンド
       audioPlayer.playSE("sound/cursor.wav", 1);
       // torneko_intro.pause();
@@ -611,47 +642,37 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
       document.getElementById("fade").className = "fade-out";
       isKeyBlock=true;
       closeSelect();
+      audioPlayer.playBGM2( "nomal" );
+        var timer = setTimeout( function () {
+          document.getElementById("fade").className = "fade-in";
+          battle_init(enemy);
+  
+          isKeyBlock=false;
+          update();
+        } , 2500 );
 
-      if (enemy.type == "normal") {
-        audioPlayer.playBGM("sound/dq4_btl_fc.mp3",0.5 ,true);
-      } else if (enemy.type == "boss") {
-        audioPlayer.playBGM("sound/Malzeno_Battle_Theme.mp3",0.5 ,true);
-      } else if (enemy.type == "woman") {
-        audioPlayer.playBGM("sound/can_cry_Instrumental",0.5 ,true);
-      } else if (enemy.type == "woman2") {
-        audioPlayer.playBGM("sound/can_cry.mp3",0.5 ,true);
-      }
 
-      var timer = setTimeout( function () {
-        document.getElementById("fade").className = "fade-in";
-        battle_init(enemy);
 
-        isKeyBlock=false;
-        update();
-      } , 2500 );
 
 
       console.log("メニュー１番め押下");
-    break;
 
+    break;
     case 1:
       audioPlayer.playSE("sound/cursor.wav", 1);
       closeSelect();
-
     default:
     break;
-
   }
 }
 
-function showSelect(){
+function showSelect() {
   hideCursorMenu();
   // document.getElementById("select").innerHTML = '<span class="message">'+enemy.name+'と たたかいますか？</span>';
   menuMode = MenuModeBattleSelect;
   maxMenuNum = 2;
   selectMenuId = 0;
   update();
-
   // const loginForm = document.getElementById("select");
   // // blockで表示
   // loginForm.style.display ="block";
@@ -662,16 +683,14 @@ function showSelect(){
     // console.log("メニュー１番め押下");
 }
 
-function closeSelect(){
-
+function closeSelect() {
   menuMode = MenuModeNormal;
   maxMenuNum = 6;
   selectMenuId = 0;
   update();
-
 }
 
-function hideLogin(){
+function hideLogin() {
   var loginForm = document.getElementById("select");
   // noneで非表示
   loginForm.style.display ="none";
@@ -687,9 +706,11 @@ function playerAttack(player) {
   // audioPlayer.stopSE();
   // attack.pause();
   // attack.currentTime = 0;
+
   var timer = setTimeout( function () {
     audioPlayer.playSE("sound/attack.mp3", 0.5);
   } , 100 );
+
   console.log("se attack再生");
   var enemy_div = document.getElementById("enemy_div");
   var shadow = document.getElementById('shadow');
@@ -721,12 +742,12 @@ function playerAttack(player) {
 
       // dq4_btl_fc.pause();
       // dq4_btl_fc.currentTime = 0;
-      Malzeno_Battle_Theme.pause();
-      Malzeno_Battle_Theme.currentTime = 0;
-      can_cry.pause();
-      can_cry.currentTime = 0;
-      can_cry_Instrumental.pause();
-      can_cry_Instrumental.currentTime = 0;
+      // Malzeno_Battle_Theme.pause();
+      // Malzeno_Battle_Theme.currentTime = 0;
+      // can_cry.pause();
+      // can_cry.currentTime = 0;
+      // can_cry_Instrumental.pause();
+      // can_cry_Instrumental.currentTime = 0;
       var timer = setTimeout( function () {
         audioPlayer.stopBGM();
         audioPlayer.playSE("sound/win.wav", 0.3);
@@ -795,14 +816,15 @@ function enemyAttack() {
 
           // 死亡チェック
           if (player1.hp <= 0) {
-          dq4_btl_fc.pause();
-          dq4_btl_fc.currentTime = 0;
-          Malzeno_Battle_Theme.pause();
-          Malzeno_Battle_Theme.currentTime = 0;
-          can_cry.pause();
-          can_cry.currentTime = 0;
-          can_cry_Instrumental.pause();
-          can_cry_Instrumental.currentTime = 0;
+          audioPlayer.stopBGM();
+          // dq4_btl_fc.pause();
+          // dq4_btl_fc.currentTime = 0;
+          // Malzeno_Battle_Theme.pause();
+          // Malzeno_Battle_Theme.currentTime = 0;
+          // can_cry.pause();
+          // can_cry.currentTime = 0;
+          // can_cry_Instrumental.pause();
+          // can_cry_Instrumental.currentTime = 0;
           audioPlayer.playBGM("sound/gameover.wav", 1);
           document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
 
@@ -870,14 +892,15 @@ function enemyAttack() {
     
               // 死亡チェック
               if (player1.hp <= 0) {
-              dq4_btl_fc.pause();
-              dq4_btl_fc.currentTime = 0;
-              Malzeno_Battle_Theme.pause();
-              Malzeno_Battle_Theme.currentTime = 0;
-              can_cry.pause();
-              can_cry.currentTime = 0;
-              can_cry_Instrumental.pause();
-              can_cry_Instrumental.currentTime = 0;
+              audioPlayer.stopBGM();
+              // dq4_btl_fc.pause();
+              // dq4_btl_fc.currentTime = 0;
+              // Malzeno_Battle_Theme.pause();
+              // Malzeno_Battle_Theme.currentTime = 0;
+              // can_cry.pause();
+              // can_cry.currentTime = 0;
+              // can_cry_Instrumental.pause();
+              // can_cry_Instrumental.currentTime = 0;
               audioPlayer.playBGM("sound/gameover.wav", 1);
               document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
     
@@ -908,8 +931,6 @@ function enemyAttack() {
 
         effect.classList.add("effect_panta_rhe_angelray");        
 
-
-
         var damage = enemy.skill_atc;
         var rand_value = Math.floor(Math.random() * 100);
         damage += rand_value;
@@ -936,14 +957,15 @@ function enemyAttack() {
     
               // 死亡チェック
               if (player1.hp <= 0) {
-              dq4_btl_fc.pause();
-              dq4_btl_fc.currentTime = 0;
-              Malzeno_Battle_Theme.pause();
-              Malzeno_Battle_Theme.currentTime = 0;
-              can_cry.pause();
-              can_cry.currentTime = 0;
-              can_cry_Instrumental.pause();
-              can_cry_Instrumental.currentTime = 0;
+              audioPlayer.stopBGM();
+              // dq4_btl_fc.pause();
+              // dq4_btl_fc.currentTime = 0;
+              // Malzeno_Battle_Theme.pause();
+              // Malzeno_Battle_Theme.currentTime = 0;
+              // can_cry.pause();
+              // can_cry.currentTime = 0;
+              // can_cry_Instrumental.pause();
+              // can_cry_Instrumental.currentTime = 0;
               audioPlayer.playBGM("sound/gameover.wav", 1);
               document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
     
@@ -981,6 +1003,7 @@ function Experience_point() {
 
 // 戦闘画面の見た目担当
 function update() {
+
   //キャラＡ
   document.getElementById("p1name").innerHTML = player1.name;
   document.getElementById("p1level").innerHTML = 'レベル:' + player1.level;
@@ -1023,20 +1046,23 @@ function update() {
   }
 
   //メニューカーソル表示
-  if(screenMode==screenModeBattle ){
+  if(screenMode==screenModeBattle ) {
+
     var menu_element = document.getElementById('battle_menu' );
-  }else if (screenMode==screenModeMenu ){
+
+  } else if (screenMode==screenModeMenu ) {
+
     if( menuMode==MenuModeNormal ){
       var menu_element = document.getElementById('reception' );
-    }else if( menuMode==MenuModeBattleSelect ){
+    } else if( menuMode==MenuModeBattleSelect ) {
       var menu_element = document.getElementById('select' );
     }
+
   }
 
   var menu_child_div_array = menu_element.children;
 
   for( var i=0; i<menu_child_div_array.length; i++) {
-
     if( i == selectMenuId)
       menu_child_div_array[i].className = 'menu menu-active';//カーソル表示
     else
@@ -1045,12 +1071,13 @@ function update() {
 
   //選択肢メニューの表示非表示
   const loginForm = document.getElementById("select");
-  if( menuMode==MenuModeBattleSelect ){
+
+  if( menuMode==MenuModeBattleSelect ) {
     //メニュー中の戦闘しますか選択肢
     // blockで表示
     loginForm.style.display ="block";
     $("body").css("overflow-y", "hidden");
-  }else{
+  } else {
     loginForm.style.display ="none";
   }
 
@@ -1164,7 +1191,9 @@ function battle_init( encountEnemy ) {
       battle_field.classList.remove("battle_field2");
       battle_field.classList.remove("battle_field3");
       battle_field.classList.add("battle_field4");
+
   }
+
 }
 
 function menu_init() {
@@ -1179,5 +1208,4 @@ function menu_init() {
   // document.getElementById("battle_container").setAttribute('style', 'display:block;'); //バトル画面を表示
   document.getElementById("battle_container").setAttribute('style', 'display:none;'); //バトル画面を非表示
   update();
-
 }

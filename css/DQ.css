@@ -708,3 +708,29 @@ span.message {
     background:#000; 
   }
 }
+
+/* 円形に徐々に表示するアニメーション */
+/* 右半分 */
+.circle-wrap {
+  /* 枠 */
+  border: 1px solid white;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: #E74C3C;
+}
+
+/*
+.circle-right {
+  position: absolute;
+  left: 25px;
+  width: 25px;
+  height: 50px;
+  overflow: hidden;
+}
