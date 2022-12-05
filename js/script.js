@@ -596,8 +596,15 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
       */
 
       var timer = setTimeout( function () {
-        document.getElementByID("circle").className = "circle-wrap" & "circle-right" & "circle-right-hidden" & "circle", "circle-left" & "circle-left-hidden" & "circle circle-left";
 
+        document.getElementById("id_circle-right-hidden").style.animationPlayState = "running";
+        document.getElementById("id_circle-left-hidden").style.animationPlayState = "running";
+        // document.getElementById("id_circle-wrap").className = "circle-wrap";
+        // document.getElementById("id_circle-right").className = "circle-right";
+        // document.getElementById("id_circle-right-hidden").className = "circle-right-hidden";
+        // document.getElementById("id_circle").className = "circle";
+        // document.getElementById("id_circle-left").className = "circle-left";
+        // document.getElementById("id_circle-left-hidden").className = "circle-left-hidden";
       } , 1000 );
 
 

@@ -727,9 +727,9 @@ span.message {
 .circle {
   /* 右円周枠*/
   /* border: 1px solid yellow; */
-  width: 5000px;
-  height: 5000px;
-  border-radius: 2500px;
+  width: 500px;
+  height: 500px;
+  border-radius: 250px;
   background: #000;
 }
 
@@ -737,8 +737,8 @@ span.message {
   /* 右円枠*/
   /* border: 1px solid blue; */
   position: absolute;
-  width: 2500px;
-  height: 5000px;
+  width: 250px;
+  height: 500px;
   top: 50%;
   left: 50%;
   transform: translate(0%,-50%);
@@ -747,16 +747,16 @@ span.message {
 
 .circle-right-hidden {
   position: relative;
-  left: -2500px;
-  width: 2500px;
-  height: 5000px;
+  left: -250px;
+  width: 250px;
+  height: 500px;
   overflow: hidden;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
   -webkit-transform-origin: 100% 50%;
   transform-origin: 100% 50%;
-  -webkit-animation: rotateRight 1s linear infinite;
-  animation: rotateRight 1s linear infinite;
+  -webkit-animation: rotateRight 1s linear infinite paused;
+  animation: rotateRight 1s linear infinite paused;
 }
 
 @-webkit-keyframes rotateRight {
@@ -793,8 +793,8 @@ span.message {
   /* 左円枠*/
   /* border: 1px solid green; */
   position: absolute;
-  width: 2500px;
-  height: 5000px;
+  width: 250px;
+  height: 500px;
   top: 50%;
   left: 50%;
   transform: translate(-100%,-50%);
@@ -803,21 +803,21 @@ span.message {
 
 .circle-left-hidden {
   position: relative;
-  left: 2500px;
-  width: 2500px;
-  height: 5000px;
+  left: 250px;
+  width: 250px;
+  height: 500px;
   overflow: hidden;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
   -webkit-transform-origin: 0% 50%;
   transform-origin: 0% 50%;
-  -webkit-animation: rotateLeft 1s linear infinite;
-  animation: rotateLeft 1s linear infinite;
+  -webkit-animation: rotateLeft 1s linear infinite paused;
+  animation: rotateLeft 1s linear infinite paused;
 }
 
 .circle-left .circle {
   position: relative;
-  left: -2500px;
+  left: -250px;
 }
 
 @-webkit-keyframes rotateLeft {
