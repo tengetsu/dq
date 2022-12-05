@@ -85,21 +85,41 @@ var enemyArray = [slime1, slime2, slime3, malzeno, woman1, woman2]; //モンス�
 class AudioPlayer {
 
   soundParamList = {
-    "normal": {
-      "filename": "sound/dq4_btl_fc.mp3",
-      "volume": 0.5,
-      "loop" : false,
-    },
-    "normal2": {
-      "filename": "sound/dq4_btl_fc.mp3",
-      "volume": 0.3,
-      "loop" : true,
-    },
-    "boss": {
-      "filename": "sound/Malzeno_Battle_Theme.mp3",
-      "volume": 0.5,
-      "loop" : true,
-    }
+    /******************************************** BGM ********************************************/
+
+    // 店BGM
+    "torneko":        { "filename":"sound/torneko_intro.mp3",        "volume":1, "loop":true, },
+    
+    // 宿屋BGM
+    "inn":            { "filename":"sound/inn.wav",                  "volume":1, "loop":false, },
+
+    // 戦闘BGM
+    "normal":         { "filename":"sound/dq4_btl_fc.mp3",           "volume":1, "loop":true, },
+    "normal2":        { "filename":"sound/dq4_btl_fc.mp3",           "volume":1, "loop":true, },
+    "boss":           { "filename":"sound/malzeno_Battle_Theme.mp3", "volume":1, "loop":true, },
+    "woman1":         { "filename":"sound/can_cry_Instrumental.mp3", "volume":1, "loop":true, },
+    "woman2":         { "filename":"sound/can_cry.mp3",              "volume":1, "loop":true, },
+
+    /******************************************** SE ********************************************/
+
+    // カーソル選択SE
+    "cursor":         { "filename":"sound/cursor.wav",               "volume":1, "loop":false, },
+    "select":         { "filename":"sound/select.wav",               "volume":1, "loop":false, },
+
+    // 戦闘SE
+    "attack":         { "filename":"sound/attack.mp3",               "volume":1, "loop":false, },
+    "enemy_attack":   { "filename":"sound/enemy_attack.wav",         "volume":1, "loop":false, },
+    "being_attacked": { "filename":"sound/being_attacked.wav",       "volume":1, "loop":false, },
+    "heal":           { "filename":"sound/heal.wav",                 "volume":1, "loop":false, },
+    "win":            { "filename":"sound/win.wav",                  "volume":1, "loop":false, },
+    "levelup":        { "filename":"sound/levelup.wav",              "volume":1, "loop":false, },
+    "flee":           { "filename":"sound/flee.mp3",                 "volume":1, "loop":false, },
+    "gameover":       { "filename":"sound/gameover.wav",             "volume":1, "loop":false, },
+
+    // 特技SE
+    "freezing_waves": { "filename":"sound/freezing_waves.wav",       "volume":1, "loop":false, },
+    "malzeno_roar":   { "filename":"sound/malzeno_roar.mp3",         "volume":1, "loop":false, },
+
   }
 
   constructor() {
@@ -107,6 +127,7 @@ class AudioPlayer {
     this.bgm=null;
   }
 
+  /*
   //BGM再生用関数
   playBGM(filename, volume=1.0, loop=true) {
     if( this.bgm!=null ){
@@ -120,15 +141,23 @@ class AudioPlayer {
     this.bgm.play();
     this.bgm.loop = loop;
   }
+  */
 
   playBGM2( soundParamName ) {
-  var soundParam = this.soundParamList["soundParamName"];
-  this.bgm = new Audio(soundParam.filename);
-  this.bgm.volume = soundParam.volume;
-  this.bgm.play();
-  this.bgm.loop = soundParam.loop;
-  }
+    var soundParam = this.soundParamList[soundParamName];
 
+    if( this.bgm != null ) {
+      //再生中のものリセット
+      this.bgm.pause();
+      this.bgm.currentTime = 0;
+    }
+
+    //新規再生
+    this.bgm = new Audio( soundParam.filename );
+    this.bgm.volume = soundParam.volume;
+    this.bgm.play();
+    this.bgm.loop = soundParam.loop;
+  }
 
   //再生中のBGMをストップ
   stopBGM() {
@@ -136,16 +165,22 @@ class AudioPlayer {
     this.se.currentTime = 0;
   }
 
-  //SE用の再生。BGM再生と現状ほぼ変わらないが、今後の複数同時再生を考慮して分けた
+  /*
   playSE(filename, volume=1.0) {
-    if( this.se!=null ){
-      //再生中のものリセット
-      this.se.pause();
-      this.se.currentTime = 0;
-    }
+
     //新規再生
     this.se = new Audio(filename);
     this.se.volume = volume;
+    this.se.play();
+  }
+  */
+
+  playSE2( soundParamName ) {
+    var soundParam = this.soundParamList[soundParamName];
+
+    //新規再生
+    this.se = new Audio( soundParam.filename );
+    this.se.volume = soundParam.volume;
     this.se.play();
   }
 
@@ -189,7 +224,7 @@ var enemy1 = {
   hp: 9999,
   mp: 20,
   maxhp: 5000,
-  atc: 10000,
+  atc: 300,
   skill: "いてつくはどう",
   type: "normal",
   imagepath: "./img/monster/slime.png",
@@ -244,74 +279,9 @@ var enemy = enemy2;
 
 var heal_hp = 500;
 
-// 受付
-var torneko_intro = new Audio('sound/torneko_intro.mp3');
-torneko_intro.volume = 0.5;
-
-// 宿屋
-var inn = new Audio('sound/inn.wav');
-inn.volume = 0.5;
-
-// 戦闘BGM
-var dq4_btl_fc = new Audio('sound/dq4_btl_fc.mp3');
-dq4_btl_fc.volume = 0.5;
-
-var Malzeno_Battle_Theme = new Audio('sound/Malzeno_Battle_Theme.mp3');
-Malzeno_Battle_Theme.volume = 0.5;
-
-var can_cry_Instrumental = new Audio('sound/can_cry_Instrumental.mp3');
-can_cry_Instrumental.volume = 0.3;
-
-var can_cry = new Audio('sound/can_cry.mp3');
-can_cry.volume = 0.2;
-
-// 効果音
-var attack = new Audio('sound/attack.mp3');
-attack.volume = 0.5;
-
-var cursor = new Audio('sound/cursor.wav');
-cursor.volume = 1;
-
-var select = new Audio('sound/select.wav');
-select.volume = 1;
-
-var flee = new Audio('sound/flee.mp3');
-flee.volume = 1;
-
-var enemy_attack = new Audio('sound/enemy_attack.wav');
-enemy_attack.volume = 0.2;
-
-var being_attacked = new Audio('sound/being_attacked.wav');
-being_attacked.volume = 0.3;
-
-var win = new Audio('sound/win.wav');
-win.volume = 0.3;
-
-var heal = new Audio('sound/heal.wav');
-heal.volume = 1;
-
-var freezing_waves_m = new Audio('sound/freezing_waves.wav');
-freezing_waves_m.volume = 0.6;
-
-var levelup = new Audio('sound/levelup.wav');
-levelup.volume = 1;
-
-var gameover = new Audio('sound/gameover.wav');
-levelup.volume = 1;
-
-var Melzeno_roar = new Audio('sound/Melzeno_roar.mp3');
-Melzeno_roar.volume = 1;
-
-// var freezing_waves = document.createElement("img");
-// freezing_waves.src = "img/effect/freezing_waves.gif";
-
 // 戦闘初期化処理
 menu_init();
 hideLogin();
-// battle_init();
-
-
-
 
 // キーボード操作
 document.onkeydown = function(keyEvent) {
@@ -353,31 +323,31 @@ document.onkeydown = function(keyEvent) {
 
       if( levelupMessageCount>=1 ){
         if( levelupMessageCount==1 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           document.getElementById("message").innerHTML = '<span class="message">HPが 3 あがった！</span>';
           levelupMessageCount += 1;
         }else if( levelupMessageCount==2 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           document.getElementById("message").innerHTML = '<span class="message">MPが 2 あがった！</span>';
           levelupMessageCount += 1;
         }else if( levelupMessageCount==3 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           document.getElementById("message").innerHTML = '<span class="message">こうげきりょくが 5 あがった！</span>';
           levelupMessageCount += 1;
         }else if( levelupMessageCount==4 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           document.getElementById("message").innerHTML = '<span class="message">ぼうぎょりょくが 4 あがった！</span>';
           levelupMessageCount += 1;
         }else if( levelupMessageCount==5 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           document.getElementById("message").innerHTML = '<span class="message">すばやさが 2 あがった！</span>';
           levelupMessageCount += 1;
         }else if( levelupMessageCount==6 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           document.getElementById("message").innerHTML = '<span class="message">戦闘を終了します Enterキーを 押してください</span>';
           levelupMessageCount += 1;
         }else if( levelupMessageCount==7 ){
-          audioPlayer.playSE("sound/cursor.wav", 1);
+          audioPlayer.playSE2("cursor");
           levelupMessageCount = 0;
           enemy.hp = enemy.maxhp;
           var enemy_death = document.getElementById('enemy_div');
@@ -385,16 +355,16 @@ document.onkeydown = function(keyEvent) {
           shadow.classList.add("shadow");
           isKeyBlock=false;
           menu_init();
-          audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+          audioPlayer.playBGM2("torneko");
         }
 
       }else if(enemy.hp <= 0) {
-        audioPlayer.playSE("sound/cursor.wav", 1);
+        audioPlayer.playSE2("cursor");
         document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は けいけんち 10ポイント かくとくした！</span>';
         var timer = setTimeout( function () {
           player1.level += 1;
           update();
-          audioPlayer.playSE("sound/levelup.wav", 1);
+          audioPlayer.playSE2("levelup");
           document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は レベル'+player1.level+'に あがった！</span>';
           levelupMessageCount = 1;
         } , 1000 );
@@ -424,35 +394,20 @@ document.onkeydown = function(keyEvent) {
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
-  
-  /*
-  if (enemy.type == "normal") {
-    // dq4_btl_fc.play();
-  } else if (enemy.type == "boss") {
-    Malzeno_Battle_Theme.play();
-    // audioPlayer.playBGM("sound/Malzeno_Battle_Theme.mp3", 0.5, true);
-  } else if (enemy.type == "woman") {
-    can_cry_Instrumental.play();
-    // audioPlayer.playBGM("sound/can_cry_Instrumental.mp3", 0.5, true);
-  } else if (enemy.type == "woman2") {
-    can_cry.play();
-    // audioPlayer.playBGM("sound/can_cry.mp3", 0.5, true);
-  }
-  */
 
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 0: // たたかう
-      audioPlayer.playSE("sound/cursor.wav", 1);
+      audioPlayer.playSE2("cursor");
       playerAttack(player1);
     break;
 
     case 1: // ぼうぎょ
       isKeyBlock=true;
       player1.once_guard = DEFAULT_GUARD_POINT;
-      audioPlayer.playSE("sound/cursor.wav", 1);
+      audioPlayer.playSE2("cursor");
       document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は みをまもっている！</span>';
       var timer = setTimeout( function () {
         playerAttack(player2);
@@ -461,7 +416,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     case 2: // どうぐ
       isKeyBlock=true;
-      audioPlayer.playSE("sound/cursor.wav", 1);
+      audioPlayer.playSE2("cursor");
       var display_heal_value = heal_hp; //表示用回復値（最大値を超えた範囲の回復量は含めない）
       player1.hp += heal_hp;
       if( player1.hp > player1.maxhp ) {
@@ -472,7 +427,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた '+enemy.item+' をつかった！<br>HP が '+display_heal_value+' かいふくした</span>';
 
         var timer = setTimeout( function () {
-          audioPlayer.playSE("sound/heal.wav", 1);
+          audioPlayer.playSE2("heal");
           update();
 
           var timer = setTimeout( function () {
@@ -486,7 +441,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
         document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は もっていた '+enemy.item+' をつかった！<br>HP が '+heal_hp+' かいふくした</span>';
 
         var timer = setTimeout( function () {
-          audioPlayer.playSE("sound/heal.wav", 1);
+          audioPlayer.playSE2("heal");
           update();
 
           var timer = setTimeout( function () {
@@ -500,30 +455,19 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     case 3: // にげる
       isKeyBlock=true;
-      audioPlayer.playSE("sound/cursor.wav", 1); 
-      var timer = setTimeout( function () { //audioPlayerが2つ連続で並ぶとカーソル音が鳴らないため、timer関数で少し遅らせる。
-        audioPlayer.playSE("sound/flee.mp3", 1);
-      } , 100 );
+      audioPlayer.playSE2("cursor");
+      audioPlayer.playSE2("flee");
+
       nandNo = Math.floor(Math.random() * 10) //０か１のランダム
-      if( nandNo <= 3 ){
+      if( nandNo <= 5 ){
         document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は にげだした！</span>';
         var timer = setTimeout( function () {
-
           audioPlayer.stopBGM();
-          // dq4_btl_fc.pause();
-          // dq4_btl_fc.currentTime = 0
-          // Malzeno_Battle_Theme.pause();
-          // Malzeno_Battle_Theme.currentTime = 0
-          // can_cry.pause();
-          // can_cry.currentTime = 0;
-          // can_cry_Instrumental.pause();
-          // can_cry_Instrumental.currentTime = 0;
-
+          audioPlayer.stopSE();
           enemy.hp = enemy.maxhp;
           isKeyBlock=false;
           menu_init();
-          torneko_intro.currentTime = 0
-          audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+          audioPlayer.playBGM2("torneko");
         } , 1300 );
 
       } else {
@@ -546,17 +490,17 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
     case 0: //メニューの１番めのコマンド
-      audioPlayer.playSE("sound/select.wav", 1);
+      audioPlayer.playSE2("select");
       enemy = enemy1;
       showSelect();
     break;
 
     case 1: //メニューの2番めのコマンド
-      audioPlayer.playSE("sound/cursor.wav", 1);
-      // enemy = enemy2;
-      // showSelect();
+      audioPlayer.playSE2("select");
+      enemy = enemy2;
+      showSelect();
 
-      
+      /*
       if(audioPlayer.playBGM()) {
         audioPlayer.stopBGM();
         battle_init(enemy2);
@@ -569,52 +513,45 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
       // showSelect();
       update();
       console.log("メニュー２番め押下");
+      */
 
     break;
 
     case 2: //メニューの2番めのコマンド
-      audioPlayer.playSE("sound/cursor.wav", 1);
-      audioPlayer.stopBGM();
-      if(audioPlayer.playBGM()) {
+      audioPlayer.playSE2("select");
 
-        var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
-        if( nandNo <= 1 ){
-          battle_init(enemy4);
-        } else {
-          battle_init(enemy3);
-        }
+      var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
+      if( nandNo <= 1 ){
+        enemy = enemy4;
       } else {
-        var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
-        if( nandNo <= 1 ){
-          battle_init(enemy4);
-        } else {
-          battle_init(enemy3);
-        }
+        enemy = enemy3;
       }
+
+      showSelect();
 
       // torneko_intro.pause();
       // torneko_intro.currentTime = 0;
+      // update();
+      // console.log("メニュー３番め押下");
 
-      update();
-      console.log("メニュー３番め押下");
     break;
 
     case 3: //メニューの3番めのコマンド
-      audioPlayer.playSE("sound/cursor.wav", 1);
+    audioPlayer.playSE2("cursor");
       console.log("メニュー４番め押下");
     break;
 
     case 4: //メニューの3番めのコマンド
-      audioPlayer.playSE("sound/cursor.wav", 1);
+    audioPlayer.playSE2("cursor");
       // torneko_intro.pause();
       // torneko_intro.currentTime = 0;
-      audioPlayer.playBGM("sound/inn.wav", 1, false) ;
+      audioPlayer.playBGM2("inn");
       document.getElementById("fade").className = "fade-out";
       player1.hp = player1.maxhp;
 
       var timer = setTimeout( function () {
         document.getElementById("fade").className = "fade-in";
-        audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+        audioPlayer.playBGM2("torneko");
         document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
       } , 3500 );
 
@@ -622,7 +559,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
     break;
 
     case 5: //メニューの3番めのコマンド
-      audioPlayer.playSE("sound/cursor.wav", 1);
+    audioPlayer.playSE2("cursor");
       console.log("メニュー６番め押下");
     break;
 
@@ -636,31 +573,53 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
     case 0: //メニューの１番めのコマンド
-      audioPlayer.playSE("sound/cursor.wav", 1);
-      // torneko_intro.pause();
-      // torneko_intro.currentTime = 0;
-      document.getElementById("fade").className = "fade-out";
+      audioPlayer.playSE2("cursor");
       isKeyBlock=true;
       closeSelect();
-      audioPlayer.playBGM2( "nomal" );
-        var timer = setTimeout( function () {
-          document.getElementById("fade").className = "fade-in";
-          battle_init(enemy);
-  
-          isKeyBlock=false;
-          update();
-        } , 2500 );
+      var timer = setTimeout( function () {
+        document.getElementById("flash").className = "flash";
+      }, 100);
+      if (enemy.type == "normal") {
+        audioPlayer.playBGM2( "normal" );
+      } else if (enemy.type == "boss") {
+        audioPlayer.playBGM2( "boss" );
+      } else if (enemy.type == "woman") {
+        audioPlayer.playBGM2( "woman1" );
+      } else if (enemy.type == "woman2") {
+        audioPlayer.playBGM2( "woman2" );
+      }
+
+      /*
+      var timer = setTimeout( function () {
+        document.getElementById("fade").className = "fade-out";
+      } , 600 );
+      */
+
+      var timer = setTimeout( function () {
+        document.getElementByID("circle").className = "circle-wrap" & "circle-right" & "circle-right-hidden" & "circle", "circle-left" & "circle-left-hidden" & "circle circle-left";
+
+      } , 1000 );
 
 
 
 
+
+
+      var timer = setTimeout( function () {
+        document.getElementById("fade").className = "fade-in";
+        battle_init(enemy);
+        isKeyBlock=false;
+        update();
+      } , 2500 );
 
       console.log("メニュー１番め押下");
-
     break;
+
     case 1:
-      audioPlayer.playSE("sound/cursor.wav", 1);
+      audioPlayer.playSE2("cursor");
       closeSelect();
+    break;
+
     default:
     break;
   }
@@ -708,7 +667,7 @@ function playerAttack(player) {
   // attack.currentTime = 0;
 
   var timer = setTimeout( function () {
-    audioPlayer.playSE("sound/attack.mp3", 0.5);
+    audioPlayer.playSE2("attack");
   } , 100 );
 
   console.log("se attack再生");
@@ -750,7 +709,8 @@ function playerAttack(player) {
       // can_cry_Instrumental.currentTime = 0;
       var timer = setTimeout( function () {
         audioPlayer.stopBGM();
-        audioPlayer.playSE("sound/win.wav", 0.3);
+        audioPlayer.stopSE();
+        audioPlayer.playSE2("win");
         enemy_death.style.display = "none";
         enemy_div.classList.remove("enemy_receive_damage");
         shadow.classList.remove("enemy_receive_damage");
@@ -789,7 +749,7 @@ function enemyAttack() {
   var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
 
   if( nandNo <= 7 ){
-    audioPlayer.playSE("sound/enemy_attack.wav", 0.2);
+    audioPlayer.playSE2("enemy_attack");
     var damage = enemy.atc;
     var rand_value = Math.floor(Math.random() * 100); // ０〜１０のランダム
     damage += rand_value;
@@ -803,7 +763,7 @@ function enemyAttack() {
     document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' の こうげき<br>'+player1.name+' に '+damage+' のダメージ！</span>';
 
     var timer = setTimeout( function () {
-      audioPlayer.playSE("sound/being_attacked.wav", 0.3);
+      audioPlayer.playSE2("being_attacked");
       update();
       if( player1.hp <= 0) {
         player1.hp = 0;
@@ -825,7 +785,7 @@ function enemyAttack() {
           // can_cry.currentTime = 0;
           // can_cry_Instrumental.pause();
           // can_cry_Instrumental.currentTime = 0;
-          audioPlayer.playBGM("sound/gameover.wav", 1);
+          audioPlayer.playSE2("gameover");
           document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
 
             var timer = setTimeout( function () {
@@ -850,15 +810,15 @@ function enemyAttack() {
     var timer = setTimeout( function () {
 
       if ( enemy == enemy1) {
-        audioPlayer.playSE("sound/freezing_waves.wav", 0.5);
+        audioPlayer.playSE2("freezing_waves");
         freezing_waves.classList.add("effect_freezing_waves");
         document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は '+enemy.skill+' を はなった！<br>しかし なにも おこらなかった！</span>';  
       } else if ( enemy == enemy2 ) {
-        audioPlayer.playSE("sound/Melzeno_roar.mp3", 1);
+        audioPlayer.playSE2("malzeno_roar");
         freezing_waves.classList.add("effect_freezing_waves");
         document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は '+enemy.skill+' を はなった！<br>しかし なにも おこらなかった！</span>';  
       } else if ( enemy == enemy3 ) {
-        audioPlayer.playSE("sound/freezing_waves.wav", 0.5);
+        audioPlayer.playSE2("freezing_waves");
         effect.classList.add("effect_panta_rhei_cutin");
 
         var timer = setTimeout( function () {
@@ -879,7 +839,7 @@ function enemyAttack() {
         document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は '+enemy.skill+' を はなった！<br>'+player1.name+' に '+damage+' のダメージ！</span>';
     
         var timer = setTimeout( function () {
-          audioPlayer.playSE("sound/being_attacked.wav", 0.3);
+          audioPlayer.playSE2("being_attacked");
           update();
           if( player1.hp <= 0) {
             player1.hp = 0;
@@ -901,7 +861,7 @@ function enemyAttack() {
               // can_cry.currentTime = 0;
               // can_cry_Instrumental.pause();
               // can_cry_Instrumental.currentTime = 0;
-              audioPlayer.playBGM("sound/gameover.wav", 1);
+              audioPlayer.playSE2("gameover");
               document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
     
                 var timer = setTimeout( function () {
@@ -922,7 +882,7 @@ function enemyAttack() {
 
       } else if ( enemy == enemy4 ) {
 
-        audioPlayer.playSE("sound/freezing_waves.wav", 0.5);
+        audioPlayer.playSE("freezing_waves");
         effect.classList.add("effect_panta_rhei_cutin");
 
         var timer = setTimeout( function () {
@@ -944,7 +904,7 @@ function enemyAttack() {
         document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は 零 の思念を読み取り<br>'+enemy.skill+' を はなった！<br>'+player1.name+' に '+damage+' のダメージ！</span>';
     
         var timer = setTimeout( function () {
-          audioPlayer.playSE("sound/being_attacked.wav", 0.3);
+          audioPlayer.playSE2("being_attacked");
           update();
           if( player1.hp <= 0) {
             player1.hp = 0;
@@ -966,7 +926,7 @@ function enemyAttack() {
               // can_cry.currentTime = 0;
               // can_cry_Instrumental.pause();
               // can_cry_Instrumental.currentTime = 0;
-              audioPlayer.playBGM("sound/gameover.wav", 1);
+              audioPlayer.playSE2("gameover");
               document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
     
                 var timer = setTimeout( function () {

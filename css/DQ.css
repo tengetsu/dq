@@ -22,6 +22,7 @@ body {
   height: 90vh;
   margin: auto;
   position: relative;
+  overflow: hidden;
 }
 
  .reception {
@@ -670,7 +671,7 @@ span.message {
   width: 90vw;
   height: 90vh;
   margin: auto;
-  margin-left: 87px;
+  margin-left: 88px;
   position: absolute;
   animation: fadeOut 1s linear forwards;
 }
@@ -692,7 +693,7 @@ span.message {
   width: 90vw;
   height: 90vh;
   margin: auto;
-  margin-left: 87px;
+  margin-left: 88px;
   position: absolute;
   animation: fadein 0.5s linear forwards;
 }
@@ -712,25 +713,200 @@ span.message {
 /* 円形に徐々に表示するアニメーション */
 /* 右半分 */
 .circle-wrap {
-  /* 枠 */
-  border: 1px solid white;
+  /* 全体枠 */
+  /* border: 1px solid red; */
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 90vw;
+  height: 90vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 .circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  background: #E74C3C;
+  /* 右円周枠*/
+  /* border: 1px solid yellow; */
+  width: 5000px;
+  height: 5000px;
+  border-radius: 2500px;
+  background: #000;
 }
 
-/*
 .circle-right {
+  /* 右円枠*/
+  /* border: 1px solid blue; */
   position: absolute;
-  left: 25px;
-  width: 25px;
-  height: 50px;
+  width: 2500px;
+  height: 5000px;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%,-50%);
   overflow: hidden;
+}
+
+.circle-right-hidden {
+  position: relative;
+  left: -2500px;
+  width: 2500px;
+  height: 5000px;
+  overflow: hidden;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+  -webkit-animation: rotateRight 1s linear infinite;
+  animation: rotateRight 1s linear infinite;
+}
+
+@-webkit-keyframes rotateRight {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotateRight {
+  0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+  }
+}
+
+.circle-left {
+  /* 左円枠*/
+  /* border: 1px solid green; */
+  position: absolute;
+  width: 2500px;
+  height: 5000px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%,-50%);
+  overflow: hidden;
+}
+
+.circle-left-hidden {
+  position: relative;
+  left: 2500px;
+  width: 2500px;
+  height: 5000px;
+  overflow: hidden;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+  -webkit-animation: rotateLeft 1s linear infinite;
+  animation: rotateLeft 1s linear infinite;
+}
+
+.circle-left .circle {
+  position: relative;
+  left: -2500px;
+}
+
+@-webkit-keyframes rotateLeft {
+  0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  50% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+  }
+}
+
+@keyframes rotateLeft {
+  0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  50% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+  }
+}
+
+.flash {
+  animation: flash 0.5s linear forwards;
+  width: 90vw;
+  height: 90vh;
+  margin: auto;
+  margin-left: 88px;
+  position: absolute;
+  z-index: 2;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+
+  10% {
+    opacity: 0;
+    background:#ffffff;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 0;
+    background:#ffffff;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    background:#ffffff;
+  }
+  
+  60% {
+    opacity: 1;
+  }
+  
+  70% {
+    opacity: 0;
+    background:#ffffff;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 0;
+    background:#ffffff;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
