@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;
+}
+
+html * {
+  box-sizing: border-box;
+}
+
+/* ドラクエ風 */
+body {
+  /* @font-faceのfont-familyでつけた名前を指定 */
+  /* font-family: 'myfont', sans-serif; */
+}
+
+/*
+@font-face {
+    font-family: 'myfont';
+    src: url('../ttf/DragonQuestFC.ttf') format('truetype');
+    src: url('../ttf/DragonQuestFCIntact.ttf') format('truetype');
+  }
+*/
+
+/* メニュー用 */
+.menu {
+  /* border: 1px solid white; */
+  padding: 0;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.menu::before {
+  cursor: pointer;
+  content: ' ';
+}
+
+/* メニュー選択状態 */
+.menu-active::before {
+  content: '▶';
+  -webkit-animation: blink 0.3s ease-in-out infinite alternate;
+  animation: blink 0.3s ease-in-out infinite alternate;
+}
+@-webkit-keyframes blink {
+  0%   {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes blink {
+  0%   {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+/* メッセージのアニメーション */  
+span.message {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-animation: typing 1.5s;
+}
+@-webkit-keyframes typing {
+  from { width:0    }
+  to   { width:100% }
+}
+span.message2 {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-animation: typing2 1.0s;
+}
+@-webkit-keyframes typing2 {
+  from { width:0    }
+  to   { width:100% }
+}
+
+/* 円形に徐々に表示するアニメーション */
+/* 右半分 */
+.circle-wrap {
+  /* 全体枠 */
+  /* border: 1px solid red; */
+  position: relative;
+  width: 90vw;
+  height: 90vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.circle {
+  /* 右円周枠*/
+  /* border: 1px solid yellow; */
+  width: 500px;
+  height: 500px;
+  border-radius: 250px;
+  background: #000;
+}
+
+.circle-right {
+  /* 右円枠*/
+  /* border: 1px solid blue; */
+  position: absolute;
+  width: 250px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%,-50%);
+  overflow: hidden;
+}
+
+.circle-right-hidden {
+  position: relative;
+  left: -250px;
+  width: 250px;
+  height: 500px;
+  overflow: hidden;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+  -webkit-animation: rotateRight 1s linear infinite paused;
+  animation: rotateRight 1s linear infinite paused;
+}
+@-webkit-keyframes rotateRight {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+@keyframes rotateRight {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+/* 左半分 */
+.circle-left {
+  /* 左円枠*/
+  /* border: 1px solid green; */
+  position: absolute;
+  width: 250px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%,-50%);
+  overflow: hidden;
+}
+
+.circle-left .circle {
+  position: relative;
+  left: -250px;
+}
+
+.circle-left-hidden {
+  position: relative;
+  left: 250px;
+  width: 250px;
+  height: 500px;
+  overflow: hidden;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+  -webkit-animation: rotateLeft 1s linear infinite paused;
+  animation: rotateLeft 1s linear infinite paused;
+}
+@-webkit-keyframes rotateLeft {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+@keyframes rotateLeft {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
