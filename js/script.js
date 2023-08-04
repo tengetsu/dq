@@ -215,7 +215,7 @@ var player2 = {
   spd: 255,
   once_guard: 0,
 }
-
+//構造体（オブジェクト）で敵ステータスを管理
 var enemy1 = {
   // スライムのステータス定義
   name: "スライム",
@@ -272,7 +272,7 @@ var enemy4 = {
 }
 
 var enemy = enemy2;
-
+// 回復量を500に一旦統一
 var heal_hp = 500;
 
 // 戦闘初期化処理
@@ -803,7 +803,8 @@ function enemyAttack() {
                 menu_init();
                 enemy.hp = enemy.maxhp;
                 player1.hp = player1.maxhp;
-                audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+                audioPlayer.playBGM2("torneko");
+                // audioPlayer.playBGM2("sound/torneko_intro.mp3", 0.5, true);
                 isKeyBlock = false;
               } , 7000 );
 
@@ -863,44 +864,44 @@ function enemyAttack() {
     
               // 死亡チェック
               if (player1.hp <= 0) {
-              audioPlayer.stopBGM();
-              // dq4_btl_fc.pause();
-              // dq4_btl_fc.currentTime = 0;
-              // Malzeno_Battle_Theme.pause();
-              // Malzeno_Battle_Theme.currentTime = 0;
-              // can_cry.pause();
-              // can_cry.currentTime = 0;
-              // can_cry_Instrumental.pause();
-              // can_cry_Instrumental.currentTime = 0;
-              audioPlayer.playSE2("gameover");
-              document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
+                audioPlayer.stopBGM();
+                // dq4_btl_fc.pause();
+                // dq4_btl_fc.currentTime = 0;
+                // Malzeno_Battle_Theme.pause();
+                // Malzeno_Battle_Theme.currentTime = 0;
+                // can_cry.pause();
+                // can_cry.currentTime = 0;
+                // can_cry_Instrumental.pause();
+                // can_cry_Instrumental.currentTime = 0;
+                audioPlayer.playSE2("gameover");
+                document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
     
                 var timer = setTimeout( function () {
                   menu_init();
                   enemy.hp = enemy.maxhp;
                   player1.hp = player1.maxhp;
-                  audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true); 
+                  audioPlayer.playBGM2("torneko");
+                  // audioPlayer.playBGM2("sound/torneko_intro.mp3", 0.5, true); 
                   isKeyBlock = false;
                 } , 7000 );
     
-              return;
-              }
-    
-            isKeyBlock = false;
-      
+                isKeyBlock = true;
+
+                return;
+              }  
           } , 400 );
         } , 500 );
 
       } else if ( enemy == enemy4 ) {
 
-        audioPlayer.playSE("freezing_waves");
+        audioPlayer.playSE2("freezing_waves");
         effect.classList.add("effect_panta_rhei_cutin");
 
         var timer = setTimeout( function () {
           effect.classList.remove("effect_panta_rhei_cutin");
         } ,1800);
 
-        effect.classList.add("effect_panta_rhe_angelray");        
+        // effect.classList.add("effect_panta_rhe_angelray");        
 
         var damage = enemy.skill_atc;
         var rand_value = Math.floor(Math.random() * 100);
@@ -912,6 +913,7 @@ function enemyAttack() {
         }
         player1.hp -= damage;
         player1.once_guard = 0;
+
         document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' は 零 の思念を読み取り<br>'+enemy.skill+' を はなった！<br>'+player1.name+' に '+damage+' のダメージ！</span>';
     
         var timer = setTimeout( function () {
@@ -928,31 +930,29 @@ function enemyAttack() {
     
               // 死亡チェック
               if (player1.hp <= 0) {
-              audioPlayer.stopBGM();
-              // dq4_btl_fc.pause();
-              // dq4_btl_fc.currentTime = 0;
-              // Malzeno_Battle_Theme.pause();
-              // Malzeno_Battle_Theme.currentTime = 0;
-              // can_cry.pause();
-              // can_cry.currentTime = 0;
-              // can_cry_Instrumental.pause();
-              // can_cry_Instrumental.currentTime = 0;
-              audioPlayer.playSE2("gameover");
-              document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
+                audioPlayer.stopBGM();
+                // dq4_btl_fc.pause();
+                // dq4_btl_fc.currentTime = 0;
+                // Malzeno_Battle_Theme.pause();
+                // Malzeno_Battle_Theme.currentTime = 0;
+                // can_cry.pause();
+                // can_cry.currentTime = 0;
+                // can_cry_Instrumental.pause();
+                // can_cry_Instrumental.currentTime = 0;
+                audioPlayer.playSE2("gameover");
+                document.getElementById("message").innerHTML = '<span class="message">'+enemy.name+' に '+player1.name+' は たおされてしまった！</span>';
     
                 var timer = setTimeout( function () {
                   menu_init();
                   enemy.hp = enemy.maxhp;
                   player1.hp = player1.maxhp;
-                  audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+                  audioPlayer.playBGM2("torneko");
+                  // audioPlayer.playBGM2("sound/torneko_intro.mp3", 0.5, true);
                   isKeyBlock = false;
                 } , 7000 );
     
               return;
-              }
-    
-            isKeyBlock = false;
-      
+              }  
           } , 400 );
         } , 500 );
       }
@@ -963,7 +963,7 @@ function enemyAttack() {
       var timer = setTimeout( function () {
         freezing_waves.classList.remove("effect_freezing_waves");
         isKeyBlock = false;
-      } , 4000 );
+      } , 1800 );
 
     } , 400 );
   }
