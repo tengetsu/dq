@@ -2,14 +2,15 @@
 
 * {
   margin: 0;
-}
-
-html * {
+  padding: 0;
   box-sizing: border-box;
 }
 
 /* ドラクエ風 */
 body {
+  /* max-width: 1920px; */
+  /* margin: 0 auto; */
+  /* background-color: #000000; */
   /* @font-faceのfont-familyでつけた名前を指定 */
   /* font-family: 'myfont', sans-serif; */
 }
@@ -24,7 +25,7 @@ body {
 
 /* メニュー用 */
 .menu {
-  /* border: 1px solid white; */
+  /* border: 1px solid red; */
   padding: 0;
   list-style-type: none;
   cursor: pointer;
@@ -67,7 +68,7 @@ span.message2 {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
-  -webkit-animation: typing2 1.0s;
+  -webkit-animation: typing2 1.5s;
 }
 @-webkit-keyframes typing2 {
   from { width:0    }
