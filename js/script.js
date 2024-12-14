@@ -411,6 +411,11 @@ document.onkeydown = function(keyEvent) {
 
 }
 
+function activemenu( menuNo ){
+  selectMenuId = menuNo;
+  doCommandMenu(selectMenuId);
+}
+
 // コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
