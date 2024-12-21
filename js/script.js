@@ -12,6 +12,13 @@ var MenuModeNormal=0;
 var MenuModeBattleSelect=1;
 var menuMode = MenuModeNormal;
 
+// タッチデバイス判定コード
+const IS_TOUCH_DEVICE =
+  'ontouchstart' in window ||
+  navigator.maxTouchPoints > 0 ||
+  window.matchMedia('(pointer:coarse)').matches;
+
+
 // キャラクターデータ設計図
 class Unit {
   constructor(name, level, hp, mp, atc, def, spd) {
@@ -99,7 +106,7 @@ class AudioPlayer {
     "normal":         { "filename":"sound/dq4_btl_fc.mp3",           "volume":1, "loop":true, },
     "normal2":        { "filename":"sound/dq4_btl_fc.mp3",           "volume":1, "loop":true, },
     "boss":           { "filename":"sound/malzeno_Battle_Theme.mp3", "volume":1, "loop":true, },
-    "woman1":         { "filename":"sound/can_cry_Instrumental.mp3", "volume":1, "loop":true, },
+    "woman1":         { "filename":"sound/can_cry_Instrumental.mp3", "volume":0.3, "loop":true, },
     "woman2":         { "filename":"sound/can_cry.mp3",              "volume":1, "loop":true, },
 
     /******************************************** SE ********************************************/
@@ -109,17 +116,17 @@ class AudioPlayer {
     "select":         { "filename":"sound/select.wav",               "volume":1, "loop":false, },
 
     // 戦闘SE
-    "attack":         { "filename":"sound/attack.mp3",               "volume":1, "loop":false, },
-    "enemy_attack":   { "filename":"sound/enemy_attack.wav",         "volume":1, "loop":false, },
-    "being_attacked": { "filename":"sound/being_attacked.wav",       "volume":1, "loop":false, },
-    "heal":           { "filename":"sound/heal.wav",                 "volume":1, "loop":false, },
+    "attack":         { "filename":"sound/attack.mp3",               "volume":0.3, "loop":false, },
+    "enemy_attack":   { "filename":"sound/enemy_attack.mp3",         "volume":0.3, "loop":false, },
+    "being_attacked": { "filename":"sound/being_attacked.mp3",       "volume":0.3, "loop":false, },
+    "heal":           { "filename":"sound/heal.mp3",                 "volume":0.3, "loop":false, },
     "win":            { "filename":"sound/win.wav",                  "volume":1, "loop":false, },
     "levelup":        { "filename":"sound/levelup.wav",              "volume":1, "loop":false, },
     "flee":           { "filename":"sound/flee.mp3",                 "volume":1, "loop":false, },
     "gameover":       { "filename":"sound/gameover.wav",             "volume":1, "loop":false, },
 
     // 特技SE
-    "freezing_waves": { "filename":"sound/freezing_waves.wav",       "volume":1, "loop":false, },
+    "freezing_waves": { "filename":"sound/freezing_waves.mp3",       "volume":0.3, "loop":false, },
     "malzeno_roar":   { "filename":"sound/malzeno_roar.mp3",         "volume":1, "loop":false, },
 
   }
@@ -312,7 +319,6 @@ document.onkeydown = function(keyEvent) {
     document.getElementById("game_control").value = "←";
     console.log("←が入力されました。")
   }
-
   if (keyEvent.keyCode==38) { //38はキーボードの上キー
     document.getElementById("game_control").value = "↑";
 
@@ -321,12 +327,10 @@ document.onkeydown = function(keyEvent) {
     update();
     console.log("↑が入力されました。")
   }
-
   if (keyEvent.keyCode==39) { //39はキーボードの右キー
     document.getElementById("game_control").value = "→";
     console.log("→が入力されました。")
   }
-
   if (keyEvent.keyCode==40) { //40はキーボードの下キー
     document.getElementById("game_control").value = "↓";
 
@@ -335,7 +339,6 @@ document.onkeydown = function(keyEvent) {
     update();
     console.log("↓が入力されました。")
   }
-
   if( screenMode==screenModeBattle ){
 
     //バトル画面用キー処理
@@ -409,6 +412,15 @@ document.onkeydown = function(keyEvent) {
 
   }
 
+}
+
+function activemenu( menuNo ){
+  selectMenuId = menuNo;
+  doCommandMenu(selectMenuId);
+}
+function activeSerectmenu( menuSelectNo ){
+  selectMenuId = menuSelectNo;
+  doCommandSelect(selectMenuId);
 }
 
 // コマンド実行
@@ -502,9 +514,8 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
       break;
   }
 }
-
 //メニュー画面用のdoCommand
-function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引数
+function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
@@ -537,7 +548,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     break;
 
-    case 2: //メニューの2番めのコマンド
+    case 2: //メニューの3番めのコマンド
       audioPlayer.playSE2("select");
 
       var nandNo = Math.floor(Math.random() * 10) //０か１のランダム
@@ -556,12 +567,12 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
 
     break;
 
-    case 3: //メニューの3番めのコマンド
+    case 3: //メニューの4番めのコマンド
     audioPlayer.playSE2("cursor");
       console.log("メニュー４番め押下");
     break;
 
-    case 4: //メニューの3番めのコマンド
+    case 4: //メニューの5番めのコマンド
     audioPlayer.playSE2("cursor");
       // torneko_intro.pause();
       // torneko_intro.currentTime = 0;
@@ -578,7 +589,7 @@ function doCommandMenu(command_id) { // doComand=関数名 command_id=第一引�
       console.log("メニュー５番め押下");
     break;
 
-    case 5: //メニューの3番めのコマンド
+    case 5: //メニューの6番めのコマンド
     audioPlayer.playSE2("cursor");
       console.log("メニュー６番め押下");
     break;
@@ -608,12 +619,10 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
         audioPlayer.playBGM2( "woman2" );
       }
 
-      
       var timer = setTimeout( function () {
         document.getElementById("fade").className = "fade-out";
       } , 600 );
       
-
       var timer = setTimeout( function () {
         // document.getElementById("id_circle-right-hidden").style.animationPlayState = "running";
         // document.getElementById("id_circle-left-hidden").style.animationPlayState = "running";
@@ -624,11 +633,6 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
         // document.getElementById("id_circle-left").className = "circle-left";
         // document.getElementById("id_circle-left-hidden").className = "circle-left-hidden";
       } , 1000 );
-
-
-
-
-
 
       var timer = setTimeout( function () {
         document.getElementById("fade").className = "fade-in";
