@@ -83,7 +83,7 @@
   /* background-color: rgba(181, 61, 61, 0.9); */
   position: absolute;
   width: 100%;
-  height: 50%;
+  height: 100%;
   z-index: 2;
 }
 
@@ -108,7 +108,7 @@
   padding: 20px;
   text-align: center;
   font-weight: bold;
-  font-size: 18px;
+  font-size: min(2.43vw,16px);
   z-index: 3;
 }
 
@@ -145,13 +145,13 @@ animation: bound 1s infinite;
 
 .shadow {
   position: absolute;
-  top: 75%;
+  top: 80%;
   bottom: 0;
   left: 0;
   right: 0;
   margin: auto;
-  width: 41px;
-  height: 3px;
+  width: min(12%,60px);
+  height: 5px;
   background: #000;
   border-radius: 50%;
   opacity: 1;
@@ -183,8 +183,8 @@ animation: bound 1s infinite;
   top: 66%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: 70%;
   z-index: 1;
 }
 
@@ -193,19 +193,19 @@ animation: bound 1s infinite;
   top: 66%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 300px;
+  width: auto;
+  height: 70%;
   position: absolute;
   z-index: 1;
 }
 
 .enemy-image3-size {
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
   top: 66%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: auto;
+  width: auto;
+  height: 70%;
   position: absolute;
   z-index: 1;
 }
@@ -307,140 +307,148 @@ animation: bound 1s infinite;
 
 /* HP50%時 下記CSSで全体枠を黄色 */
 .battle_window_yellow {
-  border: 1px solid yellow;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 95%;
-  height: 95%;
+  border: 2px solid yellow;
   color:yellow;
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  position: relative;
 }
 .character1_yellow {
   border: 2px solid yellow;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .character2_yellow {
   border: 2px solid yellow;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .character3_yellow {
   border: 2px solid yellow;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .character4_yellow {
   border: 2px solid yellow;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .battle_menu_yellow {
   border: 2px solid yellow;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.4vw,16px);
 }
 .message_window_yellow {
   border: 2px solid yellow;
   border-radius: 10px;
   /* position: absolute; */
   /* left: 15%; */
-  width: 340px;
+  width: auto;
   height: auto;
-  margin: 10px;
+  margin: auto 10px;
   padding: 0.3em;
   /* float: left; */
-  font-size: min(3vw,16px);
+  font-size: min(2.4vw,16px);
 }
 
 /* HP0%時 下記CSSで全体枠を赤色 */
 .battle_window_red {
   border: 1px solid red;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 95%;
-  height: 95%;
   color: red;
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  position: relative;
 }
 .character1_red {
   border: 2px solid red;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .character2_red {
   border: 2px solid red;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .character3_red {
   border: 2px solid red;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .character4_red {
   border: 2px solid red;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.43vw,16px);
 }
 .battle_menu_red {
   border: 2px solid red;
   border-radius: 10px;
-  width: 100px;
-  margin: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
   padding: 0.3em;
   float: left;
-  font-size: min(3vw,16px);
+  font-size: min(2.4vw,16px);
 }
 .message_window_red {
   border: 2px solid red;
   border-radius: 10px;
   /* position: absolute; */
   /* left: 15%; */
-  width: 340px;
+  width: auto;
   height: auto;
-  margin: 10px auto;
+  margin: auto 10px;
   padding: 0.3em;
   /* float: left; */
-  font-size: min(3vw,16px);
+  font-size: min(2.4vw,16px);
 }
 
 .shake {
@@ -455,12 +463,11 @@ animation: bound 1s infinite;
 }
 
 .enemy_receive_damage {
-  /* border: 1px solid red; */
-  position: absolute;
-  top: 56%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 50%;
   left: 50%;
-  right: 50%;
-  bottom: -19%;
   transform: translate(-50%,-50%);
   -webkit-animation: blink 0.05s ease-in-out infinite alternate;
   animation: blink 0.05s ease-in-out infinite alternate;

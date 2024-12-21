@@ -8,6 +8,7 @@
 
 /* ドラクエ風 */
 body {
+  caret-color: transparent;
   /* max-width: 1920px; */
   /* margin: 0 auto; */
   /* background-color: #000000; */
