@@ -19,6 +19,18 @@ const IS_TOUCH_DEVICE =
   window.matchMedia('(pointer:coarse)').matches;
 
 
+// フルスクリーン化
+window.addEventListener('load', function(){
+  document.getElementById('button1').addEventListener('click', function(){
+    document.body.requestFullscreen();
+  });
+  document.getElementById('button2').addEventListener('click', function(){
+    document.exitFullscreen();
+  });
+});
+
+
+
 // キャラクターデータ設計図
 class Unit {
   constructor(name, level, hp, mp, atc, def, spd) {
@@ -343,7 +355,6 @@ document.onkeydown = function(keyEvent) {
 
     //バトル画面用キー処理
     if (keyEvent.keyCode==13) { //13はキーボードのEnterキー
-
       if( levelupMessageCount>=1 ){
         if( levelupMessageCount==1 ){
           audioPlayer.playSE2("cursor");
@@ -380,7 +391,6 @@ document.onkeydown = function(keyEvent) {
           menu_init();
           audioPlayer.playBGM2("torneko");
         }
-
       }else if(enemy.hp <= 0) {
         audioPlayer.playSE2("cursor");
         document.getElementById("message").innerHTML = '<span class="message">'+player1.name+' は けいけんち 10ポイント かくとくした！</span>';
@@ -414,17 +424,31 @@ document.onkeydown = function(keyEvent) {
 
 }
 
-function activemenu( menuNo ){
+// タッチ操作
+function activemenu( menuNo ){ // メニュー選択
   selectMenuId = menuNo;
   doCommandMenu(selectMenuId);
 }
-function activeSerectmenu( menuSelectNo ){
+function activeSelectmenu( menuSelectNo ){ // たたかいますか？の選択
   selectMenuId = menuSelectNo;
   doCommandSelect(selectMenuId);
 }
 
-// コマンド実行
+function activemenu2( menuNo ){ // たたかいますか？の選択
+  selectMenuId = menuNo;
+  doCommand(selectMenuId);
+}
+
+// function battlemenu( battlemenuNo ){
+//   selectMenuId = battlemenuNo;
+//   doCommand(selectMenuId);
+// }
+
+
+
+// 戦闘コマンド実行
 function doCommand(command_id) { // doComand=関数名 command_id=第一引数
+
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
 
   document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
@@ -512,7 +536,9 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
     default:
       break;
+
   }
+
 }
 //メニュー画面用のdoCommand
 function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一引数
@@ -601,7 +627,9 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
 }
 function doCommandSelect(command_id) { // doComand=関数名 command_id=第一引数
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
+
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
+
     case 0: //メニューの１番めのコマンド
       audioPlayer.playSE2("cursor");
       isKeyBlock=true;
@@ -651,8 +679,10 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
 
     default:
     break;
+
   }
 }
+
 function showSelect() {
   hideCursorMenu();
   // document.getElementById("select").innerHTML = '<span class="message">'+enemy.name+'と たたかいますか？</span>';
@@ -1049,7 +1079,7 @@ function update() {
     document.getElementById("message").className = "message_window";
   }
 
-  //メニューカーソル表示
+  // メニューカーソル表示
   if(screenMode==screenModeBattle ) {
 
     var menu_element = document.getElementById('battle_menu' );
@@ -1068,16 +1098,16 @@ function update() {
 
   for( var i=0; i<menu_child_div_array.length; i++) {
     if( i == selectMenuId)
-      menu_child_div_array[i].className = 'menu menu-active';//カーソル表示
+      menu_child_div_array[i].className = 'menu menu-active';// カーソル表示
     else
-      menu_child_div_array[i].className = 'menu'; //カーソル非表示
+      menu_child_div_array[i].className = 'menu'; // カーソル非表示
   }
 
-  //選択肢メニューの表示非表示
+  // 選択肢メニューの表示非表示
   const loginForm = document.getElementById("select");
 
   if( menuMode==MenuModeBattleSelect ) {
-    //メニュー中の戦闘しますか選択肢
+    // メニュー中の戦闘しますか選択肢
     // blockで表示
     loginForm.style.display ="block";
     $("body").css("overflow-y", "hidden");

@@ -9,7 +9,8 @@
 /* ドラクエ風 */
 body {
   caret-color: transparent;
-  /* max-width: 1920px; */
+  background-color: #000000;
+  /* max-width: 3840px; */
   /* margin: 0 auto; */
   /* background-color: #000000; */
   /* @font-faceのfont-familyでつけた名前を指定 */
