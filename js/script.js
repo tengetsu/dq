@@ -425,24 +425,18 @@ document.onkeydown = function(keyEvent) {
 }
 
 // タッチ操作
-function activemenu( menuNo ){ // メニュー選択
+function activemenu(menuNo){ // メニュー選択
   selectMenuId = menuNo;
   doCommandMenu(selectMenuId);
 }
-function activeSelectmenu( menuSelectNo ){ // たたかいますか？の選択
+function activeSelectmenu(menuSelectNo){ // たたかいますか？の選択
   selectMenuId = menuSelectNo;
   doCommandSelect(selectMenuId);
 }
-
-function activemenu2( menuNo ){ // たたかいますか？の選択
-  selectMenuId = menuNo;
+function battlemenu(battlemenuNo){
+  selectMenuId = battlemenuNo;
   doCommand(selectMenuId);
 }
-
-// function battlemenu( battlemenuNo ){
-//   selectMenuId = battlemenuNo;
-//   doCommand(selectMenuId);
-// }
 
 
 
@@ -451,7 +445,7 @@ function doCommand(command_id) { // doComand=関数名 command_id=第一引数
 
   if( isKeyBlock ) return; //自動進行中などでキー入力無効
 
-  document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
+  // document.getElementById("game_control").value = "コマンド番号:" + command_id; // game_controlというdocumentオブジェクト 各switch文内のcommand_idと連動してブラウザ上で操作できる
 
   switch(command_id) { // command_idという条件値を定義する。case=処理。分岐する数だけcaseを追加する。
 
