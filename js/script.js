@@ -857,7 +857,7 @@ function enemyAttack() {
 
         var timer = setTimeout( function () {
           effect.classList.remove("effect_panta_rhei_cutin");
-        } ,1800);
+        } ,3800);
 
         var damage = enemy.skill_atc;
         var rand_value = Math.floor(Math.random() * 100);
@@ -921,7 +921,7 @@ function enemyAttack() {
 
         var timer = setTimeout( function () {
           effect.classList.remove("effect_panta_rhei_cutin");
-        } ,1800);
+        } ,3800);
 
         effect.classList.add("effect_panta_rhe_angelray");        
 

@@ -531,7 +531,7 @@ animation: bound 1s infinite;
   left: 50%;
   position: absolute;
   transform: translate(-50%,-50%);
-  animation: cutin 2s infinite;
+  animation: cutin 4s infinite;
   z-index: 2;
 }  
 @keyframes cutin {
