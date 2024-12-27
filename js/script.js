@@ -12,25 +12,6 @@ var MenuModeNormal=0;
 var MenuModeBattleSelect=1;
 var menuMode = MenuModeNormal;
 
-// タッチデバイス判定コード
-const IS_TOUCH_DEVICE =
-  'ontouchstart' in window ||
-  navigator.maxTouchPoints > 0 ||
-  window.matchMedia('(pointer:coarse)').matches;
-
-
-// フルスクリーン化
-window.addEventListener('load', function(){
-  document.getElementById('button1').addEventListener('click', function(){
-    document.body.requestFullscreen();
-  });
-  document.getElementById('button2').addEventListener('click', function(){
-    document.exitFullscreen();
-  });
-});
-
-
-
 // キャラクターデータ設計図
 class Unit {
   constructor(name, level, hp, mp, atc, def, spd) {
@@ -433,11 +414,10 @@ function activeSelectmenu(menuSelectNo){ // たたかいますか？の選択
   selectMenuId = menuSelectNo;
   doCommandSelect(selectMenuId);
 }
-function battlemenu(battlemenuNo){
-  selectMenuId = battlemenuNo;
-  doCommand(selectMenuId);
+function battlemenu(menuNo) {
+  command_id = menuNo;
+  doCommand(command_id);
 }
-
 
 
 // 戦闘コマンド実行
@@ -593,7 +573,8 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
     break;
 
     case 4: //メニューの5番めのコマンド
-    audioPlayer.playSE2("cursor");
+      audioPlayer.playSE2("cursor");
+      isKeyBlock=true;
       // torneko_intro.pause();
       // torneko_intro.currentTime = 0;
       audioPlayer.playBGM2("inn");
@@ -604,6 +585,8 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
         document.getElementById("fade").className = "fade-in";
         audioPlayer.playBGM2("torneko");
         document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
+        
+        isKeyBlock=false;
       } , 3500 );
 
       console.log("メニュー５番め押下");
@@ -843,7 +826,7 @@ function enemyAttack() {
                 menu_init();
                 enemy.hp = enemy.maxhp;
                 player1.hp = player1.maxhp;
-                audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+                audioPlayer.playBGM2("torneko", 0.5, true);
                 isKeyBlock = false;
               } , 7000 );
 
@@ -919,7 +902,7 @@ function enemyAttack() {
                   menu_init();
                   enemy.hp = enemy.maxhp;
                   player1.hp = player1.maxhp;
-                  audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true); 
+                  audioPlayer.playBGM2("torneko", 0.5, true); 
                   isKeyBlock = false;
                 } , 7000 );
     
@@ -984,7 +967,7 @@ function enemyAttack() {
                   menu_init();
                   enemy.hp = enemy.maxhp;
                   player1.hp = player1.maxhp;
-                  audioPlayer.playBGM("sound/torneko_intro.mp3", 0.5, true);
+                  audioPlayer.playBGM2("torneko", 0.5, true);
                   isKeyBlock = false;
                 } , 7000 );
     
@@ -1081,9 +1064,9 @@ function update() {
   } else if (screenMode==screenModeMenu ) {
 
     if( menuMode==MenuModeNormal ){
-      var menu_element = document.getElementById('reception' );
+      var menu_element = document.getElementById('reception');
     } else if( menuMode==MenuModeBattleSelect ) {
-      var menu_element = document.getElementById('select' );
+      var menu_element = document.getElementById('select');
     }
 
   }
@@ -1096,6 +1079,9 @@ function update() {
     else
       menu_child_div_array[i].className = 'menu'; // カーソル非表示
   }
+
+  // const button = document.getElementById('reception');
+  // button.addEventListener('click', activemenu());
 
   // 選択肢メニューの表示非表示
   const loginForm = document.getElementById("select");
@@ -1111,10 +1097,10 @@ function update() {
 
 }
 function hideCursorMenu() {
-  var menu_element = document.getElementById('reception' );
+  var menu_element = document.getElementById('reception');
   var menu_child_div_array = menu_element.children;
   for( var i=0; i<menu_child_div_array.length; i++) {
-    i == selectMenuId
+    i == selectMenuId;
     menu_child_div_array[i].className = 'menu';
   }
 }

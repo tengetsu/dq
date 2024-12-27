@@ -365,6 +365,7 @@ animation: bound 1s infinite;
   margin: auto 10px;
   padding: 0.3em;
   float: left;
+  z-index: 2;
   font-size: min(2.4vw,16px);
 }
 .message_window_yellow {
