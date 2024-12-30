@@ -573,21 +573,23 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
     break;
 
     case 4: //メニューの5番めのコマンド
-      audioPlayer.playSE2("cursor");
-      isKeyBlock=true;
-      // torneko_intro.pause();
-      // torneko_intro.currentTime = 0;
-      audioPlayer.playBGM2("inn");
-      document.getElementById("fade").className = "fade-out";
-      player1.hp = player1.maxhp;
+      //宿屋
 
-      var timer = setTimeout( function () {
-        document.getElementById("fade").className = "fade-in";
-        audioPlayer.playBGM2("torneko");
-        document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
+      // audioPlayer.playSE2("cursor");
+      // isKeyBlock=true;
+      // // torneko_intro.pause();
+      // // torneko_intro.currentTime = 0;
+      // audioPlayer.playBGM2("inn");
+      // document.getElementById("fade").className = "fade-out";
+      // player1.hp = player1.maxhp;
+
+      // var timer = setTimeout( function () {
+      //   document.getElementById("fade").className = "fade-in";
+      //   audioPlayer.playBGM2("torneko");
+      //   document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
         
-        isKeyBlock=false;
-      } , 3500 );
+      //   isKeyBlock=false;
+      // } , 3500 );
 
       console.log("メニュー５番め押下");
     break;
