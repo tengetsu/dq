@@ -573,6 +573,7 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
     break;
 
     case 4: //メニューの5番めのコマンド
+<<<<<<< HEAD
       audioPlayer.playSE2("cursor");
       isKeyBlock=true;
       // torneko_intro.pause();
@@ -588,6 +589,25 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
         
         isKeyBlock=false;
       } , 3500 );
+=======
+      //宿屋
+
+      // audioPlayer.playSE2("cursor");
+      // isKeyBlock=true;
+      // // torneko_intro.pause();
+      // // torneko_intro.currentTime = 0;
+      // audioPlayer.playBGM2("inn");
+      // document.getElementById("fade").className = "fade-out";
+      // player1.hp = player1.maxhp;
+
+      // var timer = setTimeout( function () {
+      //   document.getElementById("fade").className = "fade-in";
+      //   audioPlayer.playBGM2("torneko");
+      //   document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
+        
+      //   isKeyBlock=false;
+      // } , 3500 );
+>>>>>>> yadoya_bugfix_idea
 
       console.log("メニュー５番め押下");
     break;
@@ -857,7 +877,7 @@ function enemyAttack() {
 
         var timer = setTimeout( function () {
           effect.classList.remove("effect_panta_rhei_cutin");
-        } ,1800);
+        } ,3800);
 
         var damage = enemy.skill_atc;
         var rand_value = Math.floor(Math.random() * 100);
@@ -921,7 +941,7 @@ function enemyAttack() {
 
         var timer = setTimeout( function () {
           effect.classList.remove("effect_panta_rhei_cutin");
-        } ,1800);
+        } ,3800);
 
         effect.classList.add("effect_panta_rhe_angelray");        
 

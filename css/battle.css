@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @charset "UTF-8";
 
 .container2 {
@@ -687,4 +688,695 @@ animation: bound 1s infinite;
 /*【iPad 横向きのみ】*/
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape){
   /* iPadが横向きのみの記述 */
+=======
+@charset "UTF-8";
+
+.container2 {
+  background: #000000;
+  width: 100dvw;
+  height: 100dvh;
+  padding: 25px;
+}
+
+/* 戦闘画面全体のデザイン */
+.battle_window {
+  border: 2px solid white;
+  color: white;
+  width: 100%;
+  height: 100%;
+  /* min-height: 100%; */
+  margin: 0 auto;
+  /* position: relative; */
+}
+
+/* キャラクター 戦闘画面 全体管理 */
+.character_container {
+  display: flex;
+  width: 100%;
+  height: 25%;
+  justify-content: center;
+  margin: 0 auto;
+}
+/* キャラクター1 戦闘ステータス画面 */
+.character1 {
+  border: 2px solid white;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+/* キャラクター2 戦闘ステータス画面 */
+.character2 {
+  border: 2px solid white;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+/* キャラクター3 戦闘ステータス画面 */
+.character3 {
+  border: 2px solid white;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+/* キャラクター4 戦闘ステータス画面 */
+.character4 {
+  border: 2px solid white;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+
+.field_container {
+  /* border: 5px solid blue; */
+  width: 100%;
+  height: 50%;
+  position: relative;
+  overflow:hidden;
+}
+
+.effect_fields {
+  /* background-color: rgba(181, 61, 61, 0.9); */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.enemy_field {
+  /* border: 1px solid red; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* 戦闘フィールドに表示する敵のステータス */
+.enemy_status {
+  color: #FFF;
+  /* -webkit-text-stroke: 1px #000; */
+  /* text-stroke: 1px #000; */
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: min(2.43vw,16px);
+  z-index: 3;
+}
+
+/* field_container内に表示する敵キャラの画像サイズ及び配置位置 */
+.enemy-image {
+/* border: 1px solid yellow; */
+margin: 0 auto;
+text-align: center;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+right: 0;
+bottom: 0;
+animation: bound 1s infinite;
+}
+@keyframes bound { /* スライムを跳ねさせる */
+  0%,100% { /* 開始と終わり */
+    /* top: 0; */
+    transform: translate(-50%, -50%) scale(1); /* 開始と終わりの標準値 */
+  }
+  30% {
+    /* top: -60%; */
+    transform: translate(-50%,-60%) scale(0.7,1.2); /* X軸(0.7)縮める Y軸(1.2)伸びる */
+  }
+  60% {
+    transform: translate(-50%,-0%) scale(1);
+  }
+  90% {
+    /* top: 0; */
+    transform: translate(-50%,-0%) scale(1.3,0.8);
+  }
+}
+
+.shadow {
+  position: absolute;
+  top: 80%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: min(12%,60px);
+  height: 5px;
+  background: #000;
+  border-radius: 50%;
+  opacity: 1;
+  filter: blur(3px);
+  z-index: 3;
+  animation: shadow-animation 1s infinite;
+}
+@keyframes shadow-animation {
+  0%,100% {
+    transform: scale(1);
+    filter: blur(3px);
+  }
+  30% {
+    transform: scale(0.7,1.2);
+    filter: blur(3px);
+  }
+  60% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1.3,0.8);
+    filter: blur(2px);
+  }
+}
+
+.enemy-image1-size {
+  /* border: 1px solid yellow; */
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 70%;
+  z-index: 1;
+}
+
+.enemy-image2-size {
+  /* border: 1px solid yellow; */
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 70%;
+  position: absolute;
+  z-index: 1;
+}
+
+.enemy-image3-size {
+  /* border: 1px solid yellow; */
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 70%;
+  position: absolute;
+  z-index: 1;
+}
+
+.enemy-image4-size {
+  /* border: 1px solid yellow; */
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 70%;
+  position: absolute;
+  z-index: 1;
+}
+
+.battle_field {
+  /* border: 1px solid red; */
+  background: url(../img/background/forest.jpg);
+  width: 100%;
+  height: 100%;
+  /* background-repeat: no-repeat; */
+  overflow:hidden;
+}
+
+.battle_field2 {
+  /* border: 1px solid red; */
+  background: url(../img/background/castle_ruins.jpg);
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: 50%;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 100vw;
+  height: 100vh;
+}
+
+.battle_field3 {
+  /* border: 1px solid red; */
+  background: url(../img/background/crystar.jpg);
+  /* aspect-ratio: 16 / 9; */
+  background-size: cover;
+  background-position: 50%;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 100vw;
+  height: 100vh;
+}
+
+.battle_field4 {
+  /* border: 1px solid red; */
+  background:#FFF;
+  background-size: cover;
+  width: 100%;
+  height: 150%;
+  bottom: -150px;
+}
+
+.battle_menu_container {
+  display: flex;
+  width: 100%;
+  height: 25%;
+  justify-content: center;
+  /* position: absolute; */
+}
+
+/* メニュー */
+.battle_menu {
+  border: 2px solid white;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  display: block;
+  cursor: pointer;
+  /* float: left; */
+  z-index: 2;
+  font-size: min(2.4vw,16px);
+}
+
+/* メッセージ */
+.message_window {
+  border: 2px solid white;
+  border-radius: 10px;
+  /* position: absolute; */
+  /* left: 15%; */
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  /* float: left; */
+  font-size: min(2.4vw,16px);
+}
+
+.clear {
+  clear: both;
+}
+
+/* HP50%時 下記CSSで全体枠を黄色 */
+.battle_window_yellow {
+  border: 2px solid yellow;
+  color:yellow;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.character1_yellow {
+  border: 2px solid yellow;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.character2_yellow {
+  border: 2px solid yellow;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.character3_yellow {
+  border: 2px solid yellow;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.character4_yellow {
+  border: 2px solid yellow;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.battle_menu_yellow {
+  border: 2px solid yellow;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  z-index: 2;
+  font-size: min(2.4vw,16px);
+}
+.message_window_yellow {
+  border: 2px solid yellow;
+  border-radius: 10px;
+  /* position: absolute; */
+  /* left: 15%; */
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  /* float: left; */
+  font-size: min(2.4vw,16px);
+}
+
+/* HP0%時 下記CSSで全体枠を赤色 */
+.battle_window_red {
+  border: 1px solid red;
+  color: red;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.character1_red {
+  border: 2px solid red;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.character2_red {
+  border: 2px solid red;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.character3_red {
+  border: 2px solid red;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.character4_red {
+  border: 2px solid red;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.43vw,16px);
+}
+.battle_menu_red {
+  border: 2px solid red;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  float: left;
+  font-size: min(2.4vw,16px);
+}
+.message_window_red {
+  border: 2px solid red;
+  border-radius: 10px;
+  /* position: absolute; */
+  /* left: 15%; */
+  width: auto;
+  height: auto;
+  margin: auto 10px;
+  padding: 0.3em;
+  /* float: left; */
+  font-size: min(2.4vw,16px);
+}
+
+.shake {
+  animation: shake 0.01s infinite;
+}
+@keyframes shake {
+  0%   {transform: translate(0%, 0%) rotateZ(0deg)}
+  25%  {transform: translate(-1%, -1%) rotateZ(1deg)}
+  50%  {transform: translate(0%, -1%) rotateZ(0deg)}
+  75%  {transform: translate(-1%, 0%) rotateZ(-1deg)}
+  100% {transform: translate(0%, 0%) rotateZ(0deg)}
+}
+
+.enemy_receive_damage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -webkit-animation: blink 0.05s ease-in-out infinite alternate;
+  animation: blink 0.05s ease-in-out infinite alternate;
+  z-index: 1;
+}
+@-webkit-keyframes blink {
+  0%   {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes blink {
+  0%   {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.effect_freezing_waves {
+  /* border: 5px solid yellow; */
+  background-image: url(../img/effect/freezing_waves.gif);
+  aspect-ratio: 16 / 7;
+  background-size: cover;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: auto;
+  height: 200%;
+  animation: img-wrap 5.0s infinite;
+  z-index: 2;
+}
+@keyframes img-wrap {
+  0% {
+    opacity: 0.5;
+    /* opacity: 1; */
+    clip-path: circle(0 at 50% 65%);
+    -webkit-clip-path: circle(0 at 50% 65%);
+  }
+  100% {
+    opacity: 0;
+    clip-path: circle(100% at 50% 65%);
+    -webkit-clip-path: circle(100% at 50% 65%);
+  }
+}
+
+.effect_panta_rhei_cutin {
+  /* border: 5px solid yellow; */
+  background-image: url(../img/effect/panta_rhei_cutin.gif);
+  /* box-shadow:
+  0px 10px 10px rgb(255, 255, 180) inset,
+  0px -10px 10px rgb(255, 255, 180) inset; */
+  background-position: center;
+  margin: auto;
+  background-size: 100%;
+  text-align: center;
+  background-repeat: no-repeat;
+  /* width: 100%; */
+  /* height: 60%; */
+  opacity: 1;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  animation: cutin 4s infinite;
+  z-index: 2;
+}  
+@keyframes cutin {
+  0% {
+    opacity: 0;
+    transform: translate(-150%,-50%)
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%,-50%)
+  }  
+  100% {
+    opacity: 0;
+    transform: translate(-50%,-50%)
+  }
+}
+
+/*【width320px～ 横向きのみ】*/
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) and (orientation: landscape){
+  .container2 {
+    padding: 0;
+  }
+  .battle_window {
+    border: 1px solid white;
+  }
+  .battle_window_yellow {
+    border: 1px solid yellow;
+  }
+  .battle_window_red {
+    border: 1px solid red;
+  }
+  .character1 {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character1_yellow {
+    border: 1px solid yellow;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character1_red {
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character2 {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character2_yellow {
+    border: 1px solid yellow;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character2_red {
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character3 {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character3_yellow {
+    border: 1px solid yellow;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character3_red {
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character4 {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character4_yellow {
+    border: 1px solid yellow;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .character4_red {
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .enemy_status {
+    color: #ffffff;
+    -webkit-text-stroke:unset;
+    text-stroke: unset;
+    font-size: min(1.25vw,16px);
+    z-index: 3;
+  }
+  .battle_menu {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .battle_menu_yellow {
+    border: 1px solid yellow;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .battle_menu_red {
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .message_window {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .message_window_yellow {
+    border: 1px solid yellow;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+  .message_window_red {
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: min(1.25vw,16px);
+  }
+}
+
+
+
+/* デバイスが横向きの時にCSSを適用させたい場合 */
+@media (orientation: landscape){
+  /* デバイスが横向きの場合の記述 */
+}
+/* デバイスが縦向きの時にCSSを適用させたい場合 */
+@media (orientation: portrait){
+  /* デバイスが縦向きの場合の記述 */
+}
+/* 条件に画面サイズを追加する場合 */
+@media (orientation: landscape) and (max-width: 767px){
+  /* デバイスが横向き、画面の横幅が 767px 以下の場合の記述 */
+}
+/*【iPad 縦横両方】*/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* iPadの縦横両方の記述 */
+}
+/*【iPad 縦向きのみ】*/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait) {
+  /* iPadが縦向きのみの記述 */
+}
+/*【iPad 横向きのみ】*/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape){
+  /* iPadが横向きのみの記述 */
+>>>>>>> yadoya_bugfix_idea
 }
