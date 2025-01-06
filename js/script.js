@@ -573,41 +573,19 @@ function doCommandMenu(command_id) { // doComandMenu=関数名 command_id=第一
     break;
 
     case 4: //メニューの5番めのコマンド
-<<<<<<< HEAD
       audioPlayer.playSE2("cursor");
-      isKeyBlock=true;
-      // torneko_intro.pause();
-      // torneko_intro.currentTime = 0;
       audioPlayer.playBGM2("inn");
       document.getElementById("fade").className = "fade-out";
       player1.hp = player1.maxhp;
+      isKeyBlock=true;
 
       var timer = setTimeout( function () {
         document.getElementById("fade").className = "fade-in";
         audioPlayer.playBGM2("torneko");
         document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
-        
+        // hideCursorMenu();
         isKeyBlock=false;
       } , 3500 );
-=======
-      //宿屋
-
-      // audioPlayer.playSE2("cursor");
-      // isKeyBlock=true;
-      // // torneko_intro.pause();
-      // // torneko_intro.currentTime = 0;
-      // audioPlayer.playBGM2("inn");
-      // document.getElementById("fade").className = "fade-out";
-      // player1.hp = player1.maxhp;
-
-      // var timer = setTimeout( function () {
-      //   document.getElementById("fade").className = "fade-in";
-      //   audioPlayer.playBGM2("torneko");
-      //   document.getElementById("message2").innerHTML = '<span class="message">'+player1.name+' 様 疲れは取れましたか？<br>他に ご用件はございますか？</span>';
-        
-      //   isKeyBlock=false;
-      // } , 3500 );
->>>>>>> yadoya_bugfix_idea
 
       console.log("メニュー５番め押下");
     break;
@@ -648,7 +626,7 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
         document.getElementById("fade").className = "fade-out";
       } , 600 );
       
-      var timer = setTimeout( function () {
+      // var timer = setTimeout( function () {
         // document.getElementById("id_circle-right-hidden").style.animationPlayState = "running";
         // document.getElementById("id_circle-left-hidden").style.animationPlayState = "running";
         // document.getElementById("id_circle-wrap").className = "circle-wrap";
@@ -657,7 +635,7 @@ function doCommandSelect(command_id) { // doComand=関数名 command_id=第一�
         // document.getElementById("id_circle").className = "circle";
         // document.getElementById("id_circle-left").className = "circle-left";
         // document.getElementById("id_circle-left-hidden").className = "circle-left-hidden";
-      } , 1000 );
+      // } , 1000 );
 
       var timer = setTimeout( function () {
         document.getElementById("fade").className = "fade-in";
